@@ -11,8 +11,9 @@ This is a simple Todo application built off Django (including the Django REST Fr
 2. Navigate into the diretory ```[cd backend]```
 3. Source the virtual environment ```[pipenv shell]```
 4. Install the dependencies ```[pipenv install]```
-5. Navigate into the frontend directory ```[cd frontend]```
-5. Install the dependencies ```[npm install]```
+5. run the command ```[pipenv install -r requirements.txt]```
+6. Navigate into the frontend directory ```[cd frontend]```
+7. Install the dependencies ```[npm install]```
 
 ## Run the application
 You will need two terminals pointed to the frontend and backend directories to start the servers for this application.
