@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'corsheaders',            # add this
     'rest_framework',         # add this 
     'todo',
+    'rest_framework_jwt',     #added this
+    
   ]
 
 
@@ -123,7 +125,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
+REST_FRAMEWORK = { #added this 
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
 # we whitelist localhost:3000 because that's where frontend will be served
 CORS_ORIGIN_WHITELIST = (
     "http://localhost:3000",
@@ -132,9 +143,9 @@ CORS_ORIGIN_WHITELIST = (
     "http://localhost:8080",
     "http://127.0.0.1:8000"
  )
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ]
-}
+
+#added manually
+
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'backend.utils.my_jwt_response_handler',
+} 
