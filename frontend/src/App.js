@@ -3,6 +3,10 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from "axios";
+import Nav from './components/Nav';
+import LoginForm from './components/LoginForm';
+import SignupForm from './components/SignupForm';
+import './App.css';
 
 class App extends Component {
   constructor(props) {
@@ -12,14 +16,80 @@ class App extends Component {
       activeItem: {
         title: "",
         description: "",
-        completed: false
+        completed: false,
+        displayed_form: '',
+        logged_in: localStorage.getItem('token') ? true : false,
+        username: '',
       },
       todoList: []
     };
   }
   componentDidMount() {
+    if (this.state.logged_in) {
+      fetch('http://localhost:8000/auth/current_user/', {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('token')}`
+        }
+      })
+        
+        .then( () => this.refreshList() )
+        .then(res => res.json())
+        .then(json => {
+          this.setState({ username: json.username });
+        });
+    }
     this.refreshList();
   }
+
+  handle_login = (e, data) => {
+    e.preventDefault();
+    fetch('http://localhost:8000/token-auth/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(json => {
+        localStorage.setItem('token', json.token);
+        this.setState({
+          logged_in: true,
+          displayed_form: '',
+          username: json.user.username,
+        });
+      });
+  };
+
+  handle_signup = (e, data) => {
+    e.preventDefault();
+    fetch('http://localhost:8000/auth/users/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(json => {
+        localStorage.setItem('token', json.token);
+        this.setState({
+          logged_in: true,
+          displayed_form: '',
+          username: json.username
+        });
+      });
+  };
+
+  handle_logout = () => {
+    localStorage.removeItem('token');
+    this.setState({ logged_in: false, username: '' });
+  };
+  display_form = form => {
+    this.setState({
+      displayed_form: form
+    });
+  };
   refreshList = () => {
     axios
       .get("http://localhost:8000/api/todos/")
@@ -114,33 +184,62 @@ class App extends Component {
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
   render() {
+    let form;
+    switch (this.state.displayed_form) {
+      case 'login':
+        form = <LoginForm handle_login={this.handle_login} />;
+        break;
+      case 'signup':
+        form = <SignupForm handle_signup={this.handle_signup} />;
+        break;
+      default:
+        form = null;
+
+  }
+
     return (
-      <main className="content">
-        <h1 className="text-white text-uppercase text-center my-4">Todo app</h1>
-        <div className="row ">
-          <div className="col-md-6 col-sm-10 mx-auto p-0">
-            <div className="card p-3">
-              <div className="">
-                <button onClick={this.createItem} className="btn btn-primary">
-                  Add task
-                </button>
+      <div className="App">
+      <Nav
+          logged_in={this.state.logged_in}
+          display_form={this.display_form}
+          handle_logout={this.handle_logout}
+        />
+        {form}
+        
+          { this.state.logged_in
+            ? 
+            <main className="content">
+              Hello {this.state.username}
+              <h1 className="text-white text-uppercase text-center my-4">Todo app</h1>
+              <div className="row ">
+                <div className="col-md-6 col-sm-10 mx-auto p-0">
+                  <div className="card p-3">
+                    <div className="">
+                      <button onClick={this.createItem} className="btn btn-primary">
+                        Add task
+                      </button>
+                    </div>
+                    {this.renderTabList()}
+                    <ul className="list-group list-group-flush">
+                      {this.renderItems()}
+                    </ul>
+                  </div>
+                </div>
               </div>
-              {this.renderTabList()}
-              <ul className="list-group list-group-flush">
-                {this.renderItems()}
-              </ul>
-            </div>
-          </div>
-        </div>
-        {this.state.modal ? (
-          <Modal
-            activeItem={this.state.activeItem}
-            toggle={this.toggle}
-            onSave={this.handleSubmit}
-          />
-        ) : null}
-      </main>
+              {this.state.modal ? (
+                <Modal
+                  activeItem={this.state.activeItem}
+                  toggle={this.toggle}
+                  onSave={this.handleSubmit}
+                />
+              ) : null}
+            </main>
+            
+            : 'Please Log In'}
+        
+      </div>
     );
   }
 }
-export default App;
+
+export default App
