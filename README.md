@@ -25,3 +25,9 @@ You will need two terminals pointed to the frontend and backend directories to s
 * [React](https://reactjs.org) - A progressive JavaScript framework.
 * [Python](https://www.python.org/) - A programming language that lets you work quickly and integrate systems more effectively.
 * [Django](http://djangoproject.org/) - A high-level Python Web framework that encourages rapid development and clean, pragmatic design.
+
+## Django JWTS use
+pipenv install django
+pipenv install djangorestframework
+pipenv install djangorestframework-jwt
+pipenv install django-cors-headers
