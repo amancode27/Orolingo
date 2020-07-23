@@ -27,7 +27,7 @@ You will need two terminals pointed to the frontend and backend directories to s
 * [Django](http://djangoproject.org/) - A high-level Python Web framework that encourages rapid development and clean, pragmatic design.
 
 ## Django JWTS use
-pipenv install django
-pipenv install djangorestframework
-pipenv install djangorestframework-jwt
-pipenv install django-cors-headers
+* pipenv install django
+* pipenv install djangorestframework
+* pipenv install djangorestframework-jwt
+* pipenv install django-cors-headers
