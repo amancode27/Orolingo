@@ -14,3 +14,12 @@ html {
 
 body {
 }
+
+.button-standard {
+  padding: 0.5rem 1rem;
+  background-color: bisque;
+  text-decoration: none;
+  font-size: 2rem;
+  border-radius: 200px;
+  color: var(--color-primary);
+}

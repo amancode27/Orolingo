@@ -1,51 +1,44 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {useState, useEffect} from "react";
+import PropTypes from "prop-types";
+import "./Form.scss"
 
-class SignupForm extends React.Component {
-  state = {
-    username: '',
-    password: ''
-  };
+const SignupForm = (props) => {
+  const [formdata, setFormdata] = useState({
+    username: "",
+    password: "",
+  });
 
-  handle_change = e => {
+  const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState(prevstate => {
-      const newState = { ...prevstate };
-      newState[name] = value;
-      return newState;
+    setFormdata((prev) => {
+      return { ...prev, [name]: value };
     });
   };
 
-  render() {
-    return (
-      <form onSubmit={e => this.props.handle_signup(e, this.state)}>
-        <h4>Sign Up</h4>
-        <br/>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          value={this.state.username}
-          onChange={this.handle_change}
-        />
-        <br/>
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          value={this.state.password}
-          onChange={this.handle_change}
-        />
-        <br/>
-        <input type="submit" />
-      </form>
-    );
-  }
-}
+  return (
+    <form className="form" onSubmit={(e) => props.handleSignup(e, formdata)}>
+      <label className="form--label" htmlFor="username">Username</label>
+      <input
+        className="form--input"
+        type="text"
+        name="username"
+        value={formdata.username}
+        onChange={handleChange}
+      />
+      <label className="form--label" htmlFor="password">Password</label>
+      <input
+        className="form--input"
+        type="password"
+        name="password"
+        value={formdata.password}
+        onChange={handleChange}
+      />
+      <input type="submit" />
+    </form>
+  );
+};
+
+SignupForm.propTypes = {};
 
 export default SignupForm;
-
-SignupForm.propTypes = {
-  handle_signup: PropTypes.func.isRequired
-};

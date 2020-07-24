@@ -3,13 +3,11 @@ import { Link } from "react-router-dom";
 
 const Navlink = (props) => {
   return (
-    <Link to={props.link}>
-      {props.link === "/login" ? (
-        <div className="navbar--link navbar--btn">Login</div>
-      ) : (
-        <div className="navbar--link">{props.linktext}</div>
-      )}
-    </Link>
+    props.link === "/login" ? (
+      <Link to={props.link} className="navbar--link navbar--btn">Log in</Link>
+    ) : (
+      <Link to={props.link} className="navbar--link">{props.linktext}</Link>
+    )
   );
 };
 

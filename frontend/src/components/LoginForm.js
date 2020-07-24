@@ -1,51 +1,80 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import "./Form.scss";
 
+const LoginForm = (props) => {
+  const [formdata, setFormdata] = useState({
+    username: "",
+    password: "",
+  });
 
-class LoginForm extends React.Component {
-  state = {
-    username: '',
-    password: ''
+  const [checked, setChecked] = useState(false);
+
+  const handleCheckbox = () => {
+    setChecked((prev) => !prev);
   };
 
-  handle_change = e => {
+  const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState(prevstate => {
-      const newState = { ...prevstate };
-      newState[name] = value;
-      return newState;
+    setFormdata((prev) => {
+      return { ...prev, [name]: value };
     });
   };
 
-  render() {
-    return (
-      <form onSubmit={e => this.props.handle_login(e, this.state)}>
-        <h4>Log In</h4> <br/>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          value={this.state.username}
-          onChange={this.handle_change}
-        />
-        <br/>
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          value={this.state.password}
-          onChange={this.handle_change}
-        />
-        <br/>
-        <input type="submit" />
-      </form>
-    );
-  }
-}
+  return (
+    <form className="form" onSubmit={(e) => props.handleLogin(e, formdata)}>
+      <label className="form--label" htmlFor="username">
+        Enter your Username
+      </label>
+      <input
+        className="form--input"
+        type="text"
+        name="username"
+        value={formdata.username}
+        onChange={handleChange}
+      />
+      <label className="form--label" htmlFor="password">
+        Enter your Password
+      </label>
+      <input
+        className="form--input"
+        type="password"
+        name="password"
+        value={formdata.password}
+        onChange={handleChange}
+      />
+      <input
+        className="form--checkbox-input"
+        type="checkbox"
+        name="keepsignin"
+        id="keepsignin"
+      />
+      <label
+        className="form--label"
+        htmlFor="keepsignin"
+        onClick={handleCheckbox}
+      >
+        Keep me signed in
+        <div className="form--checkbox-label"></div>
+      </label>
+      <span className="form--label">Or Sign in with</span>
+      <div className="login-icons">
+        <a href="#" className="login-icon">
+          #
+        </a>
+        <a href="#" className="login-icon">
+          #
+        </a>
+      </div>
+      <input type="submit" />
+      <a className="button-standard" href="#">
+        Not a member? Sign up here
+      </a>
+    </form>
+  );
+};
+
+LoginForm.propTypes = {};
 
 export default LoginForm;
-
-LoginForm.propTypes = {
-  handle_login: PropTypes.func.isRequired
-};

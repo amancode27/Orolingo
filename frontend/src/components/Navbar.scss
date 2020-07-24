@@ -4,17 +4,29 @@
   align-items: center;
   padding: 1rem;
 
-  &--link {
+  &--link,
+  &--link:link,
+  &--link:visited {
     text-decoration: none;
-    margin: 1rem;
+    margin: 0 2.5rem;
     
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--color-primary);
   }
 
-  &--btn {
-    color: white;
+  &--link:hover {
+    text-decoration: none;
+  }
 
+  &--btn,
+  &--btn:link,
+  &--btn:visited {
+    color: white;
+    background-color: rgb(39, 236, 236);
+    border-radius: 10rem;
+    padding: 0.5rem 2.5rem;
+    display: flex;
+    align-items: center;
   }
 }
