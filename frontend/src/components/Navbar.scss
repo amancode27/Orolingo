@@ -1,0 +1,20 @@
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem;
+
+  &--link {
+    text-decoration: none;
+    margin: 1rem;
+    
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  &--btn {
+    color: white;
+
+  }
+}
