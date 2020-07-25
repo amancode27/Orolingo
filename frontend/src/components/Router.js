@@ -5,6 +5,7 @@ import Login from "./Login";
 import Signup from "./Signup";
 import Landing from "./Landing";
 import NotFound from "./NotFound";
+import Footer from "./Footer";
 
 const Router = (props) => {
   const username = props.username;
@@ -39,6 +40,7 @@ const Router = (props) => {
         />
         <Route component={NotFound} />
       </Switch>
+      <Footer />
     </BrowserRouter>
   );
 };
