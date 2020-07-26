@@ -1,6 +1,6 @@
 #added this file manually
 
-from todo.serializers import UserSerializer
+from core.serializers import UserSerializer
 
 
 def my_jwt_response_handler(token, user=None, request=None):

@@ -1,24 +1,16 @@
-
-# todo/serializers.py
-
 from rest_framework import serializers
-from .models import Todo
 from rest_framework_jwt.settings import api_settings    #added this
-from django.contrib.auth.models import User             #added this
+from .models import User
 
-class TodoSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = Todo
-    fields = ('id', 'title', 'description', 'completed')
 
 class UserSerializer(serializers.ModelSerializer): #added this for login
 
     class Meta:
         model = User
-        fields = ('username',)
+        fields = ('id', 'username', 'fullname', 'email', 'is_student', 'is_trainer')
 
 
-class UserSerializerWithToken(serializers.ModelSerializer): #added this for signup
+class UserSerializerWithToken(serializers.ModelSerializer): # added this for signup
 
     token = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
@@ -41,5 +33,4 @@ class UserSerializerWithToken(serializers.ModelSerializer): #added this for sign
 
     class Meta:
         model = User
-        fields = ('token', 'username', 'password')
-
+        fields = ('token', 'id', 'username', 'password', 'fullname', 'email', 'is_student', 'is_trainer')

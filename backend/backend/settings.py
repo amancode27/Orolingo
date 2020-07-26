@@ -37,10 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',            # add this
-    'rest_framework',         # add this 
-    'todo',
+    'rest_framework',         # add this
     'rest_framework_jwt',     #added this
-    
+    'core',
   ]
 
 
@@ -125,7 +124,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-REST_FRAMEWORK = { #added this 
+REST_FRAMEWORK = { #added this
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
@@ -148,4 +147,6 @@ CORS_ORIGIN_WHITELIST = (
 
 JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'backend.utils.my_jwt_response_handler',
-} 
+}
+
+AUTH_USER_MODEL = 'core.User'

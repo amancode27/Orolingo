@@ -1,5 +1,3 @@
-#Added this page manually
-
 from django.urls import path
 from .views import current_user, UserList
 
