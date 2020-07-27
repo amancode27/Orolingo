@@ -6,6 +6,7 @@ const SignupForm = (props) => {
   const [formdata, setFormdata] = useState({
     username: "",
     password: "",
+    fullname: ""
   });
 
   const handleChange = (e) => {
@@ -32,6 +33,14 @@ const SignupForm = (props) => {
         type="password"
         name="password"
         value={formdata.password}
+        onChange={handleChange}
+      />
+      <label className="form--label" htmlFor="fullname">Fullname</label>
+      <input
+        className="form--input"
+        type="text"
+        name="fullname"
+        value={formdata.fullname}
         onChange={handleChange}
       />
       <input type="submit" />

@@ -12,6 +12,7 @@ const App = (props) => {
     localStorage.getItem("token") ? true : false
   );
   const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState(0);
 
   useEffect(() => {
     if (loggedIn) {
@@ -22,7 +23,10 @@ const App = (props) => {
       })
         .then((res) => res.json())
         .then((json) => {
+          console.log(JSON.stringify(json))
           setUsername(json.username);
+          setUserId(json.id);
+          console.log(json.id);
         });
     }
   }, []);
@@ -42,6 +46,7 @@ const App = (props) => {
         localStorage.setItem("token", json.token);
         setLoggedIn(true);
         setUsername(json.user.username);
+        setUserId(json.user.id);
       });
   };
 
@@ -60,6 +65,7 @@ const App = (props) => {
         localStorage.setItem("token", json.token);
         setLoggedIn(true);
         setUsername(json.username);
+        setUserId(json.id);
       });
   };
 
@@ -69,10 +75,32 @@ const App = (props) => {
     setUsername(username);
   };
 
+  const getUserDetail = async userId => {
+    console.log(userId + " from App")
+    try {
+      const response = await fetch(`http://localhost:8000/auth/users/${userId}/`, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem("token")}`,
+        },
+      })
+      if(response.ok) {
+        const jsonResponse = await response.json();
+        console.log("success");
+        console.log(jsonResponse);
+        return jsonResponse;
+      }
+      throw new Error("Request Failed!")
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
   return (
     <Router
       loggedIn={loggedIn}
       username={username}
+      userId={userId}
+      getUserDetail={getUserDetail}
       handleLogin={handleLogin}
       handleSignup={handleSignup}
       handleLogout={handleLogout}
