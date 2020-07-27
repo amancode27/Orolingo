@@ -2,23 +2,23 @@
 # todo/views.py
 
 from django.http import HttpResponseRedirect
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from rest_framework import viewsets, permissions, status          # add this
 from .serializers import UserSerializer, UserSerializerWithToken      # add this
-from .models import User
-from .permissions import UserPermission
+# from .models import Todo
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication #added this
 from rest_framework.permissions import IsAuthenticated #added this
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-class UserView(viewsets.ModelViewSet):       # add this
-    # authentication_classes=[TokenAuthentication] #added this
-    # permission_classes= [IsAuthenticated] #added this
-    permission_classes = (UserPermission,)
-    serializer_class = UserSerializerWithToken          # add this
-    queryset = User.objects.all()               # add this
+# class TodoView(viewsets.ModelViewSet):       # add this
+#   authentication_classes=[SessionAuthentication, BasicAuthentication] #added this
+#   permission_classes= [IsAuthenticated] #added this
+#
+#   serializer_class = TodoSerializer          # add this
+#   queryset = Todo.objects.all()               # add this
 
 @api_view(['GET'])
 def current_user(request): #    Determine the current user by their token, and return their data
