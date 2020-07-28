@@ -7,11 +7,12 @@ from rest_framework import viewsets, permissions, status          # add this
 from .serializers import UserSerializer, UserSerializerWithToken      # add this
 from .models import User
 from .permissions import UserPermission
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication #added this
-from rest_framework.permissions import IsAuthenticated #added this
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication  # added this
+from rest_framework.permissions import IsAuthenticated  # added this
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 
 class UserView(viewsets.ModelViewSet):       # add this
     # authentication_classes=[TokenAuthentication] #added this
@@ -20,14 +21,16 @@ class UserView(viewsets.ModelViewSet):       # add this
     serializer_class = UserSerializerWithToken          # add this
     queryset = User.objects.all()               # add this
 
+
 @api_view(['GET'])
-def current_user(request): #    Determine the current user by their token, and return their data
+def current_user(request):  # Determine the current user by their token, and return their data
 
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
 
 
-class UserList(APIView):    # Create a new user.A get method for retrieving a list of all User objects.
+# Create a new user.A get method for retrieving a list of all User objects.
+class UserList(APIView):
 
     permission_classes = (permissions.AllowAny,)
 
