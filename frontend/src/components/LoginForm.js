@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./Form.scss";
+import FacebookLogin from 'react-facebook-login';
 
 const LoginForm = (props) => {
   const [formdata, setFormdata] = useState({
@@ -60,9 +61,12 @@ const LoginForm = (props) => {
       </label>
       <span className="form--label">Or Sign in with</span>
       <div className="login-icons">
-        <a href="#" className="login-icon">
-          #
-        </a>
+        <FacebookLogin
+          appId="295694501865260"
+          autoLoad={false}
+          fields="name,email,picture"
+          callback={props.handleFacebookLogin}
+        />
         <a href="#" className="login-icon">
           #
         </a>

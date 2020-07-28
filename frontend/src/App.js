@@ -23,7 +23,7 @@ const App = (props) => {
       })
         .then((res) => res.json())
         .then((json) => {
-          console.log(JSON.stringify(json))
+          console.log(JSON.stringify(json));
           setUsername(json.username);
           setUserId(json.id);
           console.log(json.id);
@@ -42,7 +42,7 @@ const App = (props) => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json)
+        console.log(json);
         localStorage.setItem("token", json.token);
         setLoggedIn(true);
         setUsername(json.user.username);
@@ -61,11 +61,39 @@ const App = (props) => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json)
+        console.log(json);
         localStorage.setItem("token", json.token);
         setLoggedIn(true);
         setUsername(json.username);
         setUserId(json.id);
+      });
+  };
+
+  const handleFacebookLogin = (response) => {
+    const accessToken = response.accessToken;
+    // const options = {
+    //   method: "POST",
+    //   body: tokenBlob,
+    //   mode: "cors",
+    //   cache: "default",
+    // };
+    const data = {
+      provider: "facebook",
+      access_token: accessToken,
+    };
+    fetch("http://localhost:8000/auth/oauth/login/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        localStorage.setItem("token", json.token)
+        setLoggedIn(true);
+        setUsername(json.username);
+        console.log(json);
       });
   };
 
@@ -75,25 +103,28 @@ const App = (props) => {
     setUsername(username);
   };
 
-  const getUserDetail = async userId => {
-    console.log(userId + " from App")
+  const getUserDetail = async (userId) => {
+    console.log(userId + " from App");
     try {
-      const response = await fetch(`http://localhost:8000/auth/users/${userId}/`, {
-        headers: {
-          Authorization: `JWT ${localStorage.getItem("token")}`,
-        },
-      })
-      if(response.ok) {
+      const response = await fetch(
+        `http://localhost:8000/auth/users/${userId}/`,
+        {
+          headers: {
+            Authorization: `JWT ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (response.ok) {
         const jsonResponse = await response.json();
         console.log("success");
         console.log(jsonResponse);
         return jsonResponse;
       }
-      throw new Error("Request Failed!")
-    } catch(error) {
+      throw new Error("Request Failed!");
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <Router
@@ -104,6 +135,7 @@ const App = (props) => {
       handleLogin={handleLogin}
       handleSignup={handleSignup}
       handleLogout={handleLogout}
+      handleFacebookLogin={handleFacebookLogin}
     />
   );
 };
