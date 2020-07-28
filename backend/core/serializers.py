@@ -1,6 +1,14 @@
 from rest_framework import serializers
-from rest_framework_jwt.settings import api_settings    #added this
+from rest_framework_jwt.settings import api_settings    # added this
 from .models import User
+
+
+class SocialSerializer(serializers.Serializer):
+    """
+    Serializer which accepts an OAuth2 access token and provider.
+    """
+    provider = serializers.CharField(max_length=255, required=True)
+    access_token = serializers.CharField(max_length=4096, required=True, trim_whitespace=True)
 
 
 class UserSerializer(serializers.ModelSerializer): #added this for login
