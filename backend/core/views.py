@@ -7,8 +7,8 @@ from rest_framework import generics, views, viewsets, permissions, status       
 from .serializers import UserSerializer, UserSerializerWithToken, SocialSerializer      # add this
 from .models import User
 from .permissions import UserPermission
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication #added this
-from rest_framework.permissions import IsAuthenticated #added this
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication  # added this
+from rest_framework.permissions import IsAuthenticated  # added this
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -19,6 +19,7 @@ from social_core.backends.oauth import BaseOAuth2
 from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
 
 
+
 class UserView(viewsets.ModelViewSet):       # add this
     # authentication_classes=[TokenAuthentication] #added this
     # permission_classes= [IsAuthenticated] #added this
@@ -26,8 +27,9 @@ class UserView(viewsets.ModelViewSet):       # add this
     serializer_class = UserSerializerWithToken          # add this
     queryset = User.objects.all()               # add this
 
+
 @api_view(['GET'])
-def current_user(request): #    Determine the current user by their token, and return their data
+def current_user(request):  # Determine the current user by their token, and return their data
 
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
@@ -98,7 +100,8 @@ class SocialLoginView(generics.GenericAPIView):
             return Response(status=status.HTTP_200_OK, data=response)
 
 
-class UserList(APIView):    # Create a new user.A get method for retrieving a list of all User objects.
+# Create a new user.A get method for retrieving a list of all User objects.
+class UserList(APIView):
 
     permission_classes = (permissions.AllowAny,)
 
