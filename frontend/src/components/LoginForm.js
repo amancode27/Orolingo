@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./Form.scss";
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from "react-facebook-login";
+import { GoogleLogin } from "react-google-login";
 
 const LoginForm = (props) => {
   const [formdata, setFormdata] = useState({
@@ -65,11 +66,14 @@ const LoginForm = (props) => {
           appId="295694501865260"
           autoLoad={false}
           fields="name,email,picture"
-          callback={props.handleFacebookLogin}
+          callback={(response) => props.handleSocialLogin(response, 'facebook')}
         />
-        <a href="#" className="login-icon">
-          #
-        </a>
+        <GoogleLogin
+          clientId="459086212681-76d4i3recuslqf1juh4vt86mbngqou6c.apps.googleusercontent.com"
+          buttonText="Login"
+          onSuccess={(response) => props.handleSocialLogin(response, 'google-oauth2')}
+          onFailure={(response) => props.handleSocialLogin(response, 'google-oauth2')}
+        />
       </div>
       <input type="submit" />
       <a className="button-standard" href="#">

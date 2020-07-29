@@ -12,7 +12,7 @@ const Router = (props) => {
   const handleLogin = props.handleLogin;
   const handleSignup = props.handleSignup;
   const handleLogout = props.handleLogout;
-  const handleFacebookLogin = props.handleFacebookLogin;
+  const handleSocialLogin = props.handleSocialLogin;
   const getUserDetail = props.getUserDetail;
   const userinfo = {
     username: props.username,
@@ -34,7 +34,7 @@ const Router = (props) => {
         <Route
           path="/login"
           render={(props) => (
-            <Login {...props} {...userinfo} handleLogin={handleLogin} handleFacebookLogin={handleFacebookLogin} />
+            <Login {...props} {...userinfo} handleLogin={handleLogin} handleSocialLogin={handleSocialLogin} />
           )}
         />
         <Route

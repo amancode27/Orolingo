@@ -69,16 +69,10 @@ const App = (props) => {
       });
   };
 
-  const handleFacebookLogin = (response) => {
+  const handleSocialLogin = (response, provider) => {
     const accessToken = response.accessToken;
-    // const options = {
-    //   method: "POST",
-    //   body: tokenBlob,
-    //   mode: "cors",
-    //   cache: "default",
-    // };
     const data = {
-      provider: "facebook",
+      provider: provider,
       access_token: accessToken,
     };
     fetch("http://localhost:8000/auth/oauth/login/", {
@@ -135,7 +129,7 @@ const App = (props) => {
       handleLogin={handleLogin}
       handleSignup={handleSignup}
       handleLogout={handleLogout}
-      handleFacebookLogin={handleFacebookLogin}
+      handleSocialLogin={handleSocialLogin}
     />
   );
 };
