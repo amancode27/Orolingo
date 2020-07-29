@@ -1,16 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Link from "./Navlink";
+import Navlink from "./Navlink";
 import "./Navbar.scss";
 
 const Navbar = (props) => {
   return (
     <nav className="navbar">
-      <Link link="/" linktext="Home" />
-      <Link link="/services" linktext="Services" />
-      <Link link="/courses" linktext="Courses" />
-      <Link link="/about" linktext="About us" />
-      <Link link="/login" linktext="Login" />
+      <Navlink link="/" linktext="Home" />
+      <Navlink link="/services" linktext="Services" />
+      <Navlink link="/courses" linktext="Courses" />
+      <Navlink link="/about" linktext="About us" />
+      <Navlink link="/login" linktext="Login" />
     </nav>
   );
 };

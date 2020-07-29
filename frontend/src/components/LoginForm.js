@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import "./Form.scss";
 import FacebookLogin from "react-facebook-login";
 import { GoogleLogin } from "react-google-login";
+import { Link } from "react-router-dom";
 
 const LoginForm = (props) => {
   const [formdata, setFormdata] = useState({
@@ -25,7 +26,7 @@ const LoginForm = (props) => {
   };
 
   return (
-    <form className="form" onSubmit={(e) => props.handleLogin(e, formdata)}>
+    <form className="form" onSubmit={(e) => props.handleLogin(e, formdata, props.history.push)}>
       <label className="form--label" htmlFor="username">
         Enter your Username
       </label>
@@ -66,19 +67,19 @@ const LoginForm = (props) => {
           appId="295694501865260"
           autoLoad={false}
           fields="name,email,picture"
-          callback={(response) => props.handleSocialLogin(response, 'facebook')}
+          callback={(response) => props.handleSocialLogin(response, 'facebook', props.history.push)}
         />
         <GoogleLogin
           clientId="459086212681-76d4i3recuslqf1juh4vt86mbngqou6c.apps.googleusercontent.com"
           buttonText="Login"
-          onSuccess={(response) => props.handleSocialLogin(response, 'google-oauth2')}
-          onFailure={(response) => props.handleSocialLogin(response, 'google-oauth2')}
+          onSuccess={(response) => props.handleSocialLogin(response, 'google-oauth2', props.history.push)}
+          onFailure={(response) => props.handleSocialLogin(response, 'google-oauth2', props.history.push)}
         />
       </div>
       <input type="submit" />
-      <a className="button-standard" href="#">
+      <Link to="/signup" className="button-standard">
         Not a member? Sign up here
-      </a>
+      </Link>
     </form>
   );
 };
