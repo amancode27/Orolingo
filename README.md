@@ -31,3 +31,6 @@ You will need two terminals pointed to the frontend and backend directories to s
 * pipenv install djangorestframework
 * pipenv install djangorestframework-jwt
 * pipenv install django-cors-headers
+
+## Django social authentication 
+* pip install django-rest-framework-social-oauth2
