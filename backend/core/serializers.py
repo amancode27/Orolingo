@@ -42,3 +42,10 @@ class UserSerializerWithToken(serializers.ModelSerializer): # added this for sig
     class Meta:
         model = User
         fields = ('token', 'id', 'username', 'password', 'fullname', 'email', 'is_student', 'is_trainer')
+
+
+class StudentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = "Student"
+        fields = '__all__'

@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from rest_framework import generics, views, viewsets, permissions, status          # add this
 from .serializers import UserSerializer, UserSerializerWithToken, SocialSerializer      # add this
-from .models import User
+from .models import *
 from .permissions import UserPermission
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication  # added this
 from rest_framework.permissions import IsAuthenticated  # added this
@@ -17,7 +17,6 @@ from requests.exceptions import HTTPError
 from social_django.utils import load_strategy, load_backend
 from social_core.backends.oauth import BaseOAuth2
 from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
-
 
 
 class UserView(viewsets.ModelViewSet):       # add this
@@ -107,6 +106,19 @@ class UserList(APIView):
 
     def post(self, request, format=None):
         serializer = UserSerializerWithToken(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class StudentView(APIView):
+
+    permission_classes = (permissions.AllowAny,)
+    queryset = Student.objects.all()
+
+    def post(self, request, format=None):
+        serializer = StudentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
