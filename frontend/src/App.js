@@ -29,9 +29,9 @@ const App = (props) => {
           console.log(json.id);
         });
     }
-  }, []);
+  }, [loggedIn]);
 
-  const handleLogin = (e, data) => {
+  const handleLogin = (e, data, redirect) => {
     e.preventDefault();
     fetch("http://localhost:8000/token-auth/", {
       method: "POST",
@@ -47,10 +47,11 @@ const App = (props) => {
         setLoggedIn(true);
         setUsername(json.user.username);
         setUserId(json.user.id);
+        redirect("/dashboard");
       });
   };
 
-  const handleSignup = (e, data) => {
+  const handleSignup = (e, data, redirect) => {
     e.preventDefault();
     fetch("http://localhost:8000/auth/users/", {
       method: "POST",
@@ -66,19 +67,14 @@ const App = (props) => {
         setLoggedIn(true);
         setUsername(json.username);
         setUserId(json.id);
+        redirect("/dashboard");
       });
   };
 
-  const handleFacebookLogin = (response) => {
+  const handleSocialLogin = (response, provider, redirect) => {
     const accessToken = response.accessToken;
-    // const options = {
-    //   method: "POST",
-    //   body: tokenBlob,
-    //   mode: "cors",
-    //   cache: "default",
-    // };
     const data = {
-      provider: "facebook",
+      provider: provider,
       access_token: accessToken,
     };
     fetch("http://localhost:8000/auth/oauth/login/", {
@@ -94,6 +90,7 @@ const App = (props) => {
         setLoggedIn(true);
         setUsername(json.username);
         console.log(json);
+        redirect("/dashboard");
       });
   };
 
@@ -135,7 +132,7 @@ const App = (props) => {
       handleLogin={handleLogin}
       handleSignup={handleSignup}
       handleLogout={handleLogout}
-      handleFacebookLogin={handleFacebookLogin}
+      handleSocialLogin={handleSocialLogin}
     />
   );
 };

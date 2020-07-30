@@ -18,7 +18,7 @@ const SignupForm = (props) => {
   };
 
   return (
-    <form className="form" onSubmit={(e) => props.handleSignup(e, formdata)}>
+    <form className="form" onSubmit={(e) => props.handleSignup(e, formdata, props.history.push)}>
       <label className="form--label" htmlFor="username">Username</label>
       <input
         className="form--input"
