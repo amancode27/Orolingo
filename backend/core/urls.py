@@ -4,6 +4,7 @@ from rest_framework import routers                    # add this
 
 router = routers.DefaultRouter()                      # add this
 router.register(r'users', UserView, 'core')
+router.register(r'students', StudentView, 'core')
 
 urlpatterns = [
     path('current_user/', current_user),
@@ -11,5 +12,4 @@ urlpatterns = [
     path('<int:pk>/', include(router.urls)),
     path('oauth/login/', SocialLoginView.as_view()),
     path('oauth/', include('rest_framework_social_oauth2.urls')),
-    path('students/', StudentView),
 ]

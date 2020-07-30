@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings    # added this
-from .models import User
+from .models import User, Student
 
 
 class SocialSerializer(serializers.Serializer):
@@ -47,5 +47,5 @@ class UserSerializerWithToken(serializers.ModelSerializer): # added this for sig
 class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = "Student"
+        model = Student
         fields = '__all__'
