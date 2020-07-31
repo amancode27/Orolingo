@@ -13,3 +13,4 @@ class User(AbstractUser):
     is_student = models.BooleanField('student_status', default=False)
     is_trainer = models.BooleanField('trainer_status', default=False)
     fullname = models.CharField(max_length=200)
+
