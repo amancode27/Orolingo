@@ -8,6 +8,9 @@ django = "*"
 djangorestframework = "*"
 djangorestframework-jwt = "*"
 django-cors-headers = "*"
+django-rest-framework-social-oauth2 = "*"
+mysqlclient = "*"
+django-tastypie = "*"
 
 [dev-packages]
 

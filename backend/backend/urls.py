@@ -14,7 +14,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('core.urls')),                #added this               # add this
     path('token-auth/', obtain_jwt_token),             # added for jwts
-    path('api/auth/oauth/', include('rest_framework_social_oauth2.urls')),
+    # path('api/auth/oauth/', include('rest_framework_social_oauth2.urls')),
     path('api/', include(note_resource.urls)),
     # path('api/auth/oauth/', include('rest_framework_social_oauth2.urls')),
 ]

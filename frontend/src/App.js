@@ -86,9 +86,39 @@ const App = (props) => {
     })
       .then((res) => res.json())
       .then((json) => {
+        if(json.newAccount) {
+          console.log("Entered 69");
+          redirect("/account-choice", {json: json});
+        } else {
+          localStorage.setItem("token", json.token)
+          setLoggedIn(true);
+          setUsername(json.username);
+          setUserId(json.userId);
+          redirect("/dashboard");
+          console.log(json);
+        }
+      });
+  };
+
+  const handleSocialTrainerStudent = (userData, type, redirect) => {
+    const data = {
+      is_student: (type==="Student"),
+      is_trainer: (type==="Trainer"),
+    };
+    fetch(`http://localhost:8000/auth/users/${userData.userId}/`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `JWT ${userData.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((json) => {
         localStorage.setItem("token", json.token)
         setLoggedIn(true);
         setUsername(json.username);
+        setUserId(json.id)
         console.log(json);
         redirect("/dashboard");
       });
@@ -133,6 +163,7 @@ const App = (props) => {
       handleSignup={handleSignup}
       handleLogout={handleLogout}
       handleSocialLogin={handleSocialLogin}
+      handleSocialTrainerStudent={handleSocialTrainerStudent}
     />
   );
 };

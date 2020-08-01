@@ -17,7 +17,8 @@ from requests.exceptions import HTTPError
 from social_django.utils import load_strategy, load_backend
 from social_core.backends.oauth import BaseOAuth2
 from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
-
+import json
+from django.core import serializers
 
 class UserView(viewsets.ModelViewSet):       # add this
     # authentication_classes=[TokenAuthentication] #added this
@@ -44,6 +45,7 @@ class SocialLoginView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         provider = serializer.data.get('provider', None)
         strategy = load_strategy(request)
+        new_account = True
 
         try:
             backend = load_backend(strategy=strategy, name=provider, redirect_uri=None)
@@ -53,6 +55,9 @@ class SocialLoginView(generics.GenericAPIView):
         try:
             if isinstance(backend, BaseOAuth2):
                 access_token = serializer.data.get('access_token')
+            user_details = backend.user_data(access_token)
+            if User.objects.filter(username=user_details['email']).exists():
+                new_account = False
             user = backend.do_auth(access_token)
         except HTTPError as error:
             return Response({
@@ -91,10 +96,15 @@ class SocialLoginView(generics.GenericAPIView):
                     jwt_payload_handler(user)
                 )}
             # customize the response to your needs
+            if not (authenticated_user.is_student or authenticated_user.is_trainer):
+                new_account = True
             response = {
                 "email": authenticated_user.email,
                 "username": authenticated_user.username,
-                "token": data.get('token')
+                "token": data.get('token'),
+                "fullname": authenticated_user.fullname,
+                "newAccount": new_account,
+                "userId": authenticated_user.id
             }
             return Response(status=status.HTTP_200_OK, data=response)
 

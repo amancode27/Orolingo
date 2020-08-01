@@ -7,6 +7,7 @@ import Landing from "./Landing";
 import NotFound from "./NotFound";
 import Footer from "./Footer";
 import Dashboard from "./Dashboard";
+import AccountChoice from "./AccountChoice";
 
 const Router = (props) => {
   const handleLogin = props.handleLogin;
@@ -19,6 +20,7 @@ const Router = (props) => {
     loggedIn: props.loggedIn,
     userId: props.userId,
   };
+  const handleSocialTrainerStudent = props.handleSocialTrainerStudent;
 
   return (
     <BrowserRouter basename="/">
@@ -46,6 +48,10 @@ const Router = (props) => {
         <Route
           path="/dashboard"
           render={(props) => <Dashboard {...props} {...userinfo} getUserDetail={getUserDetail} />}
+        />
+        <Route
+          path="/account-choice"
+          render={(props) => <AccountChoice {...props} handleSocialTrainerStudent={handleSocialTrainerStudent} />}
         />
         <Route component={NotFound} />
       </Switch>
