@@ -14,9 +14,6 @@ class User(AbstractUser):
     is_trainer = models.BooleanField('trainer_status', default=False)
     fullname = models.CharField(max_length=200)
 
-<<<<<<< HEAD
-=======
-
 class Language(models.Model):
     name = models.CharField(max_length=200)
 
@@ -51,4 +48,3 @@ class Assignment(models.Model):
     completed = models.BooleanField(default=False)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     submitted_on = models.DateTimeField()
->>>>>>> a367aba168cb54243fe93df52bceadec93eafbb9
