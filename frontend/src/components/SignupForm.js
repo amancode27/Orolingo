@@ -6,12 +6,24 @@ const SignupForm = (props) => {
   const [formdata, setFormdata] = useState({
     username: "",
     password: "",
-    fullname: ""
+    fullname: "",
+    email: "",
+    is_student: false,
+    is_trainer: false,
   });
 
   const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+    let name = e.target.name;
+    let value = e.target.value;
+    if(name === "type") {
+      if(value === "student") {
+        name = "is_student";
+        value = true;
+      } else if(value === "teacher") {
+        name = "is_trainer";
+        value = true;
+      }
+    }
     setFormdata((prev) => {
       return { ...prev, [name]: value };
     });
@@ -43,6 +55,32 @@ const SignupForm = (props) => {
         value={formdata.fullname}
         onChange={handleChange}
       />
+      <label className="form--label" htmlFor="email">Email</label>
+      <input
+        className="form--input"
+        type="text"
+        name="email"
+        value={formdata.email}
+        onChange={handleChange}
+      />
+      <input
+        className="form--input"
+        id="type-student"
+        type="radio"
+        name="type"
+        value="student"
+        onChange={handleChange}
+      />
+      <label className="form--label" htmlFor="type-student">Student</label>
+      <input
+        className="form--input"
+        id="type-trainer"
+        type="radio"
+        name="type"
+        value="trainer"
+        onChange={handleChange}
+      />
+      <label className="form--label" htmlFor="type-trainer">Trainer</label>
       <input type="submit" />
     </form>
   );
