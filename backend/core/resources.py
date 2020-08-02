@@ -1,5 +1,5 @@
 from tastypie.resources import ModelResource
-from api.models import Note
+from core.models import Note
 from tastypie.authorization import Authorization
 
 class NoteResource(ModelResource):
