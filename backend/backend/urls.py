@@ -6,7 +6,7 @@ from django.urls import path, include                 # add this
 # from core import views, urls                            # add this
 from rest_framework_jwt.views import obtain_jwt_token # added for jwts
 from django.conf import settings
-from api.resources import NoteResource
+from core.resources import NoteResource
 
 note_resource = NoteResource()
 
