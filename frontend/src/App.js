@@ -7,7 +7,10 @@ import SignupForm from "./components/SignupForm";
 import Router from "./components/Router";
 import "./App.css";
 
+
 const App = (props) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [loggedIn, setLoggedIn] = useState(
     localStorage.getItem("token") ? true : false
   );
@@ -32,6 +35,9 @@ const App = (props) => {
   }, [loggedIn]);
 
   const handleLogin = (e, data, redirect) => {
+
+    setError(null);
+    setLoading(true);
     e.preventDefault();
     fetch("http://localhost:8000/token-auth/", {
       method: "POST",
@@ -42,16 +48,26 @@ const App = (props) => {
     })
       .then((res) => res.json())
       .then((json) => {
+        setLoading(false);
         console.log(json);
         localStorage.setItem("token", json.token);
         setLoggedIn(true);
         setUsername(json.user.username);
         setUserId(json.user.id);
         redirect("/dashboard");
+      })
+      .catch(error => {
+        setLoading(false);
+        setError("Incorrect Credentials");
+        alert("wrong Credentials")
+        // if(error.response.status === 401)
+        //  setError("Something went wrong. Please try again later.");
       });
   };
 
   const handleSignup = (e, data, redirect) => {
+    setError(null);
+    setLoading(true);
     e.preventDefault();
     fetch("http://localhost:8000/auth/users/", {
       method: "POST",
@@ -62,12 +78,17 @@ const App = (props) => {
     })
       .then((res) => res.json())
       .then((json) => {
+        setLoading(false);
         console.log(json);
         localStorage.setItem("token", json.token);
         setLoggedIn(true);
         setUsername(json.username);
         setUserId(json.id);
         redirect("/dashboard");
+      }).catch(error => {
+        setLoading(false);
+        if (error.response.status === 401) alert(error.response.data.message);
+        else setError("Something went wrong. Please try again later.");
       });
   };
 
@@ -86,9 +107,9 @@ const App = (props) => {
     })
       .then((res) => res.json())
       .then((json) => {
-        if(json.newAccount) {
+        if (json.newAccount) {
           console.log("Entered 69");
-          redirect("/account-choice", {json: json});
+          redirect("/account-choice", { json: json });
         } else {
           localStorage.setItem("token", json.token)
           setLoggedIn(true);
@@ -102,8 +123,8 @@ const App = (props) => {
 
   const handleSocialTrainerStudent = (userData, type, redirect) => {
     const data = {
-      is_student: (type==="Student"),
-      is_trainer: (type==="Trainer"),
+      is_student: (type === "Student"),
+      is_trainer: (type === "Trainer"),
     };
     fetch(`http://localhost:8000/auth/users/${userData.userId}/`, {
       method: "PATCH",

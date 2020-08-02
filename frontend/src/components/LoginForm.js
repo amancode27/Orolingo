@@ -4,11 +4,16 @@ import "./Form.scss";
 import FacebookLogin from "react-facebook-login";
 import { GoogleLogin } from "react-google-login";
 import { Link } from "react-router-dom";
+import { FormErrors } from './FormError';
 
 const LoginForm = (props) => {
   const [formdata, setFormdata] = useState({
     username: "",
     password: "",
+    passwordValid: false,
+    usernameValid: false,
+    formErrors: { password: '', username: ''},
+    formValid: false
   });
 
   const [checked, setChecked] = useState(false);
@@ -23,10 +28,37 @@ const LoginForm = (props) => {
     setFormdata((prev) => {
       return { ...prev, [name]: value };
     });
+    validateField(name, value) 
   };
+  function validateField(fieldName, value) {
+
+
+    switch (fieldName) {
+
+      case 'username':
+        formdata.usernameValid = value.length>0;
+        formdata.formErrors.username = formdata.usernameValid ? '' : ' is required';
+        break;
+
+      case 'password':
+        formdata.passwordValid = value.length > 0;
+        formdata.formErrors.password = formdata.passwordValid ? '' : ' is required';
+        break;
+      default:
+        break;
+    }
+    formdata.formValid = formdata.passwordValid && formdata.usernameValid;
+
+
+  }
+  function errorClass(error) {
+    return(error.length === 0 ? '' : 'has-error');
+  }
 
   return (
     <form className="form" onSubmit={(e) => props.handleLogin(e, formdata, props.history.push)}>
+            <FormErrors formErrors={formdata.formErrors} />
+            <div className={`form-group ${errorClass(formdata.formErrors.username)}`}>
       <label className="form--label" htmlFor="username">
         Enter your Username
       </label>
@@ -37,6 +69,8 @@ const LoginForm = (props) => {
         value={formdata.username}
         onChange={handleChange}
       />
+      </div>
+      <div className={`form-group ${errorClass(formdata.formErrors.password)}`}>
       <label className="form--label" htmlFor="password">
         Enter your Password
       </label>
@@ -47,6 +81,7 @@ const LoginForm = (props) => {
         value={formdata.password}
         onChange={handleChange}
       />
+      </div>
       <input
         className="form--checkbox-input"
         type="checkbox"
@@ -76,7 +111,7 @@ const LoginForm = (props) => {
           onFailure={(response) => props.handleSocialLogin(response, 'google-oauth2', props.history.push)}
         />
       </div>
-      <input type="submit" />
+      <input disabled={!formdata.formValid} type="submit" />
       <Link to="/signup" className="button-standard">
         Not a member? Sign up here
       </Link>
