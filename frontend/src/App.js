@@ -50,6 +50,9 @@ const App = (props) => {
       .then((json) => {
         setLoading(false);
         console.log(json);
+        if(json.non_field_errors) {
+          throw new Error(json.non_field_errors[0])
+        }
         localStorage.setItem("token", json.token);
         setLoggedIn(true);
         setUsername(json.user.username);
@@ -57,9 +60,10 @@ const App = (props) => {
         redirect("/dashboard");
       })
       .catch(error => {
+        console.log(error);
         setLoading(false);
         setError("Incorrect Credentials");
-        alert("wrong Credentials")
+        document.getElementById('login-form-error').textContent = "Invalid Credentials";
         // if(error.response.status === 401)
         //  setError("Something went wrong. Please try again later.");
       });

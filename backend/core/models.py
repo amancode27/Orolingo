@@ -14,19 +14,23 @@ class User(AbstractUser):
     is_trainer = models.BooleanField('trainer_status', default=False)
     fullname = models.CharField(max_length=200)
 
+
 class Language(models.Model):
     name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name;
 
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key = True)
-    langauges_learnt = models.ManyToManyField(Language, related_name="knowing_students")
-    languages_to_learn = models.ManyToManyField(Language, related_name="learning_students")
+    langauges_learnt = models.ManyToManyField(Language, related_name="knowing_students", blank=True)
+    languages_to_learn = models.ManyToManyField(Language, related_name="learning_students", blank=True)
 
 
 class Trainer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key = True)
-    languages_known = models.ManyToManyField(Language, related_name="knowing_teachers")
+    languages_known = models.ManyToManyField(Language, related_name="knowing_teachers", blank=True)
 
 
 class Course(models.Model):
@@ -44,15 +48,22 @@ class StudentCourse(models.Model):
 
 
 class Assignment(models.Model):
-    uid = models.CharField(max_length=200)
-    completed = models.BooleanField(default=False)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    students = models.ManyToManyField(Student, related_name='assignments', through='StudentAssignment')
+
+
+class StudentAssignment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    submitted_on = models.DateTimeField()
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    last_submitted_on = models.DateTimeField()
+    passed = models.BooleanField(default=False)
+
 
 class Note(models.Model):
     title = models.CharField(max_length=200)
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    student_course = models.ForeignKey(StudentCourse, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title  
+        return self.title

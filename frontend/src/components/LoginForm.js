@@ -28,7 +28,7 @@ const LoginForm = (props) => {
     setFormdata((prev) => {
       return { ...prev, [name]: value };
     });
-    validateField(name, value) 
+    validateField(name, value)
   };
   function validateField(fieldName, value) {
 
@@ -57,6 +57,7 @@ const LoginForm = (props) => {
 
   return (
     <form className="form" onSubmit={(e) => props.handleLogin(e, formdata, props.history.push)}>
+            <div id="login-form-error"></div>
             <FormErrors formErrors={formdata.formErrors} />
             <div className={`form-group ${errorClass(formdata.formErrors.username)}`}>
       <label className="form--label" htmlFor="username">
