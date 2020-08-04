@@ -7,7 +7,6 @@ import SignupForm from "./components/SignupForm";
 import Router from "./components/Router";
 import "./App.css";
 
-
 const App = (props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -35,7 +34,6 @@ const App = (props) => {
   }, [loggedIn]);
 
   const handleLogin = (e, data, redirect) => {
-
     setError(null);
     setLoading(true);
     e.preventDefault();
@@ -50,8 +48,8 @@ const App = (props) => {
       .then((json) => {
         setLoading(false);
         console.log(json);
-        if(json.non_field_errors) {
-          throw new Error(json.non_field_errors[0])
+        if (json.non_field_errors) {
+          throw new Error(json.non_field_errors[0]);
         }
         localStorage.setItem("token", json.token);
         setLoggedIn(true);
@@ -59,11 +57,12 @@ const App = (props) => {
         setUserId(json.user.id);
         redirect("/dashboard");
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         setLoading(false);
         setError("Incorrect Credentials");
-        document.getElementById('login-form-error').textContent = "Invalid Credentials";
+        document.getElementById("login-form-error").textContent =
+          "Invalid Credentials";
         // if(error.response.status === 401)
         //  setError("Something went wrong. Please try again later.");
       });
@@ -84,15 +83,30 @@ const App = (props) => {
       .then((json) => {
         setLoading(false);
         console.log(json);
+        if (
+          json.username &&
+          json.email &&
+          data.username !== json.username &&
+          data.email !== json.email
+        ) {
+          throw new Error(
+            json.username.join("<br />") + "<br />" + json.email.join("<br />")
+          );
+        } else if (json.username && data.username !== json.username) {
+          throw new Error(json.username.join("<br />"));
+        } else if (json.email && data.email !== json.email) {
+          throw new Error(json.email.join("<br />"));
+        }
         localStorage.setItem("token", json.token);
         setLoggedIn(true);
         setUsername(json.username);
         setUserId(json.id);
         redirect("/dashboard");
-      }).catch(error => {
+      })
+      .catch((error) => {
         setLoading(false);
-        if (error.response.status === 401) alert(error.response.data.message);
-        else setError("Something went wrong. Please try again later.");
+        setError("Something went wrong. Please try again later.");
+        document.getElementById("signup-form-error").innerHTML = error.toString().substring(7);
       });
   };
 
@@ -115,7 +129,7 @@ const App = (props) => {
           console.log("Entered 69");
           redirect("/account-choice", { json: json });
         } else {
-          localStorage.setItem("token", json.token)
+          localStorage.setItem("token", json.token);
           setLoggedIn(true);
           setUsername(json.username);
           setUserId(json.userId);
@@ -127,8 +141,8 @@ const App = (props) => {
 
   const handleSocialTrainerStudent = (userData, type, redirect) => {
     const data = {
-      is_student: (type === "Student"),
-      is_trainer: (type === "Trainer"),
+      is_student: type === "Student",
+      is_trainer: type === "Trainer",
     };
     fetch(`http://localhost:8000/auth/users/${userData.userId}/`, {
       method: "PATCH",
@@ -140,10 +154,10 @@ const App = (props) => {
     })
       .then((res) => res.json())
       .then((json) => {
-        localStorage.setItem("token", json.token)
+        localStorage.setItem("token", json.token);
         setLoggedIn(true);
         setUsername(json.username);
-        setUserId(json.id)
+        setUserId(json.id);
         console.log(json);
         redirect("/dashboard");
       });

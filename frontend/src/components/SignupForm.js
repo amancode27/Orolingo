@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { FormErrors } from './FormError';
-import "./Form.scss"
+import { FormErrors } from "./FormError";
+import "./Form.scss";
 
 const SignupForm = (props) => {
   const [formdata, setFormdata] = useState({
@@ -11,12 +11,12 @@ const SignupForm = (props) => {
     email: "",
     is_student: false,
     is_trainer: false,
-    formErrors: { email: '', password: '', username: '', fullname: '' },
+    formErrors: { email: "", password: "", username: "", fullname: "" },
     emailValid: false,
     passwordValid: false,
     usernameValid: false,
     fullnameValid: false,
-    formValid: false
+    formValid: false,
   });
 
   const handleChange = (e) => {
@@ -32,63 +32,78 @@ const SignupForm = (props) => {
       }
     }
 
-    validateField(name, value)
+    validateField(name, value);
     setFormdata((prev) => {
       return { ...prev, [name]: value };
     });
   };
 
   function validateField(fieldName, value) {
-
-
     switch (fieldName) {
-      case 'email':
-        formdata.emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        formdata.formErrors.email = formdata.emailValid ? '' : ' is invalid';
+      case "email":
+        formdata.emailValid = value.match(
+          /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i
+        );
+        formdata.formErrors.email = formdata.emailValid ? "" : " is invalid";
         break;
-      case 'username':
+      case "username":
         formdata.usernameValid = value.length > 0;
-        formdata.formErrors.username = formdata.usernameValid ? '' : ' is required';
+        formdata.formErrors.username = formdata.usernameValid
+          ? ""
+          : " is required";
         break;
-      case 'fullname':
+      case "fullname":
         formdata.fullnameValid = value.length > 0;
-        formdata.formErrors.fullname = formdata.fullnameValid ? '' : ' is required';
+        formdata.formErrors.fullname = formdata.fullnameValid
+          ? ""
+          : " is required";
         break;
-      case 'password':
+      case "password":
         formdata.passwordValid = value.length >= 6;
-        formdata.formErrors.password = formdata.passwordValid ? '' : ' is too short';
+        formdata.formErrors.password = formdata.passwordValid
+          ? ""
+          : " is too short";
         break;
       default:
         break;
     }
-    formdata.formValid = formdata.emailValid && formdata.passwordValid && formdata.usernameValid && formdata.fullnameValid;
-
-
+    formdata.formValid =
+      formdata.emailValid &&
+      formdata.passwordValid &&
+      formdata.usernameValid &&
+      formdata.fullnameValid;
   }
   // function validateForm() {
   //    formdata.formValid = formdata.emailValid && formdata.passwordValid && formdata.usernameValid && formdata.fullnameValid;
   // }
 
   function errorClass(error) {
-    return (error.length === 0 ? '' : 'has-error');
+    return error.length === 0 ? "" : "has-error";
   }
 
   return (
-    <form className="form" onSubmit={(e) => props.handleSignup(e, formdata, props.history.push)}>
-
+    <form
+      className="form"
+      onSubmit={(e) => props.handleSignup(e, formdata, props.history.push)}
+    >
+      <div id="signup-form-error"></div>
       <FormErrors formErrors={formdata.formErrors} />
       <div className={`form-group ${errorClass(formdata.formErrors.username)}`}>
-      <label className="form--label" htmlFor="username">Username</label>
-      <input
-        className="form--input"
-        type="text"
-        name="username"
-        value={formdata.username}
-        onChange={handleChange}
-      />
+        <label className="form--label" htmlFor="username">
+          Username
+        </label>
+        <input
+          className="form--input"
+          type="text"
+          name="username"
+          value={formdata.username}
+          onChange={handleChange}
+        />
       </div>
       <div className={`form-group ${errorClass(formdata.formErrors.password)}`}>
-        <label className="form--label" htmlFor="password">Password</label>
+        <label className="form--label" htmlFor="password">
+          Password
+        </label>
         <input
           className="form--input"
           type="password"
@@ -98,7 +113,9 @@ const SignupForm = (props) => {
         />
       </div>
       <div className={`form-group ${errorClass(formdata.formErrors.fullname)}`}>
-        <label className="form--label" htmlFor="fullname">Fullname</label>
+        <label className="form--label" htmlFor="fullname">
+          Fullname
+        </label>
         <input
           className="form--input"
           type="text"
@@ -107,37 +124,42 @@ const SignupForm = (props) => {
           onChange={handleChange}
         />
       </div>
-  \
-        <div className={`form-group ${errorClass(formdata.formErrors.email)}`}>
-          <label className="form--label" htmlFor="email">Email</label>
-          <input
-            className="form--input"
-            type="text"
-            name="email"
-            value={formdata.email}
-            onChange={handleChange}
-          />
-        </div>
-
+      \
+      <div className={`form-group ${errorClass(formdata.formErrors.email)}`}>
+        <label className="form--label" htmlFor="email">
+          Email
+        </label>
         <input
           className="form--input"
-          id="type-student"
-          type="radio"
-          name="type"
-          value="student"
+          type="text"
+          name="email"
+          value={formdata.email}
           onChange={handleChange}
         />
-        <label className="form--label" htmlFor="type-student">Student</label>
-        <input
-          className="form--input"
-          id="type-trainer"
-          type="radio"
-          name="type"
-          value="trainer"
-          onChange={handleChange}
-        />
-        <label className="form--label" htmlFor="type-trainer">Trainer</label>
-        <input disabled={!formdata.formValid} type="submit" />
+      </div>
+      <input
+        className="form--input"
+        id="type-student"
+        type="radio"
+        name="type"
+        value="student"
+        onChange={handleChange}
+      />
+      <label className="form--label" htmlFor="type-student">
+        Student
+      </label>
+      <input
+        className="form--input"
+        id="type-trainer"
+        type="radio"
+        name="type"
+        value="trainer"
+        onChange={handleChange}
+      />
+      <label className="form--label" htmlFor="type-trainer">
+        Trainer
+      </label>
+      <input disabled={!formdata.formValid} type="submit" />
     </form>
   );
 };
