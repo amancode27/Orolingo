@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings    # added this
-from .models import User, Student
+from .models import User, Student, Course
 
 
 class SocialSerializer(serializers.Serializer):
@@ -48,4 +48,10 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
+        fields = '__all__'
+
+class CourseSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Course
         fields = '__all__'

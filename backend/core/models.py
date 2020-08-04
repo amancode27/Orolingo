@@ -37,7 +37,8 @@ class Course(models.Model):
     name = models.CharField(max_length=500)
     students = models.ManyToManyField(Student, related_name='courses', through='StudentCourse')
     trainers = models.ManyToManyField(Trainer, related_name='courses')
-
+    def __str__(self):
+        return self.name 
 
 class StudentCourse(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)

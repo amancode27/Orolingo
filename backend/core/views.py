@@ -2,9 +2,9 @@
 # todo/views.py
 
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import generics, views, viewsets, permissions, status          # add this
-from .serializers import UserSerializer, UserSerializerWithToken, SocialSerializer, StudentSerializer      # add this
+from .serializers import UserSerializer, UserSerializerWithToken, SocialSerializer, StudentSerializer, CourseSerializer      # add this
 from .models import *
 from .permissions import UserPermission
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication  # added this
@@ -134,3 +134,17 @@ class StudentView(viewsets.ModelViewSet):
     #         serializer.save()
     #         return Response(serializer.data, status=status.HTTP_201_CREATED)
     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CourseView(viewsets.ViewSet):
+
+    def list(self, request):
+        queryset = Course.objects.all()
+        serializer = CourseSerializer(queryset, many = True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = Course.objects.all()
+        course = get_object_or_404(queryset, pk=pk)
+        serializer = CourseSerializer(course)
+        return Response(serializer.data)
