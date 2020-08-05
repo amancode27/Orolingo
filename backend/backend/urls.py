@@ -17,7 +17,7 @@ assignment_resource = AssignmentResource()
 student_assignment_resource = StudentAssignmentResource()
 note_resource = NoteResource()
 student_course_resource = StudentCourseResource()
-
+language_resource = LanguageResource()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/', include(course_resource.urls)),
     path('api/', include(student_assignment_resource.urls)),
     path('api/', include(user_resource.urls)),
+    path('api/', include(language_resource.urls)),
     # path('api/auth/oauth/', include('rest_framework_social_oauth2.urls')),
     path('reset_password/',
          auth_views.PasswordResetView.as_view(),

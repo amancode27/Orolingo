@@ -1,4 +1,4 @@
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, ALL
 from core.models import *
 from tastypie.authorization import Authorization
 from tastypie import fields
@@ -11,39 +11,53 @@ class UserResource(ModelResource):
         excludes = ['password']
         allowed_methods = ['get']
 
-
-class StudentResource(ModelResource):
-    user = fields.ForeignKey(UserResource, 'user')
-    
-    class Meta:
-        queryset = Student.objects.all()
-        authorization = Authorization()
-
-
 class TrainerResource(ModelResource):
-    user = fields.ForeignKey(UserResource, 'user')
+    user = fields.ForeignKey(UserResource, 'user', full=True)
     
     class Meta:
         queryset = Trainer.objects.all()
         authorization = Authorization()
 
+class LanguageResource(ModelResource):
+    trainers = fields.ToManyField(TrainerResource, 'trainers')
+
+    class Meta:
+        queryset = Language.objects.all()
+        authorization = Authorization()
+
+class StudentResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user', full=True)
+    languages_learnt = fields.ToManyField(LanguageResource, 'languages_learnt')
+    languages_to_learn = fields.ToManyField(LanguageResource, 'languages_to_learn')
+
+    class Meta:
+        queryset = Student.objects.all()
+        authorization = Authorization()
+
 
 class CourseResource(ModelResource):
-    trainers = fields.ToManyField(TrainerResource, 'trainers')
+    trainer = fields.ForeignKey(TrainerResource, 'trainer', full=True)
+    language = fields.ForeignKey(LanguageResource, 'language', full=True)
 
     class Meta:
         queryset = Course.objects.all()
         authorization = Authorization()
-
+        filtering = {
+            'language': ALL,
+            'trainer': ALL
+        }
 
 class StudentCourseResource(ModelResource):
     student = fields.ForeignKey(StudentResource, 'student')
-    course = fields.ForeignKey(CourseResource, 'course')
+    course = fields.ForeignKey(CourseResource, 'course', full=True)
 
     class Meta:
         queryset = StudentCourse.objects.all()
         resource_name = 'student_course'
         authorization = Authorization()
+        filtering = {
+            'student': ALL
+        }
 
 
 class AssignmentResource(ModelResource):

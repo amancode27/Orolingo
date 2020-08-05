@@ -9,6 +9,7 @@ import Footer from "./Footer";
 import Dashboard from "./Dashboard";
 import AccountChoice from "./AccountChoice";
 import StudentCourse from "./StudentCourse";
+import LanguageTrainers from "./LanguageTrainers"
 
 const Router = (props) => {
   const handleLogin = props.handleLogin;
@@ -56,7 +57,11 @@ const Router = (props) => {
         />
         <Route
           path="/student-course/:courseid"
-          component={StudentCourse}
+          render={(props) => <StudentCourse {...props} {...userinfo} />}
+        />
+        <Route
+          path="/language-trainers/:languageid"
+          render={(props) => <LanguageTrainers {...props} {...userinfo} />}
         />
         <Route component={NotFound} />
       </Switch>

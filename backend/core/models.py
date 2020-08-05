@@ -15,8 +15,14 @@ class User(AbstractUser):
     fullname = models.CharField(max_length=200)
 
 
+class Trainer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key = True)
+    # languages_known = models.ManyToManyField(Language, related_name="knowing_teachers", blank=True)
+
+
 class Language(models.Model):
     name = models.CharField(max_length=200)
+    trainers = models.ManyToManyField(Trainer, related_name='languages')
 
     def __str__(self):
         return self.name;
@@ -24,28 +30,23 @@ class Language(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key = True)
-    langauges_learnt = models.ManyToManyField(Language, related_name="knowing_students", blank=True)
-    languages_to_learn = models.ManyToManyField(Language, related_name="learning_students", blank=True)
-
-
-class Trainer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key = True)
-    languages_known = models.ManyToManyField(Language, related_name="knowing_teachers", blank=True)
+    languages_learnt = models.ManyToManyField(Language, related_name="knowing_students", blank=True, null=True)
+    languages_to_learn = models.ManyToManyField(Language, related_name="learning_students", blank=True, null=True)
 
 
 class Course(models.Model):
-    name = models.CharField(max_length=500)
+    language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True)
     students = models.ManyToManyField(Student, related_name='courses', through='StudentCourse')
-    trainers = models.ManyToManyField(Trainer, related_name='courses')
-    def __str__(self):
-        return self.name 
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True)
+    # def __str__(self):
+    #     return self.name 
 
 class StudentCourse(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    completed_percent = models.IntegerField(default=True)
+    completed_percent = models.IntegerField(default=0)
     startdate = models.DateField(auto_now_add=True)
-    enddate = models.DateField()
+    enddate = models.DateField(null=True)
 
 
 class Assignment(models.Model):
