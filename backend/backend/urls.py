@@ -7,10 +7,17 @@ from django.urls import path, include                 # add this
 from django.contrib.auth import views as auth_views
 from rest_framework_jwt.views import obtain_jwt_token  # added for jwts
 from django.conf import settings
-from core.resources import NoteResource, StudentCourseResource
+from core.resources import *
 
+user_resource = UserResource()
+student_resource = StudentResource()
+trainer_resource = TrainerResource()
+course_resource = CourseResource()
+assignment_resource = AssignmentResource()
+student_assignment_resource = StudentAssignmentResource()
 note_resource = NoteResource()
 student_course_resource = StudentCourseResource()
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -19,6 +26,12 @@ urlpatterns = [
     # path('api/auth/oauth/', include('rest_framework_social_oauth2.urls')),
     path('api/', include(note_resource.urls)),
     path('api/', include(student_course_resource.urls)),
+    path('api/', include(student_resource.urls)),
+    path('api/', include(assignment_resource.urls)),
+    path('api/', include(trainer_resource.urls)),
+    path('api/', include(course_resource.urls)),
+    path('api/', include(student_assignment_resource.urls)),
+    path('api/', include(user_resource.urls)),
     # path('api/auth/oauth/', include('rest_framework_social_oauth2.urls')),
     path('reset_password/',
          auth_views.PasswordResetView.as_view(),

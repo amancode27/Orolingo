@@ -50,7 +50,7 @@ class StudentCourse(models.Model):
 
 class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    students = models.ManyToManyField(Student, related_name='assignments', through='StudentAssignment')
+    name = models.CharField(max_length=500, null=True)
 
 
 class StudentAssignment(models.Model):

@@ -8,6 +8,7 @@ import NotFound from "./NotFound";
 import Footer from "./Footer";
 import Dashboard from "./Dashboard";
 import AccountChoice from "./AccountChoice";
+import StudentCourse from "./StudentCourse";
 
 const Router = (props) => {
   const handleLogin = props.handleLogin;
@@ -52,6 +53,10 @@ const Router = (props) => {
         <Route
           path="/account-choice"
           render={(props) => <AccountChoice {...props} handleSocialTrainerStudent={handleSocialTrainerStudent} />}
+        />
+        <Route
+          path="/student-course/:courseid"
+          component={StudentCourse}
         />
         <Route component={NotFound} />
       </Switch>
