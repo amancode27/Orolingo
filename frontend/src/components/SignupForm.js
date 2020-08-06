@@ -11,11 +11,12 @@ const SignupForm = (props) => {
     email: "",
     is_student: false,
     is_trainer: false,
-    formErrors: { email: "", password: "", username: "", fullname: "" },
+    formErrors: { email: "", password: "", username: "", fullname: "", is_student: false, is_trainer: false },
     emailValid: false,
     passwordValid: false,
     usernameValid: false,
     fullnameValid: false,
+    buttonValid:false,
     formValid: false,
   });
 
@@ -46,6 +47,14 @@ const SignupForm = (props) => {
         );
         formdata.formErrors.email = formdata.emailValid ? "" : " is invalid";
         break;
+      case "is_student":
+        formdata.buttonValid =(value==true)
+        formdata.formErrors.is_student = formdata.buttonValid ? "" : " please select if you are a student or a trainer";
+        break;
+      case "is_trainer":
+        formdata.buttonValid =(value==true)
+        formdata.formErrors.is_trainer = formdata.buttonValid? "" : "  please select if you are a student or a trainer";
+        break;
       case "username":
         formdata.usernameValid = value.length > 0;
         formdata.formErrors.username = formdata.usernameValid
@@ -71,7 +80,8 @@ const SignupForm = (props) => {
       formdata.emailValid &&
       formdata.passwordValid &&
       formdata.usernameValid &&
-      formdata.fullnameValid;
+      formdata.fullnameValid  && 
+      formdata.buttonValid;
   }
   // function validateForm() {
   //    formdata.formValid = formdata.emailValid && formdata.passwordValid && formdata.usernameValid && formdata.fullnameValid;
