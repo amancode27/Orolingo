@@ -14,10 +14,18 @@ class User(AbstractUser):
     is_trainer = models.BooleanField('trainer_status', default=False)
     fullname = models.CharField(max_length=200)
 
+    
+    def __str__(self):
+        return self.fullname
+
 
 class Trainer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key = True)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True)
     # languages_known = models.ManyToManyField(Language, related_name="knowing_teachers", blank=True)
+
+    # def __str__(self):
+    #     return self.user
 
 
 class Language(models.Model):
@@ -25,21 +33,30 @@ class Language(models.Model):
     trainers = models.ManyToManyField(Trainer, related_name='languages')
 
     def __str__(self):
-        return self.name;
+        return self.name
 
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key = True)
-    languages_learnt = models.ManyToManyField(Language, related_name="knowing_students", blank=True, null=True)
-    languages_to_learn = models.ManyToManyField(Language, related_name="learning_students", blank=True, null=True)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True)
+    languages_learnt = models.ManyToManyField(
+        Language, related_name="knowing_students", blank=True)
+    languages_to_learn = models.ManyToManyField(
+        Language, related_name="learning_students", blank=True)
+
+    # def __str__(self):
+    #     return self.user
 
 
 class Course(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True)
-    students = models.ManyToManyField(Student, related_name='courses', through='StudentCourse')
+    students = models.ManyToManyField(
+        Student, related_name='courses', through='StudentCourse')
     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True)
+
     # def __str__(self):
-    #     return self.name 
+    #     return self.language
+
 
 class StudentCourse(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
@@ -49,9 +66,14 @@ class StudentCourse(models.Model):
     enddate = models.DateField(null=True)
 
 
+
+
 class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(max_length=500, null=True)
+
+    # def __str__(self):
+    #     return self.course
 
 
 class StudentAssignment(models.Model):
@@ -59,6 +81,9 @@ class StudentAssignment(models.Model):
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
     last_submitted_on = models.DateTimeField()
     passed = models.BooleanField(default=False)
+
+    # def __str__(self):
+    #     return self.student
 
 
 class Note(models.Model):
