@@ -21,6 +21,7 @@ const Router = (props) => {
     username: props.username,
     loggedIn: props.loggedIn,
     userId: props.userId,
+    user: props.user,
   };
   const handleSocialTrainerStudent = props.handleSocialTrainerStudent;
 

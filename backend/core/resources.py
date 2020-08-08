@@ -24,6 +24,9 @@ class LanguageResource(ModelResource):
     class Meta:
         queryset = Language.objects.all()
         authorization = Authorization()
+        filtering = {
+            'trainers': ALL
+        }
 
 class StudentResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user', full=True)

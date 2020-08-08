@@ -15,6 +15,7 @@ const App = (props) => {
   );
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState(0);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     if (loggedIn) {
@@ -28,6 +29,7 @@ const App = (props) => {
           console.log(JSON.stringify(json));
           setUsername(json.username);
           setUserId(json.id);
+          setUser(json);
           console.log(json.id);
         });
     }
@@ -55,6 +57,7 @@ const App = (props) => {
         setLoggedIn(true);
         setUsername(json.user.username);
         setUserId(json.user.id);
+        setUser(json)
         redirect("/dashboard");
       })
       .catch((error) => {
@@ -101,6 +104,7 @@ const App = (props) => {
         setLoggedIn(true);
         setUsername(json.username);
         setUserId(json.id);
+        setUser(json)
         redirect("/dashboard");
       })
       .catch((error) => {
@@ -126,13 +130,13 @@ const App = (props) => {
       .then((res) => res.json())
       .then((json) => {
         if (json.newAccount) {
-          console.log("Entered 69");
           redirect("/account-choice", { json: json });
         } else {
           localStorage.setItem("token", json.token);
           setLoggedIn(true);
           setUsername(json.username);
           setUserId(json.userId);
+          setUser(json);
           redirect("/dashboard");
           console.log(json);
         }
@@ -158,6 +162,7 @@ const App = (props) => {
         setLoggedIn(true);
         setUsername(json.username);
         setUserId(json.id);
+        setUser(json);
         console.log(json);
         redirect("/dashboard");
       });
@@ -167,6 +172,7 @@ const App = (props) => {
     localStorage.removeItem("token");
     setLoggedIn(false);
     setUsername(username);
+    setUser({});
   };
 
   const getUserDetail = async (userId) => {
@@ -197,6 +203,7 @@ const App = (props) => {
       loggedIn={loggedIn}
       username={username}
       userId={userId}
+      user={user}
       getUserDetail={getUserDetail}
       handleLogin={handleLogin}
       handleSignup={handleSignup}
