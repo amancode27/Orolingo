@@ -1,6 +1,6 @@
 ## Introduction
 
-This is a simple Todo application built off Django (including the Django REST Framework for API CRUD operations) and React.
+This is a language learning platform named Orolingo
 
 ## Requirements
 * Python3
@@ -8,18 +8,19 @@ This is a simple Todo application built off Django (including the Django REST Fr
 
 ## Getting started
 
-2. Navigate into the diretory ```[cd backend]```
-3. Source the virtual environment ```[pipenv shell]```
-4. Install the dependencies ```[pipenv install]```
-5. run the command ```[pipenv install -r requirements.txt]```
-6. Navigate into the frontend directory ```[cd frontend]```
-7. Install the dependencies ```[npm install]```
+1. Navigate into the diretory ```[cd backend]```
+2. Source the virtual environment ```[pipenv shell]```
+3. Install the dependencies ```[pipenv install]```
+4. Navigate into the frontend directory ```[cd frontend]```
+5. Install the dependencies ```[npm install]```
 
 ## Run the application
 You will need two terminals pointed to the frontend and backend directories to start the servers for this application.
+1. Download the xampp server and run apache and sql then run the command ```[python manage.py migrate]``` in backend folder to migrate the database
+2. If the migration doesn't happen the run  ```[localhost/phpmyadmin]``` on the browser and create a blank database named 'orolingo' then run the command ```[python manage.py migrate]``` in backend folder to migrate the database .
+3. Run this command to start the backend server in the ```[backend]``` directory: ```[python manage.py runserver]``` (You have to run this command while you are sourced into the virtual environment)
+4. Run this command to start the frontend development server in the ```[frontend]``` directory: ```[npm run start]``` (This will start the frontend on the adddress [localhost:3000](http://localhost:3000))
 
-1. Run this command to start the backend server in the ```[backend]``` directory: ```[python manage.py runserver]``` (You have to run this command while you are sourced into the virtual environment)
-2. Run this command to start the frontend development server in the ```[frontend]``` directory: ```[npm install]``` (This will start the frontend on the adddress [localhost:3000](http://localhost:3000))
 
 ## Built With
 
