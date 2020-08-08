@@ -16,7 +16,7 @@ This is a language learning platform named Orolingo
 
 ## Run the application
 You will need two terminals pointed to the frontend and backend directories to start the servers for this application.
-1. Download the xampp server and run apache and sql then run the command ```[python manage.py migrate]``` in backend folder to migrate the database
+1. Download the xampp server and run apache and sql then always run the command ```[python manage.py migrate]``` after pulling commits from git in backend folder to migrate the database
 2. If the migration doesn't happen the run  ```[localhost/phpmyadmin]``` on the browser and create a blank database named 'orolingo' then run the command ```[python manage.py migrate]``` in backend folder to migrate the database .
 3. Run this command to start the backend server in the ```[backend]``` directory: ```[python manage.py runserver]``` (You have to run this command while you are sourced into the virtual environment)
 4. Run this command to start the frontend development server in the ```[frontend]``` directory: ```[npm run start]``` (This will start the frontend on the adddress [localhost:3000](http://localhost:3000))
