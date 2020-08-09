@@ -42,3 +42,17 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+# Frontend Documentation
+## NPM packages
+* *axios* (for api calls)
+* *react-facebook-login*
+* *react-google-login*
+* *react-router* & *react-router-dom*
+* *reactstrap*
+
+##Functions
+* *handleSignup*: triggered when signup button pressed.This takes the form data and posts it to *localhost:8000/auth/users* and the received token is stored in localhost while the user details in state
+* *handleLogin*: triggered when login button pressed. This takes the form data and posts it to *localhost:8000/token-auth* and the received token is stored in localhost while the user details in state
+* *handleSocialLogin*: triggered on pressing either of the social login button, the user presses the authorize button, an access token is received which is send as body to the backend api *localhost:8000/auth/oauth/login/* which executes the social login view in django
+* *handleSocialTrainerStudent*: triggered if the first time user logs in with his social account to stop the process and ask if he is a student or a teacher
