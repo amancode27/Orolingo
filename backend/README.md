@@ -37,3 +37,6 @@
 * Token Verification on reload: *localhost:8000/auth/current_user/*
   * Get request header: Authorization: 'JWT {token}'
   * Response: user details
+
+## App secret and key
+The App secret and key for google and facebook login are in the settings.py file. Please create a new secret and key from any central account and paste it in an environment file and access it from there, instead of directly pasting it in the settings.py file.
