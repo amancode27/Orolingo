@@ -8,8 +8,11 @@ import {
   CardTitle,
   CardBody,
   CardText,
-  ListGroup,
-  ListGroupItem,
+  Button,
+  Row,
+  Col,
+  CardSubtitle,
+  Container,
 } from "reactstrap";
 
 const StudentDashboard = props => {
@@ -50,17 +53,27 @@ const StudentDashboard = props => {
 
   return (
     <div>
+      <Container>
       <Card>
         <CardBody>
           <CardTitle>Languages Learnt</CardTitle>
           <CardText>
-            <ListGroup>
+            <Row>
               {Object.keys(languagesLearnt).map((key, index) => (
+                <div>
+                <Col md = "12"> 
+                <Card body>  
+                <CardTitle>{key}</CardTitle>
+                
+                <CardText>You have completed this course</CardText>
                 <Link to={`/language-trainers/${languagesLearnt[key].charAt(languagesLearnt[key].length-2)}/`}>
-                  <ListGroupItem>{key}</ListGroupItem>
+                  <Button color="success" >Go to Course</Button>
                 </Link>
+                </Card>
+                </Col>
+                </div>
               ))}
-            </ListGroup>
+            </Row>
           </CardText>
         </CardBody>
       </Card>
@@ -68,13 +81,24 @@ const StudentDashboard = props => {
         <CardBody>
           <CardTitle>Languages to learn</CardTitle>
           <CardText>
-            <ListGroup>
+            <Row>
+              
               {Object.keys(languagesToLearn).map((key, index) => (
-                <Link to={`/language-trainers/${languagesToLearn[key].charAt(languagesToLearn[key].length-2)}/`}>
-                  <ListGroupItem>{key}</ListGroupItem>
-                </Link>
+                <div>
+                  <Col md = "12"> 
+                  <Card body>  
+                  <CardTitle>{key}</CardTitle>
+                
+                   <CardText>You wish to learn {key} language </CardText>
+                   <CardText>Other details .... </CardText>
+                  <Link to={`/language-trainers/${languagesToLearn[key].charAt(languagesToLearn[key].length-2)}/`}>
+                    <Button color="info"> Resume </Button> 
+                  </Link>
+                  </Card>
+                  </Col>
+                </div>
               ))}
-            </ListGroup>
+            </Row>
           </CardText>
         </CardBody>
       </Card>
@@ -82,16 +106,30 @@ const StudentDashboard = props => {
         <CardBody>
           <CardTitle>Courses</CardTitle>
           <CardText>
-            <ListGroup>
+            <Row>
               {courses.map((e) => (
+
+                <div>
+                <Col md = "12" > 
+                <Card body>  
+                <CardTitle>{e.course.language.name}</CardTitle>
+                
+                <CardSubtitle>By {e.course.trainer.user.fullname}</CardSubtitle>
+
+                <CardText>Some Random Details....</CardText>
+
                 <Link to="/">
-                  <ListGroupItem>{e.course.language.name}-{e.course.trainer.user.fullname}</ListGroupItem>
+                  <Button color="primary"> Continue  </Button>
                 </Link>
+                </Card>
+                </Col>
+                </div>
               ))}
-            </ListGroup>
+            </Row>
           </CardText>
         </CardBody>
       </Card>
+      </Container>
     </div>
   )
 }

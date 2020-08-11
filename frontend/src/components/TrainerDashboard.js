@@ -7,8 +7,10 @@ import {
   CardTitle,
   CardBody,
   CardText,
-  ListGroup,
-  ListGroupItem,
+  
+  Button,
+  Row,
+  Col,
 } from "reactstrap";
 
 const TrainerDashboard = (props) => {
@@ -23,21 +25,32 @@ const TrainerDashboard = (props) => {
   });
 
   return (
-    <Card>
+    <div>
+    <Card body outline color="success">
       <CardBody>
         <CardTitle>Languages you teach</CardTitle>
         <CardText>
-          <ListGroup>
-            {languages.map((element) => 
-              <ListGroupItem>{element.name}</ListGroupItem>
+          <Row>
+            {languages.map((element) =>
+              <div>
+              <Col md = "12" sm = "12"> 
+              <Card body>
+              <CardTitle>{element.name}</CardTitle>
+              <CardText>Details of the course .... </CardText>
+              <Button color="info">Assignments </Button> 
+              </Card>
+              </Col>    
+              </div>
             )}
-          </ListGroup>
+          </Row>
         </CardText>
       </CardBody>
     </Card>
+    </div>
   );
 };
 
 TrainerDashboard.propTypes = {};
 
 export default TrainerDashboard;
+
