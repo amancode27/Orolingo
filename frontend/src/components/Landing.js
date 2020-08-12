@@ -4,6 +4,7 @@ const Landing = props => {
   return (
     <div>
       <button onClick={props.handleLogout}>Logout</button>
+    
     </div>
   )
 }

@@ -56,67 +56,69 @@ const StudentDashboard = props => {
       <Container>
       <Card>
         <CardBody>
-          <CardTitle>Languages Learnt</CardTitle>
+          <Row>
+          <CardTitle className="ml-3 mr-3">Languages Learnt : </CardTitle>
           <CardText>
             <Row>
               {Object.keys(languagesLearnt).map((key, index) => (
                 <div>
-                <Col md = "12"> 
-                <Card body>  
-                <CardTitle>{key}</CardTitle>
+                <Col> 
                 
-                <CardText>You have completed this course</CardText>
                 <Link to={`/language-trainers/${languagesLearnt[key].charAt(languagesLearnt[key].length-2)}/`}>
-                  <Button color="success" >Go to Course</Button>
+                  <Button color="success" > {key}</Button>
                 </Link>
-                </Card>
                 </Col>
                 </div>
               ))}
             </Row>
           </CardText>
+          </Row>
         </CardBody>
       </Card>
-      <Card>
+      <Row>
+        <Col md="4">
+      <Card className="text-center">
+
+        <CardTitle className="mt-3">MonoLingual</CardTitle>
+        <img width="100%" src = "" alt = "Profile photo"/>
+        <Card>
         <CardBody>
-          <CardTitle>Languages to learn</CardTitle>
+          <Row>
+          <CardTitle className="text-left mr-3 ml-3">Want to learn:</CardTitle>
           <CardText>
             <Row>
               
               {Object.keys(languagesToLearn).map((key, index) => (
                 <div>
-                  <Col md = "12"> 
-                  <Card body>  
-                  <CardTitle>{key}</CardTitle>
-                
-                   <CardText>You wish to learn {key} language </CardText>
-                   <CardText>Other details .... </CardText>
+                  <Col> 
                   <Link to={`/language-trainers/${languagesToLearn[key].charAt(languagesToLearn[key].length-2)}/`}>
-                    <Button color="info"> Resume </Button> 
+                    <Button color="info"> {key} </Button> 
                   </Link>
-                  </Card>
                   </Col>
                 </div>
               ))}
             </Row>
           </CardText>
+          </Row>
         </CardBody>
       </Card>
+      </Card>
+      </Col>
+      <Col md="8">
       <Card>
         <CardBody>
-          <CardTitle>Courses</CardTitle>
+          <CardTitle className="text-center">Your Courses</CardTitle>
           <CardText>
             <Row>
               {courses.map((e) => (
 
                 <div>
                 <Col md = "12" > 
-                <Card body>  
+                <Card body>
                 <CardTitle>{e.course.language.name}</CardTitle>
                 
                 <CardSubtitle>By {e.course.trainer.user.fullname}</CardSubtitle>
 
-                <CardText>Some Random Details....</CardText>
 
                 <Link to="/">
                   <Button color="primary"> Continue  </Button>
@@ -127,8 +129,10 @@ const StudentDashboard = props => {
               ))}
             </Row>
           </CardText>
-        </CardBody>
+        </CardBody> 
       </Card>
+      </Col>
+      </Row>
       </Container>
     </div>
   )
