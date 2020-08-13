@@ -109,25 +109,42 @@ const StudentDashboard = props => {
               <CardBody>
                 <CardTitle className="text-center">Your Courses</CardTitle>
                 <CardText>
-                  <Row>
+                  
                     {courses.map((e) => (
 
                       <div>
-                        <Col md="12" >
+                        <Row className="text-center">
+                        <Col> 
                           <Card body>
-                            <CardTitle>{e.course.language.name}</CardTitle>
-
-                            <CardSubtitle>By {e.course.trainer.user.fullname}</CardSubtitle>
-
-
-                            <Link to="/">
-                              <Button color="primary"> Continue  </Button>
-                            </Link>
+                          <Link to="/">
+                              <Button color="success">Go</Button>
+                            </Link>                        
                           </Card>
                         </Col>
+                          <Col> 
+                          <Card body>
+                            <CardTitle>{e.course.language.name}</CardTitle>                        
+                          </Card>
+                          </Col>
+                          <Col> 
+                          <Card body>
+                            <CardTitle>Completed {e.completed_percent}%</CardTitle>                        
+                          </Card>
+                          </Col>
+                          <Col> 
+                          <Card body>
+                            <CardTitle>Start-Date :{e.startdate}</CardTitle>                        
+                          </Card>
+                          </Col>
+                          <Col> 
+                          <Card body>
+                            <CardTitle>End Date: {e.enddate}</CardTitle>                        
+                          </Card>
+                          </Col>
+                          </Row>
                       </div>
                     ))}
-                  </Row>
+                  
                 </CardText>
               </CardBody>
             </Card>
@@ -143,3 +160,7 @@ StudentDashboard.propTypes = {
 }
 
 export default StudentDashboard
+
+{/* <Link to="/">
+                              <Button color="primary"> Continue  </Button>
+                            </Link> */}
