@@ -16,6 +16,8 @@ const App = (props) => {
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState(0);
   const [user, setUser] = useState({});
+  // const [is_student,setstudent] =useState("");
+  // const [is_trainer,setTeacher] =useState("");
 
   useEffect(() => {
     if (loggedIn) {
@@ -49,7 +51,7 @@ const App = (props) => {
       .then((res) => res.json())
       .then((json) => {
         setLoading(false);
-        console.log(json);
+  
         if (json.non_field_errors) {
           throw new Error(json.non_field_errors[0]);
         }
@@ -57,7 +59,9 @@ const App = (props) => {
         setLoggedIn(true);
         setUsername(json.user.username);
         setUserId(json.user.id);
-        setUser(json)
+        console.log(json)
+        setUser(json.user)
+
         redirect("/dashboard");
       })
       .catch((error) => {
@@ -104,6 +108,7 @@ const App = (props) => {
         setLoggedIn(true);
         setUsername(json.username);
         setUserId(json.id);
+        console.log(json.username);
         setUser(json)
         redirect("/dashboard");
       })
@@ -137,6 +142,7 @@ const App = (props) => {
           setUsername(json.username);
           setUserId(json.userId);
           setUser(json);
+          console.log(json.userId);
           redirect("/dashboard");
           console.log(json);
         }

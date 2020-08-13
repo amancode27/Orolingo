@@ -104,7 +104,9 @@ class SocialLoginView(generics.GenericAPIView):
                 "token": data.get('token'),
                 "fullname": authenticated_user.fullname,
                 "newAccount": new_account,
-                "userId": authenticated_user.id
+                "userId": authenticated_user.id,
+                "is_student": authenticated_user.is_student,
+                "is_trainer": authenticated_user.is_trainer
             }
             return Response(status=status.HTTP_200_OK, data=response)
 
