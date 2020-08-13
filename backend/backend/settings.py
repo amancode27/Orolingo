@@ -89,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'orolingo',
         'USER': 'root',
-        'PASSWORD': '123456',
+        'PASSWORD': '',
         'HOST': '',
         'PORT': '',
         'OPTIONS': {
@@ -207,5 +207,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'amanagrawal2702@gmail.com'
-EMAIL_HOST_PASSWORD = 'aman2001$'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
