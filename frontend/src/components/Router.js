@@ -10,6 +10,7 @@ import Dashboard from "./Dashboard";
 import AccountChoice from "./AccountChoice";
 import StudentCourse from "./StudentCourse";
 import LanguageTrainers from "./LanguageTrainers"
+import Courses from "./Courses";
 
 const Router = (props) => {
   const handleLogin = props.handleLogin;
@@ -63,6 +64,10 @@ const Router = (props) => {
         <Route
           path="/language-trainers/:languageid"
           render={(props) => <LanguageTrainers {...props} {...userinfo} />}
+        />
+        <Route
+          path="/courses"
+          render={(props) =><Courses {...props}/>}
         />
         <Route component={NotFound} />
       </Switch>
