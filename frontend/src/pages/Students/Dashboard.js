@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import basename from "./basename.js";
+import basename from "./../Home/basename.js";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import StudentDashboard from "./StudentDashboard";
-import TrainerDashboard from "./TrainerDashboard";
+import TrainerDashboard from "../Teachers/TrainerDashboard";
 
 const Dashboard = (props) => {
   // const [userDetail, setUserDetail] = useState({});

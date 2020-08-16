@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import basename from './basename'
+import basename from './../Home/basename'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 

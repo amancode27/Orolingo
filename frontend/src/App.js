@@ -1,10 +1,9 @@
 import React, { Component, useState, useEffect } from "react";
-import Modal from "./components/Modal";
 import axios from "axios";
-import Nav from "./components/Nav";
-import LoginForm from "./components/LoginForm";
-import SignupForm from "./components/SignupForm";
-import Router from "./components/Router";
+import Nav from "./pages/Home/Nav";
+import LoginForm from "./pages/Authentication/LoginForm";
+import SignupForm from "./pages/Authentication/SignupForm";
+import Router from "./pages/Authentication/Router";
 import "./App.css";
 
 const App = (props) => {

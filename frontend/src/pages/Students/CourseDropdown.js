@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import basename from "./basename.js";
+import basename from "../Home/basename.js";
 import {
     ButtonDropdown,
     DropdownToggle,

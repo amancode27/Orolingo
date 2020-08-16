@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FormErrors } from "./FormError";
-import "./Form.scss";
+import "./../style/Form.scss";
 
 const SignupForm = (props) => {
   const [formdata, setFormdata] = useState({

@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "./../Home/Navbar";
 import Login from "./Login";
 import Signup from "./Signup";
-import Landing from "./Landing";
+import Landing from "../Home/Landing";
 import NotFound from "./NotFound";
-import Footer from "./Footer";
-import Dashboard from "./Dashboard";
+import Footer from "./../Home/Footer";
+import Dashboard from "../Students/Dashboard";
 import AccountChoice from "./AccountChoice";
 import StudentCourse from "./StudentCourse";
 import LanguageTrainers from "./LanguageTrainers";

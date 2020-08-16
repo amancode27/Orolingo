@@ -1,6 +1,6 @@
 import React from "react";
 import FooterColumn from "./FooterColumn";
-import "./Footer.scss";
+import "../style/Footer.scss";
 
 const Footer = () => {
   return (

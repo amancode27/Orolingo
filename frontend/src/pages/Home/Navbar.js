@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Navlink from "./Navlink";
-import "./Navbar.scss";
+import "../style/Navbar.scss";
 
 const Navbar = (props) => {
   return (
