@@ -86,6 +86,10 @@ const Router = (props) => {
           path="/language-trainers/:languageid"
           render={(props) => <LanguageTrainers {...props} {...userinfo} />}
         />
+        <Route
+          path="/courses"
+          render={(props) =><Courses {...props}/>}
+        />
         <Route component={NotFound} />
       </Switch>
       <Footer />
