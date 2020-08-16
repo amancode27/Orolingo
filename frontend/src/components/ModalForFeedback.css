@@ -1,0 +1,15 @@
+.feedback
+{
+    max-width:700px;
+}
+.modal-title
+{
+    font-size: 25px;
+    display:block;
+    width: 29%;
+    margin:auto;
+}
+.close{
+    margin:0px !important;
+    padding-left: 0px !important;
+}

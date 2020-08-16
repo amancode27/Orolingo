@@ -10,7 +10,9 @@ import Dashboard from "./Dashboard";
 import AccountChoice from "./AccountChoice";
 import StudentCourse from "./StudentCourse";
 import LanguageTrainers from "./LanguageTrainers"
-
+import CourseContent from "./CourseContent";
+import Assignments from "./Assignments";
+import Notes from "./Notes";
 const Router = (props) => {
   const handleLogin = props.handleLogin;
   const handleSignup = props.handleSignup;
@@ -49,8 +51,28 @@ const Router = (props) => {
           )}
         />
         <Route
+          exact
           path="/dashboard"
           render={(props) => <Dashboard {...props} {...userinfo} getUserDetail={getUserDetail} />}
+        />
+        <Route
+          exact
+          path = "/dashboard/courses/coursecontent"
+          render={(props)=><CourseContent/>}
+        /><Route
+          exact
+          path = "/dashboard/courses/coursecontent"
+          render={(props)=><CourseContent/>}
+        />
+        <Route
+          exact
+          path = "/dashboard/courses/coursecontent/assignments"
+          render={(props)=><Assignments/>}
+        />
+        <Route
+          exact
+          path = "/dashboard/courses/coursecontent/notes"
+          render={(props)=><Notes/>}
         />
         <Route
           path="/account-choice"
