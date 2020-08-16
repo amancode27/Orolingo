@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
 import ReactStars from "react-rating-stars-component";
-import './ModalForFeedback.css';
+import './../style/ModalForFeedback.css';
+
+
 const FeedbackModal = (props) => {
     const className = props.className;
     const buttonLabel = props.buttonLabel;

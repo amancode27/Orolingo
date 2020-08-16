@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import basename from "./basename.js";
+import basename from "./../Home/basename.js";
 import axios from "axios";
 import {
   Card,

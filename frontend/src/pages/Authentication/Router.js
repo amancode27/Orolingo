@@ -1,19 +1,19 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "./../Home/Navbar";
 import Login from "./Login";
 import Signup from "./Signup";
-import Landing from "./Landing";
+import Landing from "../Home/Landing";
 import NotFound from "./NotFound";
-import Footer from "./Footer";
-import Dashboard from "./Dashboard";
+import Footer from "./../Home/Footer";
+import Dashboard from "../Students/Dashboard";
 import AccountChoice from "./AccountChoice";
-import StudentCourse from "./StudentCourse";
-import LanguageTrainers from "./LanguageTrainers"
-import CourseContent from "./CourseContent";
-import Assignments from "./Assignments";
-import Notes from "./Notes";
-import Courses from './Courses';
+import StudentCourse from "./../Students/StudentCourse";
+import LanguageTrainers from "./../Teachers/LanguageTrainers"
+import CourseContent from "../Students/CourseContent";
+import Assignments from "../Students/Assignments";
+import Notes from "../Students/Notes";
+import Courses from '../Students/Courses';
 
 
 
@@ -60,10 +60,6 @@ const Router = (props) => {
           render={(props) => <Dashboard {...props} {...userinfo} getUserDetail={getUserDetail} />}
         />
         <Route
-          exact
-          path = "/dashboard/courses/coursecontent"
-          render={(props)=><CourseContent/>}
-        /><Route
           exact
           path = "/dashboard/courses/coursecontent"
           render={(props)=><CourseContent/>}

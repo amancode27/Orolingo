@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import basename from "./basename.js";
+import basename from "./../Home/basename.js";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { ListGroup, Card, ListGroupItem, Button } from "reactstrap";

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import "./Form.scss";
+import "./../style/Form.scss";
 import FacebookLogin from "react-facebook-login";
 import { GoogleLogin } from "react-google-login";
 import { Link } from "react-router-dom";
 import { FormErrors } from './FormError';
+import { Form } from 'reactstrap';
 
 const LoginForm = (props) => {
   const [formdata, setFormdata] = useState({
