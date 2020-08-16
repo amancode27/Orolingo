@@ -13,6 +13,10 @@ import LanguageTrainers from "./LanguageTrainers"
 import CourseContent from "./CourseContent";
 import Assignments from "./Assignments";
 import Notes from "./Notes";
+import Courses from './Courses';
+
+
+
 const Router = (props) => {
   const handleLogin = props.handleLogin;
   const handleSignup = props.handleSignup;
@@ -88,7 +92,7 @@ const Router = (props) => {
         />
         <Route
           path="/courses"
-          render={(props) =><Courses {...props}/>}
+          render={(props) => <Courses {...props}/>}
         />
         <Route component={NotFound} />
       </Switch>
