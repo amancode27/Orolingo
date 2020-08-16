@@ -8,12 +8,12 @@ import NotFound from "./NotFound";
 import Footer from "./../Home/Footer";
 import Dashboard from "../Students/Dashboard";
 import AccountChoice from "./AccountChoice";
-import StudentCourse from "./StudentCourse";
-import LanguageTrainers from "./LanguageTrainers";
-import CourseContent from "./CourseContent";
-import Assignments from "./Assignments";
-import Notes from "./Notes";
-import Courses from "./Courses";
+import StudentCourse from "../Students/StudentCourse";
+import LanguageTrainers from "../Teachers/LanguageTrainers";
+import CourseContent from "../Students/CourseContent";
+import Assignments from "../Students/Assignments";
+import Notes from "../Students/Notes";
+import Courses from "../Students/Courses";
 
 const Router = (props) => {
     const handleLogin = props.handleLogin;
