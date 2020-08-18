@@ -63,6 +63,14 @@ class StudentCourseResource(ModelResource):
         }
 
 
+class NoteResource(ModelResource):
+    student_course = fields.ForeignKey(StudentCourseResource, 'student_course')
+
+    class Meta:
+        queryset = Note.objects.all()
+        resource_name = 'note'
+        authorization = Authorization()
+
 class AssignmentResource(ModelResource):
     course = fields.ForeignKey(CourseResource, 'course')
 
@@ -80,11 +88,3 @@ class StudentAssignmentResource(ModelResource):
         resource_name = 'student_assignment'
         authorization = Authorization()
 
-
-class NoteResource(ModelResource):
-    student_course = fields.ForeignKey(StudentCourseResource, 'student_course')
-
-    class Meta:
-        queryset = Note.objects.all()
-        resource_name = 'note'
-        authorization = Authorization()

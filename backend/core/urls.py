@@ -1,10 +1,11 @@
 from django.urls import path, include
-from .views import current_user, UserView, SocialLoginView, StudentView, CourseView
+from .views import current_user, UserView, SocialLoginView, StudentView, CourseView, AssignmentView
 from rest_framework import routers                    # add this
 router = routers.DefaultRouter()                      # add this
 router.register(r'users', UserView, 'core')
 router.register(r'students', StudentView, 'core')
 router.register(r'courses',CourseView, 'core')
+router.register(r'assignments', AssignmentView, 'core')
 
 urlpatterns = [
     path('current_user/', current_user),

@@ -67,7 +67,6 @@ class StudentCourse(models.Model):
 
 
 
-
 class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(max_length=500, null=True)
