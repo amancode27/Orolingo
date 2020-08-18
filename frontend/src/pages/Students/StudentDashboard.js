@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import basename from "./../Home/basename.js"
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import DropDown from './Dropdown.js'
 import {
   Card,
   CardTitle,
@@ -14,12 +15,26 @@ import {
   CardSubtitle,
   Container,
 } from "reactstrap";
+import Chip from '@material-ui/core/Chip';
 
 const StudentDashboard = props => {
   const [languagesLearnt, setLanguagesLearnt] = useState({});
   const [languagesToLearn, setLanguagesToLearn] = useState({});
   const [courses, setCourses] = useState([]);
-
+  const [availableLanguages , setavailableLanguages] = useState({"English":"English","Bengali":"Bengali"});
+  const addToLearnLanguage = (key,value) =>{
+    setLanguagesToLearn((prevState) =>{return {...prevState,[key]:value}});
+  }
+  const deleteToLearnLanguage = (key) =>{
+      const tmp={};
+      setLanguagesToLearn((prevState) =>{
+        for(let k of Object.keys(prevState)){
+          if(k == key) continue;
+          tmp[k]=prevState[k];
+        }
+        return tmp;
+      })
+  }
   useEffect(() => {
     axios
       .get(`${basename}/api/student/${props.userId}/`)
@@ -92,8 +107,9 @@ const StudentDashboard = props => {
                           <div>
                             <Col>
                               <Link to={`/language-trainers/${languagesToLearn[key].charAt(languagesToLearn[key].length - 2)}/`}>
-                                <Button color="info"> {key} </Button>
+                                {/* <Button color="info"> {languagesToLearn[key]} </Button> */}
                               </Link>
+                              <Chip onDelete={()=>{deleteToLearnLanguage(key)}} label={key}></Chip>
                             </Col>
                           </div>
                         ))}
@@ -101,6 +117,7 @@ const StudentDashboard = props => {
                     </CardText>
                   </Row>
                 </CardBody>
+                <DropDown availLanguages = {availableLanguages} addToLearnLanguage={addToLearnLanguage}/>
               </Card>
             </Card>
           </Col>
