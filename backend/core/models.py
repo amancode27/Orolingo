@@ -89,15 +89,19 @@ class StudentAssignment(models.Model):
     #     return self.student
 
 
-rating_choices =(
-    1,2,3,4,5
+RATING_CHOICES =(
+    (1,'Very Bad'),
+    (2,'bad'),
+    (3,'average'),
+    (4, 'Good'),
+    (5, 'Excellent'),
 )
 class Feedback(models.Model):
     student = models.ForeignKey(Student,on_delete = models.CASCADE)
     course = models.ForeignKey(Course,on_delete = models.CASCADE)
     title =  models.CharField(max_length= 50)
     body = models.TextField()
-    rating = models.SmallIntegerField(choices=rating_choices)
+    rating = models.IntegerField(choices=RATING_CHOICES)
     
 
 
