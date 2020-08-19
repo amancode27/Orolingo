@@ -12,6 +12,7 @@ class User(AbstractUser):
 
     is_student = models.BooleanField('student_status', default=False)
     is_trainer = models.BooleanField('trainer_status', default=False)
+    image_url = models.CharField('user_image', max_length=500)
     fullname = models.CharField(max_length=200)
 
     
@@ -22,7 +23,7 @@ class User(AbstractUser):
 class Trainer(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
-    # languages_known = models.ManyToManyField(Language, related_name="knowing_teachers", blank=True)
+    #languages_known = models.ManyToManyField(Language, related_name="knowing_teachers", blank=True)
 
     # def __str__(self):
     #     return self.user
@@ -30,7 +31,8 @@ class Trainer(models.Model):
 
 class Language(models.Model):
     name = models.CharField(max_length=200)
-    trainers = models.ManyToManyField(Trainer, related_name='languages')
+    trainers = models.ManyToManyField(
+        Trainer, related_name='languages')
 
     def __str__(self):
         return self.name
@@ -49,6 +51,7 @@ class Student(models.Model):
 
 
 class Course(models.Model):
+    name = models.CharField(max_length=200)
     language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True)
     students = models.ManyToManyField(
         Student, related_name='courses', through='StudentCourse')
@@ -66,9 +69,10 @@ class StudentCourse(models.Model):
     enddate = models.DateField(null=True)
 
 
-
 class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    students = models.ManyToManyField(
+        Student, related_name='assignment', through='StudentAssignment')
     name = models.CharField(max_length=500, null=True)
 
     # def __str__(self):
@@ -83,6 +87,18 @@ class StudentAssignment(models.Model):
 
     # def __str__(self):
     #     return self.student
+
+
+rating_choices =(
+    1,2,3,4,5
+)
+class Feedback(models.Model):
+    student = models.ForeignKey(Student,on_delete = models.CASCADE)
+    course = models.ForeignKey(Course,on_delete = models.CASCADE)
+    title =  models.CharField(max_length= 50)
+    body = models.TextField()
+    rating = models.SmallIntegerField(choices=rating_choices)
+    
 
 
 class Note(models.Model):
