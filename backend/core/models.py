@@ -12,7 +12,7 @@ class User(AbstractUser):
 
     is_student = models.BooleanField('student_status', default=False)
     is_trainer = models.BooleanField('trainer_status', default=False)
-    image_url = models.CharField('user_image', max_length=500)
+    #image_url = models.CharField('user_image', max_length=500)   #commented this because i was not able to login ~ Awais
     fullname = models.CharField(max_length=200)
 
     

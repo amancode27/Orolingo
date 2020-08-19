@@ -73,6 +73,7 @@ class NoteResource(ModelResource):
 
 class AssignmentResource(ModelResource):
     course = fields.ForeignKey(CourseResource, 'course')
+    students = fields.ToManyField(StudentResource,'student')
 
     class Meta:
         queryset = Assignment.objects.all()
@@ -81,10 +82,20 @@ class AssignmentResource(ModelResource):
 
 class StudentAssignmentResource(ModelResource):
     student = fields.ForeignKey(StudentResource, 'student')
-    assignment = fields.ForeignKey(AssignmentResource, 'course')
+    assignment = fields.ForeignKey(AssignmentResource, 'assignment')
 
     class Meta:
         queryset = StudentAssignment.objects.all()
         resource_name = 'student_assignment'
         authorization = Authorization()
 
+class FeedbackResource(ModelResource):
+    student = fields.ForeignKey(StudentResource, 'student')
+    course = fields.ForeignKey(CourseResource,'course')
+
+    class Meta:
+        queryset = Feedback.objects.all()
+        resource_name = 'feedback'
+        authorization = Authorization()
+
+        
