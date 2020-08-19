@@ -30,7 +30,7 @@ class Trainer(models.Model):
 
 
 class Language(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True)
     trainers = models.ManyToManyField(
         Trainer, related_name='languages')
 
@@ -51,7 +51,7 @@ class Student(models.Model):
 
 
 class Course(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True)
     language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True)
     students = models.ManyToManyField(
         Student, related_name='courses', through='StudentCourse')
