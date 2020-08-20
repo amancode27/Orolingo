@@ -14,6 +14,8 @@ import CourseContent from "../Students/CourseContent";
 import Assignments from "../Students/Assignments";
 import Notes from "../Students/Notes";
 import Courses from "../Students/Courses";
+import CourseDetails from "../Students/CourseDetails";
+ 
 
 const Router = (props) => {
     const handleLogin = props.handleLogin;
@@ -97,6 +99,16 @@ const Router = (props) => {
                     render={(props) => <Notes />}
                 />
                 <Route
+                    exact
+                    path='/dashboard/courses/:language'
+                    render={(props) => <Courses {...props} />}
+                />
+                <Route
+                    exact
+                    path='/dashboard/courses/details/:course_id'
+                    render={(props) => <CourseDetails {...props}/>}
+                />
+                <Route
                     path='/account-choice'
                     render={(props) => (
                         <AccountChoice
@@ -118,10 +130,6 @@ const Router = (props) => {
                     render={(props) => (
                         <LanguageTrainers {...props} {...userinfo} />
                     )}
-                />
-                <Route
-                    path='/courses'
-                    render={(props) => <Courses {...props} />}
                 />
                 <Route component={NotFound} />
             </Switch>

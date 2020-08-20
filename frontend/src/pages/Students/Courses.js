@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 
 const Courses =(props) => {
+    console.log(props.match.params); //use this to fetch courses for a language(contains language name)
     const [languages,setLanguages] = useState([]);
     const [dropdownOpen, setOpen] = useState([]);
 

@@ -4,6 +4,7 @@ import basename from "./../Home/basename.js"
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import DropDown from './Dropdown.js'
+import { Form, FormGroup, Label, Input } from 'reactstrap';
 import {
   Card,
   CardTitle,
@@ -22,9 +23,18 @@ const StudentDashboard = props => {
   const [languagesToLearn, setLanguagesToLearn] = useState({});
   const [courses, setCourses] = useState([]);
   const [availableLanguages , setavailableLanguages] = useState({"English":"English","Bengali":"Bengali"});
+  const [buyCourse,setBuyCourse] = useState("");
+
+  const changeCourse = (e) =>{
+    if(e.target.value=="Select a language") setBuyCourse("");
+    else
+      setBuyCourse(e.target.value);
+    console.log(buyCourse);
+  }
   const addToLearnLanguage = (key,value) =>{
     setLanguagesToLearn((prevState) =>{return {...prevState,[key]:value}});
   }
+
   const deleteToLearnLanguage = (key) =>{
       const tmp={};
       setLanguagesToLearn((prevState) =>{
@@ -35,6 +45,7 @@ const StudentDashboard = props => {
         return tmp;
       })
   }
+
   useEffect(() => {
     axios
       .get(`${basename}/api/student/${props.userId}/`)
@@ -165,6 +176,20 @@ const StudentDashboard = props => {
                 </CardText>
               </CardBody>
             </Card>
+            <Form>
+              <FormGroup>
+                <Label for="buycourses">Select a language to buy a course</Label>
+                <Input type="select" name="select" id="buycourses" onChange = {(e)=>changeCourse(e)}>
+                  <option>Select a language</option>
+                  {Object.keys(availableLanguages).map((key,index)=>(
+                    <option>{key}</option>
+                  ))}
+                </Input>
+              </FormGroup>
+              <Link to={`/dashboard/courses/${buyCourse}`}>
+                <Button>View Courses</Button>
+              </Link>
+            </Form>
           </Col>
         </Row>
       </Container>
