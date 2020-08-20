@@ -98,4 +98,11 @@ class FeedbackResource(ModelResource):
         resource_name = 'feedback'
         authorization = Authorization()
 
-        
+class LanguageTrainerResource(ModelResource):
+    trainer = fields.ToManyField(TrainerResource, 'trainer')
+    languages_to_teach = fields.ToManyField(LanguageResource, 'languages')
+
+    class Meta:
+        queryset = LanguageTrainer.objects.all()
+        resource_name = 'language_trainer'
+        authorization = Authorization()

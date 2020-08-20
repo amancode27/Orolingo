@@ -28,7 +28,6 @@ class Trainer(models.Model):
     # def __str__(self):
     #     return self.user
 
-
 class Language(models.Model):
     name = models.CharField(max_length=200, null=True)
     trainers = models.ManyToManyField(
@@ -37,6 +36,9 @@ class Language(models.Model):
     def __str__(self):
         return self.name
 
+class LanguageTrainer(models.Model):
+    trainers = models.ManyToManyField(Trainer, related_name='languagetrainer')
+    languages_to_teach = models.ManyToManyField(Language, related_name="knowing_teachers", blank=True)
 
 class Student(models.Model):
     user = models.OneToOneField(
