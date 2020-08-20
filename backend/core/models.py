@@ -73,6 +73,7 @@ class StudentCourse(models.Model):
 
 class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True)
     students = models.ManyToManyField(
         Student, related_name='assignment', through='StudentAssignment')
     name = models.CharField(max_length=500, null=True)

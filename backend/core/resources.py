@@ -77,6 +77,7 @@ class AssignmentResource(ModelResource):
 
     class Meta:
         queryset = Assignment.objects.all()
+        resource_name = 'assignments'
         authorization = Authorization()
 
 

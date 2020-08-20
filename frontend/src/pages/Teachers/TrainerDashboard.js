@@ -20,7 +20,7 @@ import { Chip, Link } from "@material-ui/core";
 const TrainerDashboard = (props) => {
   const [languages, setLanguages] = useState([]);
   //const [languagestoteach,setLanguagesToTeach] = useState({});
-  const [availabletoteach, setavailabletoteach] = useState({"English":"English", "Spanish":"Spanish"});
+  const [availabletoteach, setavailabletoteach] = useState({"English":"English", "Spanish":"Spanish","French":"French"});
   // const addToTeachLanguage = (key,value) =>{
   //   setLanguagesToTeach((prevState) =>{return {...prevState,[key]:value}});
   // }
@@ -46,7 +46,7 @@ const TrainerDashboard = (props) => {
 
   return (
     <div>
-      <Container>
+<Container>
     <Card body>
       <CardBody>
         <Row>
@@ -96,7 +96,7 @@ const TrainerDashboard = (props) => {
       </Card>
     </Col>
     </Row>
-    </Container> 
+  </Container> 
     </div>
   );
 };

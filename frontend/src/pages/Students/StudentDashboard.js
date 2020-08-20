@@ -133,30 +133,30 @@ const StudentDashboard = props => {
                         <Row className="text-center">
                         <Col> 
                           <Card body>
-                          <Link to="/">
+                            <Link to="/">
                               <Button color="success">Go</Button>
                             </Link>                        
                           </Card>
                         </Col>
                           <Col> 
-                          <Card body>
-                            <CardTitle>{e.course.language.name}</CardTitle>                        
-                          </Card>
+                            <Card body>
+                              <CardTitle>{e.course.language.name}</CardTitle>                        
+                            </Card>
                           </Col>
                           <Col> 
-                          <Card body>
-                            <CardTitle>Completed {e.completed_percent}%</CardTitle>                        
-                          </Card>
+                            <Card body>
+                              <CardTitle>Completed {e.completed_percent}%</CardTitle>                        
+                            </Card>
                           </Col>
                           <Col> 
-                          <Card body>
-                            <CardTitle>Start-Date :{e.startdate}</CardTitle>                        
-                          </Card>
+                            <Card body>
+                              <CardTitle>Start-Date :{e.startdate}</CardTitle>                        
+                            </Card>
                           </Col>
                           <Col> 
-                          <Card body>
-                            <CardTitle>End Date: {e.enddate}</CardTitle>                        
-                          </Card>
+                            <Card body>
+                              <CardTitle>End Date: {e.enddate}</CardTitle>                        
+                            </Card>
                           </Col>
                           </Row>
                       </div>
