@@ -20,6 +20,11 @@ class User(AbstractUser):
         return self.fullname
 
 
+
+
+
+############### Trainer # Language # LanguageTrainer ###############
+
 class Trainer(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
@@ -31,14 +36,20 @@ class Trainer(models.Model):
 class Language(models.Model):
     name = models.CharField(max_length=200, null=True)
     trainers = models.ManyToManyField(
-        Trainer, related_name='languages')
+        Trainer, related_name='languages',through='LanguageTrainer')
 
     def __str__(self):
         return self.name
 
 class LanguageTrainer(models.Model):
-    trainers = models.ManyToManyField(Trainer, related_name='languagetrainer')
-    languages_to_teach = models.ManyToManyField(Language, related_name="knowing_teachers", blank=True)
+    trainers = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True )
+    languages = models.ForeignKey(Language,on_delete=models.CASCADE,null=True)
+
+
+
+
+
+############### Student # Course # StudentCourse ###############
 
 class Student(models.Model):
     user = models.OneToOneField(
@@ -71,6 +82,11 @@ class StudentCourse(models.Model):
     enddate = models.DateField(null=True)
 
 
+
+
+
+############### Assignment # StudentAssignment ###############
+
 class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True)
@@ -92,6 +108,10 @@ class StudentAssignment(models.Model):
     #     return self.student
 
 
+
+
+
+############### FEEDBACK ###############
 RATING_CHOICES =(
     (1,'Very Bad'),
     (2,'bad'),
@@ -116,3 +136,14 @@ class Note(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
+
+############### ZOOM ###############
+class Zoom(models.Model):
+    user = models.OneToOneField(
+        Trainer, on_delete=models.CASCADE, primary_key=True)
+    idAccount = models.CharField(max_length=255, default=None)
+    meetingId = models.CharField(max_length=255, default=None)
+    personalMeetingUrl = models.CharField(max_length=255, default=None)

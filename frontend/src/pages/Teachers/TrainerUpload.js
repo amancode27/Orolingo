@@ -15,45 +15,9 @@ import {
 } from "reactstrap";
 
 const TrainerUpload = (props) => {
-    const [assignments, setAssignment] = useState([]);
-    const [notes, setNotes] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get(`${basename}/api/assignment/?trainer=${props.usedId}/`)
-            .then((res) => {
-                setAssignment(res.data.objects);
-            });
-        axios
-            .get(`${basename}/api/note`)    
-            .then((res) => {
-                setNotes(res.data.objects);
-            });
-    });
-
-    return(
-        <div>
-            <Container>
-                <Row>
-            {assignments.map((element) => 
-                <div>
-                    <Col>
-                    <Card>
-                        <CardBody>
-                            <CardTitle>{element.name} </CardTitle>
-                            <CardSubtitle>By ~ {element.trainer.name} </CardSubtitle>
-                            <CardText>{element.course.name}</CardText>
-                        </CardBody>
-                    </Card>
-                    </Col>
-
-                </div>
-            )};
-            </Row>
-        </Container>    
-        </div>
+    const [assignment ,setassignment] = useState(
+        title =""
+        
     )
-
-
 }
 export default TrainerUpload;
