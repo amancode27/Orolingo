@@ -17,8 +17,9 @@ const Courses =(props) => {
 
     useEffect(() =>{
         axios
-            .get(`${basename}/api/language/`)
+            .get(`${basename}/api/student/`)
             .then((res)=>{
+                console.log(res.data);
                 setLanguages(res.data.objects);
             });
             // update code for updating state of dropdown
