@@ -8,7 +8,7 @@ from .serializers import *      # add this
 from .models import *
 from .permissions import UserPermission
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication  # added this
-from rest_framework.permissions import IsAuthenticated  # added this
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -19,6 +19,7 @@ from social_core.backends.oauth import BaseOAuth2
 from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
 import json
 from django.core import serializers
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
 class UserView(viewsets.ModelViewSet):       # add this
     # authentication_classes=[TokenAuthentication] #added this
@@ -177,4 +178,108 @@ class FeedbackView(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ForumListAPIView(generics.ListAPIView):
+    queryset = Forum.objects.all()
+    serializer_class = ForumListSerializer
+    permission_classes = [IsAuthenticated]
+
+class ForumCreateAPIView(generics.CreateAPIView):
+    serializer_class = ForumCreateDeleteSerializer
+    queryset = Forum.objects.all()
+    permission_classes = [IsAuthenticated]
+
+class ForumDetailAPIView(generics.RetrieveAPIView):
+    queryset = Forum.objects.all()
+    serializer_class = ForumDetailSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'slug'
+
+class ForumDeleteAPIView(generics.DestroyAPIView):
+    queryset = Forum.objects.all()
+    serializer_class = ForumCreateDeleteSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'slug'
+
+class ForumUpdateAPIView(generics.UpdateAPIView):
+    queryset = Forum.objects.all()
+    serializer_class = ForumUpdateSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'slug'
+
+class PostListAPIView(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostListSerializer
+    permission_classes = [IsAuthenticated]
+
+class PostCreateAPIView(generics.CreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostCreateSerializer
+    permission_classes = [IsAuthenticated]
+    throttle_scope = 'create_post'
+
+class PostDetailAPIView(generics.RetrieveAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostDetailSerializer
+    permission_classes = [IsAuthenticated]
+
+class PostDeleteAPIView(generics.DestroyAPIView):
+    # For now only admin can delete post,
+    # because if user keep on deleting post doesn't make sense
+    queryset = Post.objects.all()
+    serializer_class = PostDeleteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk, format=None):
+        try:
+            post = Post.objects.get(pk=pk)
+            thread = post.thread
+            post.delete()
+
+            # since we deleted a post, we now check the latest post
+            latest_post = Post.objects.filter(thread=thread).order_by('-created_at').first()
+
+            # update the deleted post's thread last_activity
+            if latest_post is None:
+                thread.last_activity = thread.created_at
+            else:
+                thread.last_activity = latest_post.created_at
+            thread.save()
+            return Response(status=HTTP_200_OK)
+
+        except:
+            return Response(status=HTTP_400_BAD_REQUEST)
+
+class PostUpdateAPIView(generics.UpdateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostUpdateSerializer
+    permission_classes = [IsAuthenticated]
+
+class ThreadListAPIView(generics.ListAPIView):
+    queryset = Thread.objects.all()
+    serializer_class = ThreadListSerializer
+    permission_classes = [IsAuthenticated]
+
+class ThreadCreateAPIView(generics.CreateAPIView):
+    queryset = Thread.objects.all()
+    serializer_class = ThreadCreateSerializer
+    permission_classes = [IsAuthenticated]
+    throttle_scope = 'create_thread'
+
+class ThreadDetailAPIView(generics.RetrieveAPIView):
+    queryset = Thread.objects.all()
+    serializer_class = ThreadDetailSerializer
+    permission_classes = [IsAuthenticated]
+
+class ThreadDeleteAPIView(generics.DestroyAPIView):
+    queryset = Thread.objects.all()
+    serializer_class = ThreadDeleteSerializer
+    permission_classes = [IsAuthenticated]
+
+class ThreadUpdateAPIView(generics.UpdateAPIView):
+    # For now only admin can force update thread (change name, content, pin)
+    queryset = Thread.objects.all()
+    serializer_class = ThreadUpdateSerializer
+    permission_classes = [IsAuthenticated]
+
 
