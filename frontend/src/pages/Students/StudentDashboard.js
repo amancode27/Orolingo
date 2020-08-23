@@ -22,7 +22,7 @@ const StudentDashboard = props => {
   const [languagesLearnt, setLanguagesLearnt] = useState({});
   const [languagesToLearn, setLanguagesToLearn] = useState({});
   const [courses, setCourses] = useState([]);
-  const [availableLanguages , setavailableLanguages] = useState({"English":"English","Bengali":"Bengali"});
+  const [availableLanguages , setavailableLanguages] = useState({});
   const [buyCourse,setBuyCourse] = useState("");
 
   const changeCourse = (e) =>{
@@ -32,6 +32,9 @@ const StudentDashboard = props => {
     console.log(buyCourse);
   }
   const addToLearnLanguage = (key,value) =>{
+    // axios.put(`${basename}/api/student/${props.userId}/`,{
+
+    // });
     setLanguagesToLearn((prevState) =>{return {...prevState,[key]:value}});
   }
 
@@ -50,6 +53,7 @@ const StudentDashboard = props => {
     axios
       .get(`${basename}/api/student/${props.userId}/`)
       .then((res) => {
+        console.log(res.data);
         const languageslearnt = res.data.languages_learnt;
         const languagestolearn = res.data.languages_to_learn;
         languageslearnt.forEach((e) => {
@@ -75,6 +79,15 @@ const StudentDashboard = props => {
       .catch((error) => {
         console.log(error);
       });
+      axios.get(`${basename}/api/language/`)
+           .then((res)=>{
+             const tmp = res.data.objects;
+             Object.keys(tmp).map((k)=>{
+                setavailableLanguages((prev)=>{
+                  return {...prev,[tmp[k].name]:tmp[k].name};
+                })
+             });
+           });
   }, [props]);
 
   return (
@@ -117,9 +130,9 @@ const StudentDashboard = props => {
                         {Object.keys(languagesToLearn).map((key, index) => (
                           <div>
                             <Col>
-                              <Link to={`/language-trainers/${languagesToLearn[key].charAt(languagesToLearn[key].length - 2)}/`}>
-                                {/* <Button color="info"> {languagesToLearn[key]} </Button> */}
-                              </Link>
+                              {/* <Link to={`/language-trainers/${languagesToLearn[key].charAt(languagesToLearn[key].length - 2)}/`}>
+                                <Button color="info"> {languagesToLearn[key]} </Button>
+                              </Link> */}
                               <Chip onDelete={()=>{deleteToLearnLanguage(key)}} label={key}></Chip>
                             </Col>
                           </div>
