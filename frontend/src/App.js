@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import axios from "axios";
 import Nav from "./pages/Home/Nav";
 import LoginForm from "./pages/Authentication/LoginForm";
+import basename from "./pages/Home/basename.js";
 import SignupForm from "./pages/Authentication/SignupForm";
 import Router from "./pages/Authentication/Router";
 import "./App.css";
@@ -105,6 +106,11 @@ const App = (props) => {
                 } else if (json.email && data.email !== json.email) {
                     throw new Error(json.email.join("<br />"));
                 }
+                axios.post(`${basename}/api/student/`,{
+                    'user':json,
+                    'languages_learnt':{},
+                    'languages_to_learn':{},
+                });
                 localStorage.setItem("token", json.token);
                 setLoggedIn(true);
                 setUsername(json.username);

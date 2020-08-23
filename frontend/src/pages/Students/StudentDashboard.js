@@ -53,6 +53,7 @@ const StudentDashboard = props => {
     axios
       .get(`${basename}/api/student/${props.userId}/`)
       .then((res) => {
+        console.log(props.userId);
         console.log(res.data);
         const languageslearnt = res.data.languages_learnt;
         const languagestolearn = res.data.languages_to_learn;
