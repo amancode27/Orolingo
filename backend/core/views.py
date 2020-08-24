@@ -8,7 +8,7 @@ from .serializers import *      # add this
 from .models import *
 from .permissions import UserPermission
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication  # added this
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -182,53 +182,53 @@ class FeedbackView(viewsets.ViewSet):
 class ForumListAPIView(generics.ListAPIView):
     queryset = Forum.objects.all()
     serializer_class = ForumListSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class ForumCreateAPIView(generics.CreateAPIView):
     serializer_class = ForumCreateDeleteSerializer
     queryset = Forum.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class ForumDetailAPIView(generics.RetrieveAPIView):
     queryset = Forum.objects.all()
     serializer_class = ForumDetailSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     lookup_field = 'slug'
 
 class ForumDeleteAPIView(generics.DestroyAPIView):
     queryset = Forum.objects.all()
     serializer_class = ForumCreateDeleteSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     lookup_field = 'slug'
 
 class ForumUpdateAPIView(generics.UpdateAPIView):
     queryset = Forum.objects.all()
     serializer_class = ForumUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     lookup_field = 'slug'
 
 class PostListAPIView(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostListSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class PostCreateAPIView(generics.CreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     throttle_scope = 'create_post'
 
 class PostDetailAPIView(generics.RetrieveAPIView):
     queryset = Post.objects.all()
     serializer_class = PostDetailSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class PostDeleteAPIView(generics.DestroyAPIView):
     # For now only admin can delete post,
     # because if user keep on deleting post doesn't make sense
     queryset = Post.objects.all()
     serializer_class = PostDeleteSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def delete(self, request, pk, format=None):
         try:
@@ -253,33 +253,33 @@ class PostDeleteAPIView(generics.DestroyAPIView):
 class PostUpdateAPIView(generics.UpdateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class ThreadListAPIView(generics.ListAPIView):
     queryset = Thread.objects.all()
     serializer_class = ThreadListSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class ThreadCreateAPIView(generics.CreateAPIView):
     queryset = Thread.objects.all()
     serializer_class = ThreadCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     throttle_scope = 'create_thread'
 
 class ThreadDetailAPIView(generics.RetrieveAPIView):
     queryset = Thread.objects.all()
     serializer_class = ThreadDetailSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class ThreadDeleteAPIView(generics.DestroyAPIView):
     queryset = Thread.objects.all()
     serializer_class = ThreadDeleteSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class ThreadUpdateAPIView(generics.UpdateAPIView):
     # For now only admin can force update thread (change name, content, pin)
     queryset = Thread.objects.all()
     serializer_class = ThreadUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 

@@ -12,7 +12,7 @@ urlpatterns = [
     path('current_user/', current_user),
     path('', include(router.urls)),
     path('<int:pk>/', include(router.urls)), 
-    path('oauth/login/', SocialLoginView.as_view()),
+    path('oauth/login/', SocialLoginView.as_view()), 
     path('oauth/', include('rest_framework_social_oauth2.urls')),
     path('api/forum/', ForumListAPIView.as_view(), name='forum-list'),
     path('api/forum/create/', ForumCreateAPIView.as_view(), name='forum-create'),

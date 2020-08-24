@@ -90,12 +90,84 @@ const TrainerDashboard = (props) => {
     <Col md="8">
       <Card>
         <CardBody>
-          <CardTitle className = "text-center">Discussion Forum</CardTitle>
+          <CardTitle className = "text-center">Zoom API linking here</CardTitle>
 
         </CardBody>
       </Card>
     </Col>
     </Row>
+    <Card className="mt-3">
+          <CardTitle className="text-center mt-3" >Discussion Forum </CardTitle>
+        <Row>
+          <Col md="4">
+            <Card body>
+              <form method="post">
+                <div className="form-group">
+                  <input
+                    className="form-control"
+                    placeholder="Topic"
+                    name="name"
+                    type="text"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <textarea
+                    className="form-control"
+                    placeholder="Details "
+                    name="message"
+                    rows="5"
+                  />
+                </div>
+
+
+                <div className="form-group">
+                  <button  className="btn btn-primary">
+                    Discuss &#10148;
+                  </button>
+                </div>
+              </form>
+          </Card>        
+          </Col>
+          <Col md="8">
+            <Card body>
+            <div className="commentList">
+                <div className="media mb-3">
+                  <img
+                    className="mr-3 bg-light rounded"
+                    width="48"
+                    height="48"
+                    src={`https://api.adorable.io/avatars/48/abott@adorable.png`}
+                    alt="Avatar"
+                  />
+
+                  <div className="media-body p-2 shadow-sm rounded bg-light border">
+                    <small className="float-right text-muted">Five minutes ago</small>
+                    <h6 className="mt-0 mb-1 text-muted">Topic</h6>
+                    Your queries here....
+                  </div>
+                </div>
+                <div className="media mb-3">
+                  <img
+                    className="mr-3 bg-light rounded"
+                    width="48"
+                    height="48"
+                    src={`https://api.adorable.io/avatars/48/abott@adorable.png`}
+                    alt="Avatar"
+                  />
+
+                  <div className="media-body p-2 shadow-sm rounded bg-light border">
+                    <small className="float-right text-muted">Five minutes ago</small>
+                    <h6 className="mt-0 mb-1 text-muted">Topic</h6>
+                    Your queries here....
+                  </div>
+                </div>
+
+            </div>
+            </Card>
+          </Col>
+          </Row>
+        </Card>
   </Container> 
     </div>
   );

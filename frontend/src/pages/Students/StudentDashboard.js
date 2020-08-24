@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import basename from "./../Home/basename.js"
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import DropDown from './Dropdown.js'
+import PropTypes from 'prop-types';
+
+import basename from "./../Home/basename.js";
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import DropDown from './Dropdown.js';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import {
   Card,
   CardTitle,
   CardBody,
   CardText,
-  Button,
   Row,
   Col,
+  Button,
   CardSubtitle,
   Container,
+  CardHeader,
+  CardFooter,
 } from "reactstrap";
 import Chip from '@material-ui/core/Chip';
+
 
 const StudentDashboard = props => {
   const [languagesLearnt, setLanguagesLearnt] = useState({});
@@ -24,6 +28,7 @@ const StudentDashboard = props => {
   const [courses, setCourses] = useState([]);
   const [availableLanguages , setavailableLanguages] = useState({});
   const [buyCourse,setBuyCourse] = useState("");
+  const [forumData, setForumData] = useState({});
 
   const changeCourse = (e) =>{
     if(e.target.value=="Select a language") setBuyCourse("");
@@ -81,6 +86,7 @@ const StudentDashboard = props => {
       });
       axios.get(`${basename}/api/language/`)
            .then((res)=>{
+             console.log(res.data);
              const tmp = res.data.objects;
              Object.keys(tmp).map((k)=>{
                 setavailableLanguages((prev)=>{
@@ -88,7 +94,16 @@ const StudentDashboard = props => {
                 })
              });
            });
+
+      axios.get(`${basename}/auth/api/forum`)
+      .then((res) => {
+        console.log(res.data);
+        
+      });
+      
   }, [props]);
+
+
 
   return (
     <div>
@@ -205,8 +220,82 @@ const StudentDashboard = props => {
             </Form>
           </Col>
         </Row>
+        <Card className="mt-3">
+          <CardTitle className="text-center mt-3" >Discussion Forum </CardTitle>
+        <Row>
+          <Col md="4">
+            <Card body>
+              <form method="post">
+                <div className="form-group">
+                  <input
+                    className="form-control"
+                    placeholder="Topic"
+                    name="name"
+                    type="text"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <textarea
+                    className="form-control"
+                    placeholder="Details "
+                    name="message"
+                    rows="5"
+                  />
+                </div>
+
+
+                <div className="form-group">
+                  <button  className="btn btn-primary">
+                    Discuss &#10148;
+                  </button>
+                </div>
+              </form>
+          </Card>        
+          </Col>
+          <Col md="8">
+            <Card body>
+            <div className="commentList">
+                <div className="media mb-3">
+                  <img
+                    className="mr-3 bg-light rounded"
+                    width="48"
+                    height="48"
+                    src={`https://api.adorable.io/avatars/48/abott@adorable.png`}
+                    alt="Avatar"
+                  />
+
+                  <div className="media-body p-2 shadow-sm rounded bg-light border">
+                    <small className="float-right text-muted">Five minutes ago</small>
+                    <h6 className="mt-0 mb-1 text-muted">Topic</h6>
+                    Your queries here....
+                  </div>
+                </div>
+                <div className="media mb-3">
+                  <img
+                    className="mr-3 bg-light rounded"
+                    width="48"
+                    height="48"
+                    src={`https://api.adorable.io/avatars/48/abott@adorable.png`}
+                    alt="Avatar"
+                  />
+
+                  <div className="media-body p-2 shadow-sm rounded bg-light border">
+                    <small className="float-right text-muted">Five minutes ago</small>
+                    <h6 className="mt-0 mb-1 text-muted">Topic</h6>
+                    Your queries here....
+                  </div>
+                </div>
+
+            </div>
+            </Card>
+          </Col>
+          </Row>
+        </Card>
+        
       </Container>
-    </div>
+          
+      </div>
   )
 }
 
@@ -215,7 +304,3 @@ StudentDashboard.propTypes = {
 }
 
 export default StudentDashboard
-
-{/* <Link to="/">
-                              <Button color="primary"> Continue  </Button>
-                            </Link> */}
