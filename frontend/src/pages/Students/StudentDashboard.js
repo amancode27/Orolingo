@@ -99,6 +99,7 @@ const StudentDashboard = props => {
       axios.get(`${basename}/api/language/`)
            .then((res)=>{
              const tmp = res.data.objects;
+             console.log(tmp);
              tmp.map((k)=>{
                 setavailableLanguages((prev)=>{
                   return {...prev,[k.id]:k.name};
