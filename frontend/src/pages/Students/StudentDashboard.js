@@ -32,10 +32,26 @@ const StudentDashboard = props => {
     console.log(buyCourse);
   }
   const addToLearnLanguage = (key,value) =>{
-    // axios.put(`${basename}/api/student/${props.userId}/`,{
-
-    // });
+    if(!(key in languagesToLearn)){
+        console.log(key);
+        console.log("warvdfedafdefeefef");
+        axios.get(`${basename}/api/language/${key}`)
+          .then(res=>{
+            console.log(res);
+            axios.put(`${basename}/api/student/${props.userId}/`,{
+              'languages_to_learn':res.data,
+            });
+          });
+    }
     setLanguagesToLearn((prevState) =>{return {...prevState,[key]:value}});
+    console.log(value);
+    // axios.get(`${basename}/api/language/?name={languagesToLearn[value]}`)
+    //       .then(res=>{
+    //         console.log(res);
+    //       });
+    // axios.put(`${basename}/api/student/${props.userId}/`,{
+    //   'languages_to_learn':languagesToLearn,
+    // });
   }
 
   const deleteToLearnLanguage = (key) =>{
@@ -83,12 +99,13 @@ const StudentDashboard = props => {
       axios.get(`${basename}/api/language/`)
            .then((res)=>{
              const tmp = res.data.objects;
-             Object.keys(tmp).map((k)=>{
+             tmp.map((k)=>{
                 setavailableLanguages((prev)=>{
-                  return {...prev,[tmp[k].name]:tmp[k].name};
+                  return {...prev,[k.id]:k.name};
                 })
              });
            });
+      console.log(availableLanguages);
   }, [props]);
 
   return (
@@ -134,7 +151,7 @@ const StudentDashboard = props => {
                               {/* <Link to={`/language-trainers/${languagesToLearn[key].charAt(languagesToLearn[key].length - 2)}/`}>
                                 <Button color="info"> {languagesToLearn[key]} </Button>
                               </Link> */}
-                              <Chip onDelete={()=>{deleteToLearnLanguage(key)}} label={key}></Chip>
+                              <Chip onDelete={()=>{deleteToLearnLanguage(key)}} label={languagesToLearn[key]}></Chip>
                             </Col>
                           </div>
                         ))}

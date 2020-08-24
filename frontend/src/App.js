@@ -106,17 +106,13 @@ const App = (props) => {
                 } else if (json.email && data.email !== json.email) {
                     throw new Error(json.email.join("<br />"));
                 }
-                axios.post(`${basename}/api/student/`,{
-                    'user':json,
-                    'languages_learnt':{},
-                    'languages_to_learn':{},
-                });
+
                 localStorage.setItem("token", json.token);
                 setLoggedIn(true);
                 setUsername(json.username);
                 setUserId(json.id);
                 console.log(json.username);
-                setUser(json);
+                setUser(json); 
                 redirect("/dashboard");
             })
             .catch((error) => {
