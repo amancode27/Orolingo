@@ -89,10 +89,10 @@ class FeedBackSerializer(serializers.ModelSerializer):
         model = Feedback
         fields = '__all__'
                 
-class LanguageTrainerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = LanguageTrainer
-        fields = '__all__'  
+# class LanguageTrainerSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = LanguageTrainer
+#         fields = '__all__'  
 
 class ForumListSerializer(serializers.ModelSerializer):
     posts_count = serializers.SerializerMethodField()

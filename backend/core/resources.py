@@ -19,14 +19,14 @@ class TrainerResource(ModelResource):
         authorization = Authorization()
 
 class LanguageResource(ModelResource):
-    trainers = fields.ToManyField(TrainerResource, 'trainers')
+    # trainers = fields.ToManyField(TrainerResource, 'trainers')
 
     class Meta:
         queryset = Language.objects.all()
         authorization = Authorization()
-        filtering = {
-            'trainers': ALL
-        }
+        # filtering = {
+        #     'trainers': ALL
+        # }
 
 class StudentResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user', full=True)
@@ -111,14 +111,14 @@ class FeedbackResource(ModelResource):
             "student":ALL
         }
 
-class LanguageTrainerResource(ModelResource):
-    trainer = fields.ForeignKey(TrainerResource, 'trainer')
-    language = fields.ForeignKey(LanguageResource, 'language')
+# class LanguageTrainerResource(ModelResource):
+#     trainer = fields.ForeignKey(TrainerResource, 'trainer')
+#     language = fields.ForeignKey(LanguageResource, 'language')
 
-    class Meta:
-        queryset = LanguageTrainer.objects.all()
-        resource_name = 'language_trainer'
-        authorization = Authorization()
-        filtering = {
-            'trainer': ALL
-        }
+#     class Meta:
+#         queryset = LanguageTrainer.objects.all()
+#         resource_name = 'language_trainer'
+#         authorization = Authorization()
+#         filtering = {
+#             'trainer': ALL
+#         }

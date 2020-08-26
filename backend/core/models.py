@@ -40,15 +40,15 @@ class Trainer(models.Model):
 
 class Language(models.Model):
     name = models.CharField(max_length=200, null=True)
-    trainers = models.ManyToManyField(
-        Trainer, related_name='languages',through='LanguageTrainer')
+    # trainers = models.ManyToManyField(
+    #     Trainer, related_name='languages',through='LanguageTrainer')
 
     def __str__(self):
         return self.name
 
-class LanguageTrainer(models.Model):
-    trainers = models.ForeignKey(Trainer, on_delete=models.CASCADE)
-    languages = models.ForeignKey(Language,on_delete=models.CASCADE)
+# class LanguageTrainer(models.Model):
+#     trainers = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+#     languages = models.ForeignKey(Language,on_delete=models.CASCADE)
 
 
 
