@@ -23,39 +23,31 @@ const StudentDashboard = props => {
   const [languagesToLearn, setLanguagesToLearn] = useState({});
   const [courses, setCourses] = useState([]);
   const [availableLanguages , setavailableLanguages] = useState({});
-  const [buyCourse,setBuyCourse] = useState("");
+  const [buyCourse,setBuyCourse] = useState({});
 
   const changeCourse = (e) =>{
-    if(e.target.value=="Select a language") setBuyCourse("");
-    else
-      setBuyCourse(e.target.value);
-    console.log(buyCourse);
-  }
-  const addToLearnLanguage = (key,value) =>{
-    if(!(key in languagesToLearn)){
-        console.log(key);
-        console.log("warvdfedafdefeefef");
-        axios.get(`${basename}/api/language/${key}`)
-          .then(res=>{
-            console.log(res);
-            axios.put(`${basename}/api/student/${props.userId}/`,{
-              'languages_to_learn':res.data,
-            });
-          });
+    if(e.target.value=="Select a language") setBuyCourse({});
+    else{
+      setBuyCourse({[e.target.value]:availableLanguages[e.target.value]});
     }
-    setLanguagesToLearn((prevState) =>{return {...prevState,[key]:value}});
-    console.log(value);
-    // axios.get(`${basename}/api/language/?name={languagesToLearn[value]}`)
-    //       .then(res=>{
-    //         console.log(res);
-    //       });
-    // axios.put(`${basename}/api/student/${props.userId}/`,{
-    //   'languages_to_learn':languagesToLearn,
-    // });
+  }
+  const addToLearnLanguage = (key,route) =>{
+    if(!(key in languagesToLearn)){
+        axios.get(`${basename}${route}`)
+          .then(res=>{
+            axios.get(`${basename}/api/student/${props.userId}/`)
+                 .then(studentres=>{
+                    axios.patch(`${basename}/api/student/${props.userId}/`,{
+                      "languages_to_learn":[...(studentres.data.languages_to_learn),res.data],
+                    });
+                 });
+          });
+          setLanguagesToLearn((prevState) =>{return {...prevState,[key]:route}});
+    }
   }
 
   const deleteToLearnLanguage = (key) =>{
-      const tmp={};
+      let tmp={};
       setLanguagesToLearn((prevState) =>{
         for(let k of Object.keys(prevState)){
           if(k == key) continue;
@@ -63,23 +55,30 @@ const StudentDashboard = props => {
         }
         return tmp;
       })
+      axios.patch(`${basename}/api/student/${props.userId}/`,{
+        "languages_to_learn":[],
+      });
+      Object.keys(languagesToLearn).map(k=>{
+          let route = languagesToLearn[k];
+          if(k!=key) {
+            axios.get(`${basename}${route}`)
+            .then(res=>{
+              axios.get(`${basename}/api/student/${props.userId}/`)
+                 .then(studentres=>{
+                    axios.patch(`${basename}/api/student/${props.userId}/`,{
+                      "languages_to_learn":[...(studentres.data.languages_to_learn),res.data],
+                    });
+                 });
+            });
+          }
+      });
   }
 
   useEffect(() => {
     axios
       .get(`${basename}/api/student/${props.userId}/`)
       .then((res) => {
-        console.log(props.userId);
-        console.log(res.data);
-        const languageslearnt = res.data.languages_learnt;
         const languagestolearn = res.data.languages_to_learn;
-        languageslearnt.forEach((e) => {
-          axios.get(`${basename}${e}`).then((res) =>
-            setLanguagesLearnt((prev) => {
-              return { ...prev, [res.data.name]: e };
-            })
-          );
-        });
         languagestolearn.forEach((e) => {
           axios.get(`${basename}${e}`).then((res) =>
             setLanguagesToLearn((prev) => {
@@ -90,7 +89,9 @@ const StudentDashboard = props => {
         axios
           .get(`${basename}/api/student_course/?student=${props.userId}`)
           .then((res) => {
-            setCourses(res.data.objects);
+            setCourses(res.data.objects.filter(obj=>{
+              return obj.completed_percent != 100; 
+            }));
           });
       })
       .catch((error) => {
@@ -99,15 +100,23 @@ const StudentDashboard = props => {
       axios.get(`${basename}/api/language/`)
            .then((res)=>{
              const tmp = res.data.objects;
-             console.log(tmp);
              tmp.map((k)=>{
                 setavailableLanguages((prev)=>{
-                  return {...prev,[k.id]:k.name};
+                  return {...prev,[k.name]:k.resource_uri};
                 })
              });
            });
-      console.log(availableLanguages);
+      axios.get(`${basename}/api/student_course/?student=${props.userId}&completed_percent=100`)
+           .then(res=>{
+             const languageslearnt = res.data.objects;
+             languageslearnt.map(k=>{
+               setLanguagesLearnt(prev=>{
+                 return {...prev,[k.course.name]:(k.course.id)};
+               })
+             })
+           })
   }, [props]);
+
 
   return (
     <div>
@@ -121,8 +130,7 @@ const StudentDashboard = props => {
                   {Object.keys(languagesLearnt).map((key, index) => (
                     <div>
                       <Col>
-
-                        <Link to={`/language-trainers/${languagesLearnt[key].charAt(languagesLearnt[key].length - 2)}/`}>
+                        <Link to={`/dashboard/courses/coursecontent/${languagesLearnt[key]}`}>
                           <Button color="success" > {key}</Button>
                         </Link>
                       </Col>
@@ -149,10 +157,7 @@ const StudentDashboard = props => {
                         {Object.keys(languagesToLearn).map((key, index) => (
                           <div>
                             <Col>
-                              {/* <Link to={`/language-trainers/${languagesToLearn[key].charAt(languagesToLearn[key].length - 2)}/`}>
-                                <Button color="info"> {languagesToLearn[key]} </Button>
-                              </Link> */}
-                              <Chip onDelete={()=>{deleteToLearnLanguage(key)}} label={languagesToLearn[key]}></Chip>
+                              <Chip onDelete={()=>{deleteToLearnLanguage(key)}} label={key}></Chip>
                             </Col>
                           </div>
                         ))}
@@ -167,16 +172,34 @@ const StudentDashboard = props => {
           <Col md="8">
             <Card>
               <CardBody>
+              <Form>
+              <FormGroup>
+                <Label for="buycourses">Select a language to buy a course</Label>
+                <Input type="select" name="select" id="buycourses" onChange = {(e)=>changeCourse(e)}>
+                  <option>Select a language</option>
+                  {Object.keys(availableLanguages).map((key,index)=>(
+                    <option>{key}</option>
+                  ))}
+                </Input>
+              </FormGroup>
+              <Link to={{pathname:`/dashboard/courses/${Object.keys(buyCourse)[0]}`,
+                        aboutProps:{
+                            language:buyCourse[Object.keys(buyCourse)[0]],
+                        }
+              }}
+              >
+                <Button>View Courses</Button>
+              </Link>
+            </Form>
                 <CardTitle className="text-center">Your Courses</CardTitle>
                 <CardText>
                   
                     {courses.map((e) => (
-
                       <div>
                         <Row className="text-center">
                         <Col> 
                           <Card body>
-                            <Link to="/">
+                            <Link to={`/dashboard/courses/coursecontent/${e.course.id}`}>
                               <Button color="success">Go</Button>
                             </Link>                        
                           </Card>
@@ -208,20 +231,6 @@ const StudentDashboard = props => {
                 </CardText>
               </CardBody>
             </Card>
-            <Form>
-              <FormGroup>
-                <Label for="buycourses">Select a language to buy a course</Label>
-                <Input type="select" name="select" id="buycourses" onChange = {(e)=>changeCourse(e)}>
-                  <option>Select a language</option>
-                  {Object.keys(availableLanguages).map((key,index)=>(
-                    <option>{key}</option>
-                  ))}
-                </Input>
-              </FormGroup>
-              <Link to={`/dashboard/courses/${buyCourse}`}>
-                <Button>View Courses</Button>
-              </Link>
-            </Form>
           </Col>
         </Row>
       </Container>

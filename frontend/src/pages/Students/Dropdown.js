@@ -14,7 +14,7 @@ const DropDown = (props) => {
       <DropdownMenu>
       <DropdownItem header style={{fontSize:"16px"}}>Choose a language</DropdownItem>
           {Object.keys(availLanguages).map((key,index)=>(
-              <DropdownItem style={{width:"200px",fontSize:"16px"}} onClick = {(e)=>addToLearnLanguage(key,availLanguages[key])}>{availLanguages[key]}</DropdownItem>
+              <DropdownItem style={{width:"200px",fontSize:"16px"}} onClick = {(e)=>addToLearnLanguage(key,availLanguages[key])}>{key}</DropdownItem>
           ))}
       </DropdownMenu>
     </Dropdown>

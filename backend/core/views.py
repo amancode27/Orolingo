@@ -126,7 +126,7 @@ class UserList(APIView):
 
 
 class StudentView(viewsets.ModelViewSet):
-
+    http_method_names = ['get','head','put','patch']
     permission_classes = (permissions.AllowAny,)
     queryset = Student.objects.all()
     serializer_class = StudentSerializer

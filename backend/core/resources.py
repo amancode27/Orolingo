@@ -34,6 +34,7 @@ class StudentResource(ModelResource):
     languages_to_learn = fields.ToManyField(LanguageResource, 'languages_to_learn')
 
     class Meta:
+        allowed_methods = ['get' , 'put' ,'patch']
         queryset = Student.objects.all()
         authorization = Authorization()
 
@@ -59,26 +60,33 @@ class StudentCourseResource(ModelResource):
         resource_name = 'student_course'
         authorization = Authorization()
         filtering = {
-            'student': ALL
+            'student': ALL,
+            'course': ALL,
+            'completed_percent':ALL
         }
 
 
 class NoteResource(ModelResource):
-    student_course = fields.ForeignKey(StudentCourseResource, 'student_course')
+    course = fields.ForeignKey(CourseResource, 'course')
 
     class Meta:
         queryset = Note.objects.all()
         resource_name = 'note'
         authorization = Authorization()
+        filtering = {
+            "course":ALL
+        }
 
 class AssignmentResource(ModelResource):
     course = fields.ForeignKey(CourseResource, 'course')
-    students = fields.ToManyField(StudentResource,'student')
-
     class Meta:
+        allowed_methods = ['get' , 'put' ,'patch']
         queryset = Assignment.objects.all()
         resource_name = 'assignments'
         authorization = Authorization()
+        filtering = {
+            "course":ALL
+        }
 
 
 class StudentAssignmentResource(ModelResource):
@@ -100,10 +108,13 @@ class FeedbackResource(ModelResource):
         authorization = Authorization()
 
 class LanguageTrainerResource(ModelResource):
-    trainer = fields.ToManyField(TrainerResource, 'trainer')
-    languages_to_teach = fields.ToManyField(LanguageResource, 'languages')
+    trainer = fields.ForeignKey(TrainerResource, 'trainer')
+    language = fields.ForeignKey(LanguageResource, 'language')
 
     class Meta:
         queryset = LanguageTrainer.objects.all()
         resource_name = 'language_trainer'
         authorization = Authorization()
+        filtering = {
+            'trainer': ALL
+        }

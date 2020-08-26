@@ -1,17 +1,20 @@
-import React from 'react'
+import React,{ useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
+import basename from "../Home/basename.js";
+import axios from "axios";
 import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button
   } from 'reactstrap';
 
 const NotesCard = (props) => {
+  const notes = props.notes;
   return (
     <div style={{width:"300px"}}>
       <Card>
         <CardBody>
-            <CardTitle style={{fontSize:"25px",textAlign:"center"}}>TOPIC</CardTitle>
-            <CardText style={{fontSize:"15px"}}>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
+            <CardTitle style={{fontSize:"25px",textAlign:"center"}}>TOPIC: {notes['name']}</CardTitle>
+            <CardText style={{fontSize:"15px"}}>{notes['body']}</CardText>
             <Link to="#">
                 <Button color="primary" size="lg">Download</Button>
             </Link>
@@ -24,9 +27,27 @@ const NotesCard = (props) => {
   );
 };
 const Notes = (props) =>{
+      const [notes,setNotes] = useState([]);
+      const course_id = props.match.params['id'];
+      useEffect(()=>{
+        axios.get(`${basename}/api/note/?course=${course_id}`)
+             .then(res=>{
+                const tmp = res.data.objects;
+                tmp.map(k=>{
+                    const tmpnotes = {};
+                    tmpnotes['name'] = k.title;
+                    tmpnotes['body'] = k.body;
+                    setNotes(prev=>{
+                        return [...prev,tmpnotes];
+                    }) 
+                });
+             });
+      },[props.match.params['id']]);
     return(
         <div>
-            <NotesCard/>
+            {notes.map((k,index)=>(
+            <NotesCard notes={k} index={index}/>
+            ))};
         </div>
     );
 };

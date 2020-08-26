@@ -78,25 +78,25 @@ const Router = (props) => {
                         />
                     )}
                 />
-                <Route
+                {/* <Route
                     exact
                     path='/dashboard/courses/coursecontent'
                     render={(props) => <CourseContent />}
+                /> */}
+                <Route
+                    exact
+                    path='/dashboard/courses/coursecontent/:id'
+                    render={(props) => <CourseContent {...props}/>}
                 />
                 <Route
                     exact
-                    path='/dashboard/courses/coursecontent'
-                    render={(props) => <CourseContent />}
+                    path='/dashboard/courses/coursecontent/:id/assignments'
+                    render={(props) => <Assignments {...props}/>}
                 />
                 <Route
                     exact
-                    path='/dashboard/courses/coursecontent/assignments'
-                    render={(props) => <Assignments />}
-                />
-                <Route
-                    exact
-                    path='/dashboard/courses/coursecontent/notes'
-                    render={(props) => <Notes />}
+                    path='/dashboard/courses/coursecontent/:id/notes'
+                    render={(props) => <Notes {...props}/>}
                 />
                 <Route
                     exact
@@ -106,7 +106,7 @@ const Router = (props) => {
                 <Route
                     exact
                     path='/dashboard/courses/details/:course_id'
-                    render={(props) => <CourseDetails {...props}/>}
+                    render={(props) => (<CourseDetails {...props} {...userinfo}/>)}
                 />
                 <Route
                     path='/account-choice'
@@ -122,7 +122,7 @@ const Router = (props) => {
                 <Route
                     path='/student-course/:courseid'
                     render={(props) => (
-                        <StudentCourse {...props} {...userinfo} />
+                        <StudentCourse {...props} />
                     )}
                 />
                 <Route
