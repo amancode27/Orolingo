@@ -40,15 +40,15 @@ class Trainer(models.Model):
 
 class Language(models.Model):
     name = models.CharField(max_length=200, null=True)
-    trainers = models.ManyToManyField(
-        Trainer, related_name='languages',through='LanguageTrainer')
+    # trainers = models.ManyToManyField(
+    #     Trainer, related_name='languages',through='LanguageTrainer')
 
     def __str__(self):
         return self.name
 
-class LanguageTrainer(models.Model):
-    trainers = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True )
-    languages = models.ForeignKey(Language,on_delete=models.CASCADE,null=True)
+# class LanguageTrainer(models.Model):
+#     trainers = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+#     languages = models.ForeignKey(Language,on_delete=models.CASCADE)
 
 
 
@@ -94,7 +94,6 @@ class StudentCourse(models.Model):
 
 class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True)
     students = models.ManyToManyField(
         Student, related_name='assignment', through='StudentAssignment')
     name = models.CharField(max_length=500, null=True)
@@ -129,12 +128,12 @@ class Feedback(models.Model):
     rating = models.IntegerField(choices=RATING_CHOICES)
     
 
-
+ 
 class Note(models.Model):
     title = models.CharField(max_length=200)
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    student_course = models.ForeignKey(StudentCourse, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE,null=True)
 
     def __str__(self):
         return self.title

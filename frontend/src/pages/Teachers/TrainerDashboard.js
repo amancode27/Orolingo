@@ -43,7 +43,6 @@ const TrainerDashboard = (props) => {
     //     })
     //  }); 
   });
-
   return (
     <div>
 <Container>

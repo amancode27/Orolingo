@@ -39,9 +39,27 @@ class UserSerializerWithToken(serializers.ModelSerializer): # added this for sig
     def create(self, validated_data):
         password = validated_data.pop('password', None)
         instance = self.Meta.model(**validated_data)
+        # is_student = validated_data.pop('is_student', None)
+        # if is_student:
+        #     dictionary = {
+        #         'user':instance,
+        #         'languages_learnt':{},
+        #         'languages_to_learn':{}
+        #     }
+        #     studentserializer = StudentSerializer(data = dictionary)
+        #     if studentserializer.is_valid():
+        #         studentserializer.save()
         if password is not None:
             instance.set_password(password)
         instance.save()
+        user = validated_data.pop("username")
+        user1 = User.objects.get(username=user)
+        if user1.is_student:
+            student = Student.objects.create(user=user1)
+            student.save()
+        else:
+            trainer = Trainer.objects.create(user = user1)
+            trainer.save()
         return instance
 
     class Meta:
@@ -71,10 +89,10 @@ class FeedBackSerializer(serializers.ModelSerializer):
         model = Feedback
         fields = '__all__'
                 
-class LanguageTrainerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = LanguageTrainer
-        fields = '__all__'  
+# class LanguageTrainerSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = LanguageTrainer
+#         fields = '__all__'  
 
 class ForumListSerializer(serializers.ModelSerializer):
     posts_count = serializers.SerializerMethodField()
