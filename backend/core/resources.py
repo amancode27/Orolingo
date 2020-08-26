@@ -106,6 +106,10 @@ class FeedbackResource(ModelResource):
         queryset = Feedback.objects.all()
         resource_name = 'feedback'
         authorization = Authorization()
+        filtering = {
+            "course":ALL,
+            "student":ALL
+        }
 
 class LanguageTrainerResource(ModelResource):
     trainer = fields.ForeignKey(TrainerResource, 'trainer')

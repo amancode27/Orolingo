@@ -86,7 +86,7 @@ const Router = (props) => {
                 <Route
                     exact
                     path='/dashboard/courses/coursecontent/:id'
-                    render={(props) => <CourseContent {...props}/>}
+                    render={(props) => <CourseContent {...props} {...userinfo}/>}
                 />
                 <Route
                     exact
