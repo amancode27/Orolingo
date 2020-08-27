@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.template.defaultfilters import slugify
 from django.utils.text import Truncator
 from django.utils.timezone import now
-
+from django.contrib.humanize.templatetags.humanize import naturaltime
 
 
 
@@ -87,9 +87,6 @@ class StudentCourse(models.Model):
     enddate = models.DateField(null=True)
 
 
-
-
-
 ############### Assignment # StudentAssignment ###############
 
 class Assignment(models.Model):
@@ -147,59 +144,21 @@ class Zoom(models.Model):
     personalMeetingUrl = models.CharField(max_length=255, default=None)
 
 class Forum(models.Model):
-    name = models.CharField(max_length=30, unique=True)
+    title = models.CharField(max_length=30, unique=True)
     description = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    #last_activity = models.CharField(max_length = 50, default=  naturaltime(created_at))
+
 
     def __str__(self):
-        return self.slug
+        return self.title
 
     def save(self, *args, **kwargs):
         if not self.id:
             # Newly created object, so set slug
-            self.slug = slugify(self.name)
+            self.slug = slugify(self.title)
         super(Forum, self).save(*args, **kwargs)
-
-class Thread(models.Model):
-    name = models.CharField(max_length=255)
-    forum = models.ForeignKey(Forum, on_delete=models.CASCADE, related_name='threads')
-    pinned = models.BooleanField(default=False)
-    content = models.TextField()
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='threads')
-    created_at = models.DateTimeField(auto_now_add=True)
-    last_activity = models.DateTimeField(default=now)
-
-    class Meta:
-        ordering = [
-            '-pinned',
-            '-last_activity'
-        ]
-
-    def __str__(self):
-        truncated_name = Truncator(self.name)
-        return truncated_name.chars(30)
-
-class Post(models.Model):
-    """ Model to represent the post in a thread """
-    content = models.TextField()
-    thread = models.ForeignKey(
-        Thread,
-        on_delete=models.CASCADE,
-        related_name='posts'
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(null=True)
-    creator = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='posts'
-    )
-
-    class Meta:
-        ordering = ['created_at']
-
-    def __str__(self):
-        truncated_content = Truncator(self.content)
-        return truncated_content.chars(30)
 
 

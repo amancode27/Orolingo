@@ -30,10 +30,10 @@ const CourseContent = (props,user) =>{
       const course_id = props.match.params['id'];
 
       const [forumData, setForumData] = useState([]);
-      const [name, setName] = useState("");
+      const [title, setTitle] = useState("");
       const [description, setDescription] = useState("");
-      const changeName = (e) => {
-          setName(e.target.value);
+      const changeTitle = (e) => {
+          setTitle(e.target.value);
           
       }
 
@@ -42,7 +42,7 @@ const CourseContent = (props,user) =>{
       }
       const discuss = (e) => {
         axios.post(`${basename}/auth/api/forum/create/`,{
-            "name" : name,
+            "title" : title,
             "description" : description
         })
         .then((res) => console.log(res));
@@ -82,10 +82,10 @@ const CourseContent = (props,user) =>{
                 <div className="form-group">
                   <input
                     className="form-control"
-                    placeholder="Name"
-                    name="Name"
+                    placeholder="Title"
+                    name="Title"
                     type="text"
-                    onChange = {changeName}
+                    onChange = {changeTitle}
                   />
                 </div>
 
@@ -124,7 +124,7 @@ const CourseContent = (props,user) =>{
 
                     <div className="media-body p-2 shadow-sm rounded bg-light border">
                     {/* <small className="float-right text-muted">{k.last_activity["naturaltime"]} </small> */}
-                    <h6 className="mt-0 mb-1 text-muted">{ k.name }</h6>
+                    <h6 className="mt-0 mb-1 text-muted">{ k.title }</h6>
                     {k.description}
                     </div>
                     </div>
