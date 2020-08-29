@@ -15,6 +15,7 @@ import Assignments from "../Students/Assignments";
 import Notes from "../Students/Notes";
 import Courses from "../Students/Courses";
 import CourseDetails from "../Students/CourseDetails";
+import purchase from "../payment/purchase";
  
 
 const Router = (props) => {
@@ -130,6 +131,10 @@ const Router = (props) => {
                     render={(props) => (
                         <LanguageTrainers {...props} {...userinfo} />
                     )}
+                />
+                <Route
+                    path = '/purchase'
+                    component = {purchase} 
                 />
                 <Route component={NotFound} />
             </Switch>

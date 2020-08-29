@@ -89,8 +89,9 @@ const CourseDetails = (props,userinfo) =>{
                                 <li>Prerequisites : </li>
                                 <li>Brief Discription : This is a course for {courseDetails['language']}</li>
                             </ul>
-                            
+                                <Link to = '/purchase'>
                                 <Button onClick = {updateStudentCourse} style ={buttonStyle} color="primary" size="lg">Buy</Button>
+                                </Link>
                         </div>
                         <div id="course-video">
                             
