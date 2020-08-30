@@ -10,18 +10,15 @@ import {
 const AssignmentCard = (props) => {
   const assignments = props.assignments;
   return (
-    <div style={{width:"300px"}}>
+    <div style={{marginLeft:"30px",flex: "0 0 25%"}}>
       <Card>
         <CardBody>
-            <CardTitle style={{fontSize:"25px",textAlign:"center"}}>Assignment-{props.index+1}</CardTitle>
-            <CardSubtitle style={{fontSize:"20px"}}>Topic: {assignments['name']}</CardSubtitle>
-            <CardText style={{fontSize:"15px"}}>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-            <Link to="#">
+            <CardTitle style={{fontSize:"25px",textAlign:"center"}}>Topic: {assignments['topic']}</CardTitle>
+            <CardText style={{fontSize:"15px",textAlign:"center",marginTop:"20px",marginBottom:"20px",minHeight:"100px"}}>{assignments['description']}</CardText>
+            <a href={`http://localhost:8000${assignments['pdf']}`} target='blank'>
                 <Button color="primary" size="lg">Download</Button>
-            </Link>
-            <Link to="#" style={{marginLeft:"20px"}}>
-                <Button color="primary" size="lg">View</Button>
-            </Link>
+            </a>
+            <p style={{float:"right",marginBottom:"0px",marginTop:"10px",fontSize:"14px"}}>Date added-{assignments['created_at']}</p>
         </CardBody>
       </Card>
     </div>
@@ -36,7 +33,10 @@ const Assignment = (props) =>{
             const tmp = res.data.objects;
             tmp.map(k=>{
                 const tmpassignment = {};
-                tmpassignment['name'] = k.name;
+                tmpassignment['topic'] = k.topic;
+                tmpassignment['description'] = k.description;
+                tmpassignment['created_at'] = k.created_at;
+                tmpassignment['pdf'] = k.pdf;
                 setAssignments(prev=>{
                     return [...prev,tmpassignment];
                 }) 
@@ -45,7 +45,7 @@ const Assignment = (props) =>{
   },[props.match.params['id']]);
   console.log(assignments);
     return(
-        <div>
+        <div style={{display:"flex",flexFlow:"row",flexWrap:"wrap",paddingLeft:"90px"}}>
             {assignments.map((k,index)=>(
             <AssignmentCard assignments={k} index={index}/>
             ))};

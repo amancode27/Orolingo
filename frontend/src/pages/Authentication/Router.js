@@ -8,15 +8,16 @@ import NotFound from "./NotFound";
 import Footer from "./../Home/Footer";
 import Dashboard from "../Students/Dashboard";
 import AccountChoice from "./AccountChoice";
-import StudentCourse from "../Students/StudentCourse";
 import LanguageTrainers from "../Teachers/LanguageTrainers";
 import CourseContent from "../Students/CourseContent";
 import Assignments from "../Students/Assignments";
 import Notes from "../Students/Notes";
 import Courses from "../Students/Courses";
 import CourseDetails from "../Students/CourseDetails";
- 
-
+import CreateCourse from "../Teachers/CreateCourse";
+import TrainerUpload from "../Teachers/TrainerUpload" 
+import TrainerCourses from "../Teachers/TrainerCourses";
+import EditCourse from "../Teachers/EditCourse";
 const Router = (props) => {
     const handleLogin = props.handleLogin;
     const handleSignup = props.handleSignup;
@@ -78,11 +79,6 @@ const Router = (props) => {
                         />
                     )}
                 />
-                {/* <Route
-                    exact
-                    path='/dashboard/courses/coursecontent'
-                    render={(props) => <CourseContent />}
-                /> */}
                 <Route
                     exact
                     path='/dashboard/courses/coursecontent/:id'
@@ -119,18 +115,45 @@ const Router = (props) => {
                         />
                     )}
                 />
+
                 <Route
-                    path='/student-course/:courseid'
+                    exact
+                    path='/dashboard/createcourse'
                     render={(props) => (
-                        <StudentCourse {...props} />
+                        <CreateCourse {...props} {...userinfo} />
                     )}
                 />
+
+                <Route
+                    exact
+                    path='/dashboard/editcourse/:id'
+                    render={(props) => (
+                        <EditCourse {...props} {...userinfo} />
+                    )}
+                />
+
+                <Route
+                    exact
+                    path='/dashboard/trainercourses/uploads/:id'
+                    render={(props) => (
+                        <TrainerUpload {...props} {...userinfo} />
+                    )}
+                />
+
                 <Route
                     path='/language-trainers/:languageid'
                     render={(props) => (
                         <LanguageTrainers {...props} {...userinfo} />
                     )}
                 />
+
+                <Route
+                    path='/dashboard/trainercourses/:language'
+                    render={(props) => (
+                        <TrainerCourses {...props} {...userinfo} />
+                    )}
+                />
+
                 <Route component={NotFound} />
             </Switch>
             <Footer />

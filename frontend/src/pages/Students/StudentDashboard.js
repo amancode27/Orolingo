@@ -21,7 +21,9 @@ import Chip from '@material-ui/core/Chip';
 const StudentDashboard = props => {
   const [languagesLearnt, setLanguagesLearnt] = useState({});
   const [languagesToLearn, setLanguagesToLearn] = useState({});
-  const [courses, setCourses] = useState([]);
+  const [liveCourses, setLiveCourses] = useState([]);
+  const [pastCourses,setPastCourses] = useState([]);
+  const [upcomingCourses,setUpcomingCourses] = useState([]);
   const [availableLanguages , setavailableLanguages] = useState({});
   const [buyCourse,setBuyCourse] = useState({});
 
@@ -89,9 +91,27 @@ const StudentDashboard = props => {
         axios
           .get(`${basename}/api/student_course/?student=${props.userId}`)
           .then((res) => {
-            setCourses(res.data.objects.filter(obj=>{
-              return obj.completed_percent != 100; 
-            }));
+              const tmp = res.data.objects;
+              tmp.map(k=>{
+                const startdate = Date.parse(k.course.startdate);
+                const enddate = Date.parse(k.course.enddate);
+                const curdate = Date.now();
+                if(curdate>=startdate&&curdate<=enddate&&k.completed_percent!=100){
+                  setLiveCourses(prev=>{
+                    return [...prev,k];
+                  })
+                }
+                else if(curdate>enddate&&k.completed_percent!=100){
+                  setPastCourses(prev=>{
+                    return [...prev,k];
+                  })
+                }
+                else if(curdate<startdate&&k.completed_percent!=100){
+                  setUpcomingCourses(prev=>{
+                    return [...prev,k];
+                  })
+                }
+              });
           });
       })
       .catch((error) => {
@@ -124,7 +144,7 @@ const StudentDashboard = props => {
         <Card>
           <CardBody>
             <Row>
-              <CardTitle className="ml-3 mr-3">Languages Learnt : </CardTitle>
+              <CardTitle className="ml-3 mr-3">Courses Completed : </CardTitle>
               <CardText>
                 <Row>
                   {Object.keys(languagesLearnt).map((key, index) => (
@@ -170,12 +190,12 @@ const StudentDashboard = props => {
             </Card>
           </Col>
           <Col md="8">
-            <Card>
+            <Card style={{marginBottom:"30px",fontSize:"15px",paddingBottom:"30px"}}>
               <CardBody>
               <Form>
               <FormGroup>
                 <Label for="buycourses">Select a language to buy a course</Label>
-                <Input type="select" name="select" id="buycourses" onChange = {(e)=>changeCourse(e)}>
+                <Input type="select" name="select" id="buycourses" onChange = {(e)=>changeCourse(e)} size="lg">
                   <option>Select a language</option>
                   {Object.keys(availableLanguages).map((key,index)=>(
                     <option>{key}</option>
@@ -188,13 +208,16 @@ const StudentDashboard = props => {
                         }
               }}
               >
-                <Button>View Courses</Button>
+                <Button size="lg">View Courses</Button>
               </Link>
             </Form>
-                <CardTitle className="text-center">Your Courses</CardTitle>
+                <CardTitle className="text-center" style={{fontSize:"20px"}}>Your Courses</CardTitle>
+                <hr></hr> <br></br>
+                <CardTitle className="text-center" style={{fontSize:"20px"}}>Live Courses</CardTitle>
+                <hr></hr>
                 <CardText>
                   
-                    {courses.map((e) => (
+                    {liveCourses.map((e) => (
                       <div>
                         <Row className="text-center">
                         <Col> 
@@ -206,7 +229,7 @@ const StudentDashboard = props => {
                         </Col>
                           <Col> 
                             <Card body>
-                              <CardTitle>{e.course.language.name}</CardTitle>                        
+                              <CardTitle>{e.course.name}</CardTitle>                        
                             </Card>
                           </Col>
                           <Col> 
@@ -216,12 +239,92 @@ const StudentDashboard = props => {
                           </Col>
                           <Col> 
                             <Card body>
-                              <CardTitle>Start-Date :{e.startdate}</CardTitle>                        
+                              <CardTitle>Start-Date :{e.course.startdate}</CardTitle>                        
                             </Card>
                           </Col>
                           <Col> 
                             <Card body>
-                              <CardTitle>End Date: {e.enddate}</CardTitle>                        
+                              <CardTitle>End Date: {e.course.enddate}</CardTitle>                        
+                            </Card>
+                          </Col>
+                          </Row>
+                      </div>
+                    ))}
+                  
+                </CardText>
+                <hr></hr> <br></br>
+                <CardTitle className="text-center" style={{fontSize:"20px"}}>Recorded Courses</CardTitle>    
+                <hr></hr>  
+                <CardText>
+                  
+                    {pastCourses.map((e) => (
+                      <div>
+                        <Row className="text-center">
+                        <Col> 
+                          <Card body>
+                            <Link to={`/dashboard/courses/coursecontent/${e.course.id}`}>
+                              <Button color="success">Go</Button>
+                            </Link>                        
+                          </Card>
+                        </Col>
+                          <Col> 
+                            <Card body>
+                              <CardTitle>{e.course.name}</CardTitle>                        
+                            </Card>
+                          </Col>
+                          <Col> 
+                            <Card body>
+                              <CardTitle>Completed {e.completed_percent}%</CardTitle>                        
+                            </Card>
+                          </Col>
+                          <Col> 
+                            <Card body>
+                              <CardTitle>Start-Date :{e.course.startdate}</CardTitle>                        
+                            </Card>
+                          </Col>
+                          <Col> 
+                            <Card body>
+                              <CardTitle>End Date: {e.course.enddate}</CardTitle>                        
+                            </Card>
+                          </Col>
+                          </Row>
+                      </div>
+                    ))}
+                  
+                </CardText>
+                <hr></hr> <br></br>
+                <CardTitle className="text-center" style={{fontSize:"20px"}}>Upcoming Courses</CardTitle>
+                <hr></hr>
+                <CardText>
+                  
+                    {upcomingCourses.map((e) => (
+                      <div>
+                        <Row className="text-center">
+                        <Col> 
+                          <Card body>
+                            <Link to={`/dashboard/courses/coursecontent/${e.course.id}`}>
+                              <Button color="success">Go</Button>
+                            </Link>                        
+                          </Card>
+                        </Col>
+                          <Col> 
+                            <Card body>
+                              <CardTitle>{e.course.name}</CardTitle>                        
+                            </Card>
+                          </Col>
+                          <Col> 
+                            <Card body>
+                              <CardTitle>Completed {e.completed_percent}%</CardTitle>                        
+                            </Card>
+                          </Col>
+                          <Col> 
+                            <Card body>
+                              <CardTitle>Start-Date :{e.course.startdate}</CardTitle>                        
+                            </Card>
+                          </Col>
+                          <Col> 
+                            <Card body>
+                              <CardTitle>End Date: {e.course.enddate}</CardTitle>                        
                             </Card>
                           </Col>
                           </Row>

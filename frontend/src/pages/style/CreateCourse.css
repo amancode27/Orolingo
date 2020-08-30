@@ -1,0 +1,11 @@
+.formcss{
+    width:500px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:50px;
+    margin-bottom:50px;
+    font-size:16px;
+    background-color:gainsboro;
+    padding: 20px;
+    border-radius: 10px;
+}
