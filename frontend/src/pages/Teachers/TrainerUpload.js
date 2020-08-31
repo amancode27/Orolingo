@@ -68,7 +68,7 @@ const Page = (props) => {
     }
     console.log(assignment);
     return(
-        <div id="grid-container">
+        <div id="grid-container" style={{padding:"100px"}}>
             <div id="grid-item">
                 <header>ASSIGNMENTS</header>
                 <p>

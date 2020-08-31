@@ -15,7 +15,6 @@ const CreateCourse = (props) =>{
             return {...prev,[field]:value};
         })
     }
-
     const submitForm = () =>{
         const user_id = props.userId;
         axios.get(`${basename}/api/trainer/?user=${user_id}`)
@@ -35,38 +34,28 @@ const CreateCourse = (props) =>{
                                                 "startdate":courseDetails['startdate'] ,
                                                 "enddate": courseDetails['enddate'],
                                                 "description":courseDetails['description'],
-                                            })
-                                         }).then((res)=>{
-                                             console.log(res);
-                                             setRedirect(true);
+                                            }).then((res)=>{
+                                                setRedirect(true);})
                                          })
                                 })
                             }
                             else{
-                                axios({
-                                    method:'post',
-                                    url:`${basename}/api/course/`,
-                                    headers: {
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'application/json',
-                                    },
-                                    data:{
-                                            "language":res2.data.objects[0],
-                                            "name":courseDetails['name'],
-                                            "trainer":res1.data.objects[0],
-                                            "startdate":courseDetails['startdate'] ,
-                                            "enddate": courseDetails['enddate'],
-                                            "description":courseDetails['description'],
-                                        },
-                                    }).then((res)=>{ console.log("2e21e12e2r13r",res); setRedirect(false);})
+                                axios.post(`${basename}/api/course/`,{
+                                    "language":res2.data.objects[0],
+                                    "name":courseDetails['name'],
+                                    "trainer":res1.data.objects[0],
+                                    "startdate":courseDetails['startdate'] ,
+                                    "enddate": courseDetails['enddate'],
+                                    "description":courseDetails['description'],
+                                }).then((res)=>{
+                                    setRedirect(true);})
                             }
                       })
              })
         
     }
     if(redirect){
-
-        return <Redirect to='/dashboard/trainercourses/uploads/' />
+        return <Redirect to={`/dashboard`} />
     }
     return (
         <div className='formcss'>
