@@ -14,159 +14,184 @@ import {
   Container,
   
 } from "reactstrap";
+import { ListGroup, ListGroupItem } from 'reactstrap';
+
 import DropDown from "../Students/Dropdown.js";
-import { Chip, Link } from "@material-ui/core";
+import { Chip } from "@material-ui/core";
+import { Link} from "react-router-dom";
 
 const TrainerDashboard = (props) => {
-  const [languages, setLanguages] = useState([]);
-  //const [languagestoteach,setLanguagesToTeach] = useState({});
-  const [availabletoteach, setavailabletoteach] = useState({"English":"English", "Spanish":"Spanish","French":"French"});
-  // const addToTeachLanguage = (key,value) =>{
-  //   setLanguagesToTeach((prevState) =>{return {...prevState,[key]:value}});
-  // }
-  useEffect(() => {
+  const buttonStyle = {
+    width:"100px",
+    fontSize:"10px",
+    fontFamily: "sans-serif",
+    height:"35px",
+    marginLeft:"auto",
+    marginRight:"auto",
+    borderRadius:"10px",
+    marginTop:"10px"
+  };
+
+  const [upcomingCourses,setUpcomingCourses] = useState([]);
+  const [liveCourses,setLiveCourses] = useState([]);
+  const [languages,setLanguages] = useState({});
+
+  useEffect(()=>{
     axios
-      .get(`${basename}/api/language/?trainers=${props.userId}`)
-      .then((res) => {
-        setLanguages(res.data.objects);
-      });
-    //  axios
-    //  .get(`${basename}/api/language_trainer/?trainers=${props.userId}`)
-    //  .then((res) => {
-    //     const languagestoteach = res.data.languages_to_teach;
-    //     languagestoteach.forEach((e) => {
-    //       axios.get(`${basename}${e}`).then((res) =>
-    //       setLanguagesToTeach((prev) => {
-    //         return { ...prev, [res.data.name]: e };
-    //       })
-    //     );
-    //     })
-    //  }); 
-  });
+    .get(`${basename}/api/course/?trainer=${props.userId}`)
+    .then((res) => {
+        const tmp = res.data.objects;
+        setLiveCourses([]); setUpcomingCourses([]);
+        tmp.map(k=>{
+          const startdate = Date.parse(k.startdate);
+          const enddate = Date.parse(k.enddate);
+          const curdate = Date.now();
+          setLanguages(prev=>{
+            return {...prev,[k.language.name]:k.language.id};
+          })
+          if(curdate>=startdate&&curdate<=enddate){
+            setLiveCourses(prev=>{
+              return [...prev,k];
+            })
+          }
+          else if(curdate<startdate){
+            setUpcomingCourses(prev=>{
+              return [...prev,k];
+            })
+          }
+        });
+    });
+  },[props]);
+
+
   return (
     <div>
 <Container>
-    <Card body>
-      <CardBody>
-        <Row>
-        <CardTitle>Languages you teach  : </CardTitle>
-          <Row>
-            <Col className="ml-3">
-            {languages.map((element) =>
-              <Chip label={element.name} clickable color="primary" className="mr-3"></Chip>
-            )}
-            </Col>
-          </Row>
-        </Row> 
-      </CardBody>
-    </Card>
+  <Row>
+  <Col sm="4" >
     <Row >
-      <Col md = "4">
-    <Card body>
-      <CardTitle className="text-center">Profile (Trainer) </CardTitle>
-      <img width="100%" src="" alt="Profile photo" />
-      <Card className="text-center">
-        <CardBody>
-          <Row>
-            <CardTitle className="text-left mr-3 ml-3">Want to teach</CardTitle>
-            <CardText>
-              <Row>
-                <div>
-                  <Col>
-                  <Link to="">
-                    <Chip label = "Demo"></Chip>
-                  </Link>
-                  </Col>
-                </div>
-              </Row>
-            </CardText>
-          </Row>
-        </CardBody>
-        <DropDown availLanguages = {availabletoteach}></DropDown>
-      </Card>
-    </Card>
-    </Col>
-    <Col md="8">
-      <Card>
-        <CardBody>
-          <CardTitle className = "text-center">Zoom API linking here</CardTitle>
-
-        </CardBody>
-      </Card>
-    </Col>
-    </Row>
-    <Card className="mt-3">
-          <CardTitle className="text-center mt-3" >Discussion Forum </CardTitle>
-        <Row>
-          <Col md="4">
-            <Card body>
-              <form method="post">
-                <div className="form-group">
-                  <input
-                    className="form-control"
-                    placeholder="Topic"
-                    name="name"
-                    type="text"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <textarea
-                    className="form-control"
-                    placeholder="Details "
-                    name="message"
-                    rows="5"
-                  />
-                </div>
-
-
-                <div className="form-group">
-                  <button  className="btn btn-primary">
-                    Discuss &#10148;
-                  </button>
-                </div>
-              </form>
-          </Card>        
-          </Col>
-          <Col md="8">
-            <Card body>
-            <div className="commentList">
-                <div className="media mb-3">
-                  <img
-                    className="mr-3 bg-light rounded"
-                    width="48"
-                    height="48"
-                    src={`https://api.adorable.io/avatars/48/abott@adorable.png`}
-                    alt="Avatar"
-                  />
-
-                  <div className="media-body p-2 shadow-sm rounded bg-light border">
-                    <small className="float-right text-muted">Five minutes ago</small>
-                    <h6 className="mt-0 mb-1 text-muted">Topic</h6>
-                    Your queries here....
-                  </div>
-                </div>
-                <div className="media mb-3">
-                  <img
-                    className="mr-3 bg-light rounded"
-                    width="48"
-                    height="48"
-                    src={`https://api.adorable.io/avatars/48/abott@adorable.png`}
-                    alt="Avatar"
-                  />
-
-                  <div className="media-body p-2 shadow-sm rounded bg-light border">
-                    <small className="float-right text-muted">Five minutes ago</small>
-                    <h6 className="mt-0 mb-1 text-muted">Topic</h6>
-                    Your queries here....
-                  </div>
-                </div>
-
-            </div>
-            </Card>
-          </Col>
-          </Row>
+        <Card body>
+          <CardTitle className="text-center">Profile (Trainer) </CardTitle>
+          <img width="100%" src="" alt="Profile photo" />
         </Card>
+      </Row>
+      <Row >
+        <Card body>
+          <CardTitle className="text-center">Languages You Teach</CardTitle>
+          <ListGroup style={{marginTop:"20px",marginBottom:"20px",fontSize:"15px",textAlign:"center"}} size="lg">
+            {Object.keys(languages).map(k=>(
+              <Link style={{textDecoration:"none",}} to={`dashboard/trainercourses/${k}`}>
+                <ListGroupItem>{k}</ListGroupItem>
+              </Link>
+            ))}
+            
+          </ListGroup>
+        </Card>
+      </Row>
+  </Col>
+
+  <Col sm="8" style={{paddingLeft:"0px"}}>
+  <Card style={{paddingTop:"25px",paddingBottom:"25px"}}>
+  <CardTitle className="text-center" style={{fontSize:"20px"}}>Your Courses</CardTitle>
+                <hr></hr> <br></br>
+                <CardTitle className="text-center" style={{fontSize:"20px"}}>Live Courses</CardTitle>
+                <hr></hr>
+                <CardText>
+                  
+                    {liveCourses.map((e) => (
+                      <div>
+                        <Row className="text-center">
+                        <Col> 
+                          <Card body>
+                            <Link to={`/dashboard/trainercourses/uploads/${e.id}`}>
+                              <Button color="success">Upload Content</Button>
+                            </Link>                        
+                          </Card>
+                        </Col>
+
+                        <Col> 
+                          <Card body>
+                            <Link to={`dashboard/editcourse/${e.id}`}>
+                              <Button color="success">Edit</Button>
+                            </Link>                        
+                          </Card>
+                        </Col>
+
+                          <Col> 
+                            <Card body>
+                              <CardTitle>{e.name}</CardTitle>                        
+                            </Card>
+                          </Col>
+
+                          <Col> 
+                            <Card body>
+                              <CardTitle>Start-Date :{e.startdate}</CardTitle>                        
+                            </Card>
+                          </Col>
+                          <Col> 
+                            <Card body>
+                              <CardTitle>End Date: {e.enddate}</CardTitle>                        
+                            </Card>
+                          </Col>
+                          </Row>
+                      </div>
+                    ))}
+                  
+                </CardText>
+                <hr></hr> <br></br>
+                <CardTitle className="text-center" style={{fontSize:"20px"}}>Upcoming Courses</CardTitle>    
+                <hr></hr>  
+                <CardText>
+                  
+                    {upcomingCourses.map((e) => (
+                      <div>
+                        <Row className="text-center">
+                        <Col> 
+                          <Card body>
+                            <Link to={`/dashboard/trainercourses/uploads/${e.id}`}>
+                              <Button color="success">Upload Content</Button>
+                            </Link>                        
+                          </Card>
+                        </Col>
+
+                        <Col> 
+                          <Card body>
+                            <Link to={`dashboard/editcourse/${e.id}`}>
+                              <Button color="success">Edit</Button>
+                            </Link>                        
+                          </Card>
+                        </Col>
+
+                          <Col> 
+                            <Card body>
+                              <CardTitle>{e.name}</CardTitle>                        
+                            </Card>
+                          </Col>
+
+                          <Col> 
+                            <Card body>
+                              <CardTitle>Start-Date :{e.startdate}</CardTitle>                        
+                            </Card>
+                          </Col>
+                          <Col> 
+                            <Card body>
+                              <CardTitle>End Date: {e.enddate}</CardTitle>                        
+                            </Card>
+                          </Col>
+                          </Row>
+                      </div>
+                    ))}
+                  
+                </CardText>
+                <hr></hr>
+    <Link to="dashboard/createcourse" style={{marginLeft:"auto",marginRight:"auto"}}>
+              <Button style ={buttonStyle} color="primary" size="lg">Upload Course</Button>
+            </Link>
+    </Card>
+
+  </Col>
+
+  </Row>
   </Container> 
     </div>
   );

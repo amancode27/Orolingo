@@ -7,6 +7,8 @@ from django.contrib.auth import views as auth_views
 from rest_framework_jwt.views import obtain_jwt_token  # added for jwts
 from django.conf import settings
 from core.resources import *
+from django.conf.urls.static import static
+
 
 user_resource = UserResource()
 student_resource = StudentResource()
@@ -56,6 +58,8 @@ urlpatterns = [
 
 ]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # 1 - Submit email form                         //PasswordResetView.as_view()
 # 2 - Email sent success message                //PasswordResetDoneView.as_view()
 # 3 - Link to password Rest form in email       //PasswordResetConfirmView.as_view()

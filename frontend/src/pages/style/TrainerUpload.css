@@ -1,0 +1,53 @@
+#grid-container{
+    height: 100%;
+    padding: 1%;
+    display : grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#grid-item{
+    border-style: outset ;
+    border-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.6)  rgba(0, 0, 0, 0.6) rgba(0, 0, 0, 0.2);
+    border-width: 1px 0.5px 0.5px 1px;
+    align-content: center;
+    padding-bottom: 20px;
+}
+#grid-item header{
+    color:white;
+    background-color: green;
+    font-size: 2em;
+    text-align:center;
+}
+
+#grid-item p{
+    color:gray;
+    font-size: 2em;
+    text-align:center;
+}
+
+.content header{
+    background-color: rgb(77, 165, 77);
+}
+
+.content{
+    margin-left: 5%;
+    width:90%;
+    align-content: center;
+    background-color: rgba(255, 255, 255, 0.788);
+    margin-top:20px;
+}
+#delete{
+    width:5em;
+    background-color: rgb(146, 21, 21);
+    color: white;
+}
+#download{
+    width:5em;
+    background-color:navy;
+    color: white;
+}
+#grid-item h3{
+    color:rgb(243, 235, 235);
+    background-color: rgba(223, 29, 29, 0.822);
+    font-size: 2em;
+    text-align:center;
+}

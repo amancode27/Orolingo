@@ -33,6 +33,7 @@ const CourseDetails = (props,userinfo) =>{
                     const trainertmp = {};
                     coursetmp['name'] = k.name;
                     coursetmp['language'] = k.language.name;
+                    coursetmp['description'] = k.description;
                     trainertmp['name'] = k.trainer.user.fullname;
                     setCourseDetals(coursetmp);
                     setTrainerDetails(trainertmp);
@@ -87,7 +88,7 @@ const CourseDetails = (props,userinfo) =>{
                                 <li>Course Name : {courseDetails['name']}</li>
                                 <li>Course Duration : </li>
                                 <li>Prerequisites : </li>
-                                <li>Brief Discription : This is a course for {courseDetails['language']}</li>
+                                <li>Brief Discription : {courseDetails['description']}</li>
                             </ul>
                                 <Link to = '/purchase'>
                                 <Button onClick = {updateStudentCourse} style ={buttonStyle} color="primary" size="lg">Buy</Button>

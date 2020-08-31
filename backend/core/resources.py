@@ -17,6 +17,9 @@ class TrainerResource(ModelResource):
     class Meta:
         queryset = Trainer.objects.all()
         authorization = Authorization()
+        filtering = {
+            'user':ALL
+        }
 
 class LanguageResource(ModelResource):
     # trainers = fields.ToManyField(TrainerResource, 'trainers')
@@ -24,9 +27,9 @@ class LanguageResource(ModelResource):
     class Meta:
         queryset = Language.objects.all()
         authorization = Authorization()
-        # filtering = {
-        #     'trainers': ALL
-        # }
+        filtering = {
+            'name': ALL
+        }
 
 class StudentResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user', full=True)
@@ -65,8 +68,19 @@ class StudentCourseResource(ModelResource):
             'completed_percent':ALL
         }
 
+class MultipartResource(object):
+    def deserialize(self, request, data, format=None):
+        if not format:
+            format = request.META.get('CONTENT_TYPE', 'application/json')
+        if format == 'application/x-www-form-urlencoded':
+            return request.POST
+        if format.startswith('multipart'):
+            data = request.POST.copy()
+            data.update(request.FILES)
+            return data
+        return super(MultipartResource, self).deserialize(request, data, format)
 
-class NoteResource(ModelResource):
+class NoteResource(MultipartResource,ModelResource):
     course = fields.ForeignKey(CourseResource, 'course')
 
     class Meta:
@@ -77,10 +91,10 @@ class NoteResource(ModelResource):
             "course":ALL
         }
 
-class AssignmentResource(ModelResource):
+class AssignmentResource(MultipartResource,ModelResource):
     course = fields.ForeignKey(CourseResource, 'course')
     class Meta:
-        allowed_methods = ['get' , 'put' ,'patch']
+        allowed_methods = ['get' , 'put' ,'patch' ,'delete' ,'post']
         queryset = Assignment.objects.all()
         resource_name = 'assignments'
         authorization = Authorization()

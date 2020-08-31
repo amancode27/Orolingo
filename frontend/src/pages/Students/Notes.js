@@ -10,17 +10,15 @@ import {
 const NotesCard = (props) => {
   const notes = props.notes;
   return (
-    <div style={{width:"300px"}}>
+    <div style={{marginLeft:"30px",flex: "0 0 25%"}}>
       <Card>
         <CardBody>
-            <CardTitle style={{fontSize:"25px",textAlign:"center"}}>TOPIC: {notes['name']}</CardTitle>
-            <CardText style={{fontSize:"15px"}}>{notes['body']}</CardText>
-            <Link to="#">
+            <CardTitle style={{fontSize:"25px",textAlign:"center"}}>TOPIC: {notes['topic']}</CardTitle>
+            <CardText style={{fontSize:"15px",textAlign:"center",marginTop:"20px",marginBottom:"20px",minHeight:"100px"}}>{notes['description']}</CardText>
+            <a href={`http://localhost:8000${notes['pdf']}`} target='blank'>
                 <Button color="primary" size="lg">Download</Button>
-            </Link>
-            <Link to="#" style={{marginLeft:"20px"}}>
-                <Button color="primary" size="lg">View</Button>
-            </Link>
+            </a>
+            <p style={{float:"right",marginBottom:"0px",marginTop:"10px",fontSize:"14px"}}>Date added-{notes['created_at']}</p>
         </CardBody>
       </Card>
     </div>
@@ -35,8 +33,10 @@ const Notes = (props) =>{
                 const tmp = res.data.objects;
                 tmp.map(k=>{
                     const tmpnotes = {};
-                    tmpnotes['name'] = k.title;
-                    tmpnotes['body'] = k.body;
+                    tmpnotes['topic'] = k.topic;
+                    tmpnotes['description'] = k.description;
+                    tmpnotes['created_at'] = k.created_at;
+                    tmpnotes['pdf'] = k.pdf;
                     setNotes(prev=>{
                         return [...prev,tmpnotes];
                     }) 
@@ -44,7 +44,7 @@ const Notes = (props) =>{
              });
       },[props.match.params['id']]);
     return(
-        <div>
+        <div style={{display:"flex",flexFlow:"row",flexWrap:"wrap",paddingLeft:"90px"}}>
             {notes.map((k,index)=>(
             <NotesCard notes={k} index={index}/>
             ))};

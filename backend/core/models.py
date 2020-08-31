@@ -74,6 +74,10 @@ class Course(models.Model):
     students = models.ManyToManyField(
         Student, related_name='courses', through='StudentCourse')
     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True)
+    startdate = models.DateField(null=True)
+    enddate = models.DateField(null=True)
+    description = models.TextField(default="Give a brief description about the course")
+
 
     # def __str__(self):
     #     return self.language
@@ -83,18 +87,18 @@ class StudentCourse(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     completed_percent = models.IntegerField(default=0)
-    startdate = models.DateField(auto_now_add=True)
-    enddate = models.DateField(null=True)
+    # startdate = models.DateField(auto_now_add=True)
+    # enddate = models.DateField(null=True)
 
 
 ############### Assignment # StudentAssignment ###############
 
 class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    students = models.ManyToManyField(
-        Student, related_name='assignment', through='StudentAssignment')
-    name = models.CharField(max_length=500, null=True)
-
+    topic = models.CharField(max_length=500, null=True)
+    description = models.TextField(null=True)
+    created_at = models.DateField(auto_now_add=True,null=True)
+    pdf = models.FileField(null=True,blank=True)
     # def __str__(self):
     #     return self.course
 
@@ -127,13 +131,13 @@ class Feedback(models.Model):
 
  
 class Note(models.Model):
-    title = models.CharField(max_length=200)
-    body = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    topic = models.CharField(max_length=200)
+    description = models.TextField()
+    created_at = models.DateField(auto_now_add=True,null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE,null=True)
-
+    pdf = models.FileField(null=True,blank =True)
     def __str__(self):
-        return self.title
+        return self.topic
 
 
 class Zoom(models.Model):
@@ -146,11 +150,10 @@ class Zoom(models.Model):
 class Forum(models.Model):
     title = models.CharField(max_length=30, unique=True)
     description = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True,blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     #last_activity = models.CharField(max_length = 50, default=  naturaltime(created_at))
-
 
     def __str__(self):
         return self.title
