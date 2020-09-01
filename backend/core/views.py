@@ -20,6 +20,8 @@ from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
 import json
 from django.core import serializers
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
+from django.contrib.humanize.templatetags.humanize import naturaltime
+
 
 from django.conf import settings
 import stripe
@@ -185,7 +187,7 @@ class FeedbackView(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ForumListAPIView(generics.ListAPIView):
-    serializer_class = ForumListSerializer
+    serializer_class = ForumSerializer
     permission_classes = [AllowAny]
     def get_queryset(self):
         queryset = Forum.objects.all()
@@ -195,27 +197,28 @@ class ForumListAPIView(generics.ListAPIView):
         return queryset
 
 class ForumCreateAPIView(generics.CreateAPIView):
-    serializer_class = ForumCreateDeleteSerializer
+    serializer_class = ForumSerializer
     queryset = Forum.objects.all()
     permission_classes = [AllowAny]
+    Forum.last_activity = naturaltime(Forum.created_at)
 
 class ForumDetailAPIView(generics.RetrieveAPIView):
     queryset = Forum.objects.all()
-    serializer_class = ForumDetailSerializer
+    serializer_class = ForumSerializer
     permission_classes = [AllowAny]
-    lookup_field = 'slug'
+    lookup_field = 'id'
 
 class ForumDeleteAPIView(generics.DestroyAPIView):
     queryset = Forum.objects.all()
-    serializer_class = ForumCreateDeleteSerializer
+    serializer_class = ForumSerializer
     permission_classes = [AllowAny]
-    lookup_field = 'slug'
+    lookup_field = 'id'
 
 class ForumUpdateAPIView(generics.UpdateAPIView):
     queryset = Forum.objects.all()
-    serializer_class = ForumUpdateSerializer
+    serializer_class = ForumSerializer
     permission_classes = [AllowAny]
-    lookup_field = 'slug'
+    lookup_field = 'id'
 
 class PaymentView(APIView):
 

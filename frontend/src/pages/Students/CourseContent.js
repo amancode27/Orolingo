@@ -16,6 +16,7 @@ import {
     CardHeader,
     CardFooter,
   } from "reactstrap";
+  import * as timeago from 'timeago.js';
   
 
 const CourseContent = (props,user) =>{
@@ -44,32 +45,33 @@ const CourseContent = (props,user) =>{
         e.preventDefault();
         axios.get(`${basename}/api/student_course/${student_course_id}`)
              .then(res=>{
-                console.log(res);
-                console.log(props.userId);
                 axios.post(`${basename}/auth/api/forum/create/`,{
                   "title" : title,
                   "description" : description,
-                  "creator": props.userId,
+                  "creator": props.username,
                   "student_course": res.data.id
                 })
-                .then((res) => console.log(res));
+                .then((res) => 
+                console.log(res),
+                axios.get(`${basename}/auth/api/forum?student_course=${student_course_id}`)
+                .then((res) => {
+                  console.log(res.data);
+                  const tmp = res.data.objects;
+                  setForumData(res.data); 
+                }),
+                );
              })
       }
 
-    useEffect(() => {
-        
+    useEffect(() => {       
       axios.
       get(`${basename}/auth/api/forum?student_course=${student_course_id}`)
       .then((res) => {
         console.log(res.data);
         const tmp = res.data.objects;
-
         setForumData(res.data); 
-         
       });
-
-      
-    },[props]);
+    },[props] );
 
     //console.log(forumData);
 
@@ -133,8 +135,9 @@ const CourseContent = (props,user) =>{
                     />
 
                     <div className="media-body p-2 shadow-sm rounded bg-light border">
-                    {/* <small className="float-right text-muted">{k.last_activity["naturaltime"]} </small> */}
-                    <h6 className="mt-0 mb-1 text-muted">{ k.title }</h6>
+                    <p className="float-right text-muted">{timeago.format(k.created_at)} </p>
+                    <h4 className = "mt-0 mb-1 text-muted">{ k.creator } </h4>
+                    <h6 className="mt-1 mb-1 text-muted">{ k.title }</h6>
                     {k.description}
                     </div>
                     </div>

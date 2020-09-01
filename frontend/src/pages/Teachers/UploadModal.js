@@ -53,6 +53,7 @@ const UploadModal = (props) => {
     };
     console.log(upload);
     return (
+        <div>
         <div style={{marginTop:"10px"}}>
             <Button color="danger" onClick={toggle} size="lg" style = {props.buttonStyle}>{buttonLabel}</Button>
             <Modal isOpen={modal} toggle={toggle} className={className} >
@@ -78,6 +79,8 @@ const UploadModal = (props) => {
                     <Button color="secondary" onClick={toggle} size="lg">Cancel</Button>
                 </ModalFooter>
             </Modal>
+        </div>
+        <div>Discussion Forum</div>
         </div>
     );
 }

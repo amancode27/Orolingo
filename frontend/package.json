@@ -21,7 +21,8 @@
     "react-social-login": "^3.4.8",
     "react-stripe-elements": "^6.1.2",
     "reactstrap": "^6.5.0",
-    "semantic-ui-react": "^1.2.1"
+    "semantic-ui-react": "^1.2.1",
+    "timeago.js": "^4.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

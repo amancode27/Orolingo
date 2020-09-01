@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.template.defaultfilters import slugify
 from django.utils.text import Truncator
 from django.utils.timezone import now
-from django.contrib.humanize.templatetags.humanize import naturaltime
 
 
 
@@ -148,22 +147,15 @@ class Zoom(models.Model):
     personalMeetingUrl = models.CharField(max_length=255, default=None)
 
 class Forum(models.Model):
-    title = models.CharField(max_length=30, unique=True)
+    title = models.CharField(max_length=30)
     description = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True,blank=True)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    creator = models.CharField(max_length=50, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     student_course = models.ForeignKey(StudentCourse, on_delete=models.CASCADE,null = True)
-    #last_activity = models.CharField(max_length = 50, default=  naturaltime(created_at))
+    #last_activity = models.CharField(max_length = 50, null=True)
 
     def __str__(self):
         return self.title
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            # Newly created object, so set slug
-            self.slug = slugify(self.title)
-        super(Forum, self).save(*args, **kwargs)
 
 
 class Payment(models.Model):

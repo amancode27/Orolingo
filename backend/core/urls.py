@@ -16,9 +16,9 @@ urlpatterns = [
     path('oauth/', include('rest_framework_social_oauth2.urls')),
     path('api/forum/', ForumListAPIView.as_view(), name='forum-list'),
     path('api/forum/create/', ForumCreateAPIView.as_view(), name='forum-create'),
-    path('api/forum/<slug:slug>/', ForumDetailAPIView.as_view(), name='forum-detail'),
-    path('api/forum/<slug:slug>/edit/', ForumUpdateAPIView.as_view(), name='forum-update'),
-    path('api/forum/<slug:slug>/delete/', ForumDeleteAPIView.as_view(), name='forum-delete'),
+    path('api/forum/<int:id>/', ForumDetailAPIView.as_view(), name='forum-detail'),
+    path('api/forum/<int:id>/edit/', ForumUpdateAPIView.as_view(), name='forum-update'),
+    path('api/forum/<int:id>/delete/', ForumDeleteAPIView.as_view(), name='forum-delete'),
     path('api/payment', PaymentView.as_view, name = 'payment'),
 ]
   

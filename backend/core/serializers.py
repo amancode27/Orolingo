@@ -80,39 +80,9 @@ class FeedBackSerializer(serializers.ModelSerializer):
         fields = '__all__'
                  
 
-class ForumListSerializer(serializers.ModelSerializer):
+class ForumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forum
         fields = '__all__'
 
 
-class ForumCreateDeleteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Forum
-
-        fields = '__all__'
-        # fields = (
-        #     'title',
-        #     'description',   
-        #     'c'        
-        # )
-
-
-class ForumUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Forum
-
-        fields = (
-            'title',
-            'description'
-        )
-
-class ForumDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Forum
-        fields = (
-            'slug',
-            'title',
-            'description',
-        )
-        
