@@ -90,10 +90,12 @@ class ForumCreateDeleteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forum
 
-        fields = (
-            'title',
-            'description',           
-        )
+        fields = '__all__'
+        # fields = (
+        #     'title',
+        #     'description',   
+        #     'c'        
+        # )
 
 
 class ForumUpdateSerializer(serializers.ModelSerializer):

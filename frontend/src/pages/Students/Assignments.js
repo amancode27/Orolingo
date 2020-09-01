@@ -26,22 +26,31 @@ const AssignmentCard = (props) => {
 };
 const Assignment = (props) =>{
   const [assignments,setAssignments] = useState([]);
-  const course_id = props.match.params['id'];
+  let course_id;
+  const student_course_id = props.match.params['id'];
   useEffect(()=>{
-    axios.get(`${basename}/api/assignments/?course=${course_id}`)
-         .then(res=>{
-            const tmp = res.data.objects;
-            tmp.map(k=>{
-                const tmpassignment = {};
-                tmpassignment['topic'] = k.topic;
-                tmpassignment['description'] = k.description;
-                tmpassignment['created_at'] = k.created_at;
-                tmpassignment['pdf'] = k.pdf;
-                setAssignments(prev=>{
-                    return [...prev,tmpassignment];
-                }) 
+
+    axios.get(`${basename}/api/student_course/${student_course_id}`)
+          .then((res)=>{
+            console.log(res.data);
+            course_id = res.data.course['id'];
+          }).then(()=>{
+            console.log("sadsadasd",course_id);
+            axios.get(`${basename}/api/assignments/?course=${course_id}`)
+            .then(res=>{
+               const tmp = res.data.objects;
+               tmp.map(k=>{
+                   const tmpassignment = {};
+                   tmpassignment['topic'] = k.topic;
+                   tmpassignment['description'] = k.description;
+                   tmpassignment['created_at'] = k.created_at;
+                   tmpassignment['pdf'] = k.pdf;
+                   setAssignments(prev=>{
+                       return [...prev,tmpassignment];
+                   }) 
+               });
             });
-         });
+          })
   },[props.match.params['id']]);
   console.log(assignments);
     return(

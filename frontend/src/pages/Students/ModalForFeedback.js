@@ -30,8 +30,13 @@ const FeedbackModal = (props) => {
         console.log("Hello");
         console.log(props);
         const student_id = props.userId;
-        const course_id = props.match.params['id'];
-        axios.get(`${basename}/api/feedback/?student=${student_id}&course=${course_id}`)
+        const student_course_id = props.match.params['id'];
+        let course_id;
+        axios.get(`${basename}/api/student_course/${student_course_id}`)
+             .then(res=>{
+                course_id = res.data.course['id'];
+             }).then(()=>{
+                axios.get(`${basename}/api/feedback/?student=${student_id}&course=${course_id}`)
              .then(res=>{
                 if(res.data.objects.length){
                     console.log("You have already given a feedback");
@@ -54,6 +59,7 @@ const FeedbackModal = (props) => {
                     toggle();
                 }
              });
+             })
     }
     let element;
     if(alert){

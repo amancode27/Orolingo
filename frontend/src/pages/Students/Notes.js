@@ -26,22 +26,28 @@ const NotesCard = (props) => {
 };
 const Notes = (props) =>{
       const [notes,setNotes] = useState([]);
-      const course_id = props.match.params['id'];
+      let course_id;
+      const student_course_id = props.match.params['id'];
       useEffect(()=>{
-        axios.get(`${basename}/api/note/?course=${course_id}`)
+        axios.get(`${basename}/api/student_course/${student_course_id}`)
              .then(res=>{
-                const tmp = res.data.objects;
-                tmp.map(k=>{
-                    const tmpnotes = {};
-                    tmpnotes['topic'] = k.topic;
-                    tmpnotes['description'] = k.description;
-                    tmpnotes['created_at'] = k.created_at;
-                    tmpnotes['pdf'] = k.pdf;
-                    setNotes(prev=>{
-                        return [...prev,tmpnotes];
-                    }) 
-                });
-             });
+                course_id=res.data.course['id'];
+             }).then(()=>{
+              axios.get(`${basename}/api/note/?course=${course_id}`)
+              .then(res=>{
+                 const tmp = res.data.objects;
+                 tmp.map(k=>{
+                     const tmpnotes = {};
+                     tmpnotes['topic'] = k.topic;
+                     tmpnotes['description'] = k.description;
+                     tmpnotes['created_at'] = k.created_at;
+                     tmpnotes['pdf'] = k.pdf;
+                     setNotes(prev=>{
+                         return [...prev,tmpnotes];
+                     }) 
+                 });
+              });
+             })
       },[props.match.params['id']]);
     return(
         <div style={{display:"flex",flexFlow:"row",flexWrap:"wrap",paddingLeft:"90px"}}>

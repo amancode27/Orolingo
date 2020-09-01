@@ -185,9 +185,14 @@ class FeedbackView(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ForumListAPIView(generics.ListAPIView):
-    queryset = Forum.objects.all()
     serializer_class = ForumListSerializer
     permission_classes = [AllowAny]
+    def get_queryset(self):
+        queryset = Forum.objects.all()
+        student_course = self.request.query_params.get('student_course', None)
+        if student_course is not None:
+            queryset = queryset.filter(student_course=student_course)
+        return queryset
 
 class ForumCreateAPIView(generics.CreateAPIView):
     serializer_class = ForumCreateDeleteSerializer

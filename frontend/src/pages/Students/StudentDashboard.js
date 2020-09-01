@@ -148,7 +148,7 @@ const StudentDashboard = props => {
            })
   }, [props]);
 
-
+  console.log(liveCourses);
   return (
     <div>
       <Container>
@@ -233,7 +233,7 @@ const StudentDashboard = props => {
                         <Row className="text-center">
                         <Col> 
                           <Card body>
-                            <Link to={`/dashboard/courses/coursecontent/${e.course.id}`}>
+                            <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
                               <Button color="success">Go</Button>
                             </Link>                        
                           </Card>
@@ -273,7 +273,7 @@ const StudentDashboard = props => {
                         <Row className="text-center">
                         <Col> 
                           <Card body>
-                            <Link to={`/dashboard/courses/coursecontent/${e.course.id}`}>
+                            <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
                               <Button color="success">Go</Button>
                             </Link>                        
                           </Card>
@@ -313,7 +313,7 @@ const StudentDashboard = props => {
                         <Row className="text-center">
                         <Col> 
                           <Card body>
-                            <Link to={`/dashboard/courses/coursecontent/${e.course.id}`}>
+                            <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
                               <Button color="success">Go</Button>
                             </Link>                        
                           </Card>

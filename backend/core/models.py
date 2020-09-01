@@ -153,6 +153,7 @@ class Forum(models.Model):
     slug = models.SlugField(unique=True,blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    student_course = models.ForeignKey(StudentCourse, on_delete=models.CASCADE,null = True)
     #last_activity = models.CharField(max_length = 50, default=  naturaltime(created_at))
 
     def __str__(self):

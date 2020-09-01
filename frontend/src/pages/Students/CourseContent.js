@@ -27,7 +27,7 @@ const CourseContent = (props,user) =>{
         marginLeft:"50px",
         borderRadius:"10px"
       };
-      const course_id = props.match.params['id'];
+      const student_course_id = props.match.params['id'];
 
       const [forumData, setForumData] = useState([]);
       const [title, setTitle] = useState("");
@@ -41,19 +41,29 @@ const CourseContent = (props,user) =>{
             setDescription(e.target.value);
       }
       const discuss = (e) => {
-        axios.post(`${basename}/auth/api/forum/create/`,{
-            "title" : title,
-            "description" : description
-        })
-        .then((res) => console.log(res));
+        e.preventDefault();
+        axios.get(`${basename}/api/student_course/${student_course_id}`)
+             .then(res=>{
+                console.log(res);
+                console.log(props.userId);
+                axios.post(`${basename}/auth/api/forum/create/`,{
+                  "title" : title,
+                  "description" : description,
+                  "creator": props.userId,
+                  "student_course": res.data.id
+                })
+                .then((res) => console.log(res));
+             })
       }
 
     useEffect(() => {
         
       axios.
-      get(`${basename}/auth/api/forum`)
+      get(`${basename}/auth/api/forum?student_course=${student_course_id}`)
       .then((res) => {
-        //console.log(res.data);
+        console.log(res.data);
+        const tmp = res.data.objects;
+
         setForumData(res.data); 
          
       });
@@ -66,10 +76,10 @@ const CourseContent = (props,user) =>{
     return (
         
         <div>
-            <Link to={`${course_id}/assignments`}>
+            <Link to={`${student_course_id}/assignments`}>
                 <Button style ={buttonStyle} color="primary" size="lg">Your Assignments</Button>
             </Link>
-            <Link to={`${course_id}/notes`}>
+            <Link to={`${student_course_id}/notes`}>
                 <Button style ={buttonStyle} color="primary" size="lg">Your Notes</Button>
             </Link>
             <FeedbackModal {...props} buttonLabel = {"Give Feedback"} className = {"feedback"} buttonStyle = {buttonStyle}/>
