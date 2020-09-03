@@ -108,6 +108,13 @@ const TrainerDashboard = (props) => {
                             </Link>                        
                           </Card>
                         </Col>
+                        <Col>
+                        <Card body>
+                          <Link to={`/dashboard/chatapp/${e.id}`}>
+                            <Button color = "success">Chat App</Button>
+                          </Link>
+                          </Card>
+                        </Col>
 
                         <Col> 
                           <Card body>

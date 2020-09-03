@@ -49,18 +49,18 @@ const CourseContent = (props,user) =>{
                   "title" : title,
                   "description" : description,
                   "creator": props.username,
-                  "student_course": res.data.id
+                  "student_course": res.data.id,
+                  "student" : props.userId
                 })
-                .then((res) => 
-                console.log(res),
-                axios.get(`${basename}/auth/api/forum?student_course=${student_course_id}`)
                 .then((res) => {
-                  console.log(res.data);
-                  const tmp = res.data.objects;
+                  
+                  axios.get(`${basename}/auth/api/forum?student_course=${student_course_id}`)
+                  .then((res) => {
                   setForumData(res.data); 
-                }),
-                );
+                })});
              })
+        setTitle("");
+        setDescription("");
       }
 
     useEffect(() => {       
@@ -85,6 +85,7 @@ const CourseContent = (props,user) =>{
                 <Button style ={buttonStyle} color="primary" size="lg">Your Notes</Button>
             </Link>
             <FeedbackModal {...props} buttonLabel = {"Give Feedback"} className = {"feedback"} buttonStyle = {buttonStyle}/>
+            <Container>
             <Card className="mt-3">
           <CardTitle className="text-center mt-3" >Discussion Forum </CardTitle>
         <Row>
@@ -98,16 +99,18 @@ const CourseContent = (props,user) =>{
                     name="Title"
                     type="text"
                     onChange = {changeTitle}
+                    value = {title}
                   />
                 </div>
 
                 <div className="form-group">
                   <textarea
                     className="form-control"
-                    placeholder="Details "
+                    placeholder="Details (200 letters)"
                     name="Description"
                     rows="5"
                     onChange = {changeDescription}
+                    value = {description}
                   />
                 </div>
 
@@ -151,7 +154,7 @@ const CourseContent = (props,user) =>{
           </Col>
           </Row>
         </Card>
-        
+        </Container>
 
         </div>
     );

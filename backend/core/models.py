@@ -76,6 +76,7 @@ class Course(models.Model):
     startdate = models.DateField(null=True)
     enddate = models.DateField(null=True)
     description = models.TextField(default="Give a brief description about the course")
+    amount = models.IntegerField(default=0)
 
 
     # def __str__(self):
@@ -152,6 +153,8 @@ class Forum(models.Model):
     creator = models.CharField(max_length=50, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     student_course = models.ForeignKey(StudentCourse, on_delete=models.CASCADE,null = True)
+    student = models.ForeignKey(Student,on_delete=models.CASCADE,null = True)
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE,null = True)
     #last_activity = models.CharField(max_length = 50, null=True)
 
     def __str__(self):

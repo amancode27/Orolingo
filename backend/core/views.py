@@ -20,7 +20,6 @@ from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
 import json
 from django.core import serializers
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-from django.contrib.humanize.templatetags.humanize import naturaltime
 
 
 from django.conf import settings

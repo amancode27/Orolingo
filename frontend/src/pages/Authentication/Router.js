@@ -19,7 +19,7 @@ import CreateCourse from "../Teachers/CreateCourse";
 import TrainerUpload from "../Teachers/TrainerUpload" 
 import TrainerCourses from "../Teachers/TrainerCourses";
 import EditCourse from "../Teachers/EditCourse";
-
+import ChatApp from "../Teachers/ChatApp";
 
 const Router = (props) => {
     const handleLogin = props.handleLogin;
@@ -160,7 +160,12 @@ const Router = (props) => {
                         <TrainerCourses {...props} {...userinfo} />
                     )}
                 />
-
+                <Route 
+                path = '/dashboard/chatapp/:id'
+                render = {(props) => (
+                    <ChatApp {...props} {...userinfo}/>
+                )}
+                />
                 <Route component={NotFound} />
             </Switch>
             <Footer />
