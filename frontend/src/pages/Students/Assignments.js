@@ -1,30 +1,71 @@
+
 import React,{ useState, useEffect } from 'react'
-import {Link} from 'react-router-dom';
 import basename from "../Home/basename.js";
 import axios from "axios";
-import {
-    Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button
-  } from 'reactstrap';
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import CameraIcon from '@material-ui/icons/PhotoCamera';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Link from '@material-ui/core/Link';
 
-const AssignmentCard = (props) => {
-  const assignments = props.assignments;
+function Copyright() {
   return (
-    <div style={{marginLeft:"30px",flex: "0 0 25%"}}>
-      <Card>
-        <CardBody>
-            <CardTitle style={{fontSize:"25px",textAlign:"center"}}>Topic: {assignments['topic']}</CardTitle>
-            <CardText style={{fontSize:"15px",textAlign:"center",marginTop:"20px",marginBottom:"20px",minHeight:"100px"}}>{assignments['description']}</CardText>
-            <a href={`http://localhost:8000${assignments['pdf']}`} target='blank'>
-                <Button color="primary" size="lg">Download</Button>
-            </a>
-            <p style={{float:"right",marginBottom:"0px",marginTop:"10px",fontSize:"14px"}}>Date added-{assignments['created_at']}</p>
-        </CardBody>
-      </Card>
-    </div>
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://material-ui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
   );
-};
+}
+
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    marginRight: theme.spacing(2),
+  },
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(8, 0, 6),
+  },
+  heroButtons: {
+    marginTop: theme.spacing(4),
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
+}));
+
+const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 const Assignment = (props) =>{
+  const classes = useStyles();
   const [assignments,setAssignments] = useState([]);
   let course_id;
   const student_course_id = props.match.params['id'];
@@ -52,13 +93,93 @@ const Assignment = (props) =>{
             });
           })
   },[props.match.params['id']]);
-  console.log(assignments);
-    return(
-        <div style={{display:"flex",flexFlow:"row",flexWrap:"wrap",paddingLeft:"90px"}}>
-            {assignments.map((k,index)=>(
-            <AssignmentCard assignments={k} index={index}/>
-            ))};
+
+
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <AppBar position="relative">
+        <Toolbar>
+          <CameraIcon className={classes.icon} />
+          <Typography variant="h6" color="inherit" noWrap>
+            Album layouts
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <main>
+        {/* Hero unit */}
+        <div className={classes.heroContent}>
+          <Container maxWidth="sm">
+            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+              Assignments
+            </Typography>
+            <Typography variant="h5" align="center" color="textSecondary" paragraph>
+              Something short and leading about the collection below—its contents, the creator, etc.
+              Make it short and sweet, but not too short so folks don&apos;t simply skip over it
+              entirely.
+            </Typography>
+            <div className={classes.heroButtons}>
+              <Grid container spacing={2} justify="center">
+                <Grid item>
+                  <Button variant="contained" color="primary">
+                    Show Completed
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="outlined" color="primary">
+                    Search
+                  </Button>
+                </Grid>
+              </Grid>
+            </div>
+          </Container>
         </div>
-    );
-};
-export default Assignment;
+        <Container className={classes.cardGrid} maxWidth="md">
+          {/* End hero unit */}
+          <Grid container spacing={4}>
+            {assignments.map((e) => (
+              <Grid item key={e} xs={12} sm={6} md={4}>
+                <Card className={classes.card}>
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image="https://source.unsplash.com/random"
+                    title="Image title"
+                  />
+                  <CardContent className={classes.cardContent}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {e['topic']}
+                    </Typography>
+                    <Typography>
+                      {e['description']}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small" color="primary">
+                      Download
+                    </Button>
+                    <Button size="small" color="primary">
+                      {e['created_at']}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </main>
+      {/* Footer */}
+      <footer className={classes.footer}>
+        <Typography variant="h6" align="center" gutterBottom>
+          Footer
+        </Typography>
+        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+          Something here to give the footer a purpose!
+        </Typography>
+        <Copyright />
+      </footer>
+      {/* End footer */}
+    </React.Fragment>
+  );
+}
+
+export default Assignment
