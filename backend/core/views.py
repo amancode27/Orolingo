@@ -21,7 +21,7 @@ import json
 from django.core import serializers
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
-
+from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -219,94 +219,12 @@ class ForumUpdateAPIView(generics.UpdateAPIView):
     permission_classes = [AllowAny]
     lookup_field = 'id'
 
+
+@csrf_exempt
 class PaymentView(APIView):
-
-    def post(self, request, *args, **kwargs):
-        course = Course.objects.get(user=self.request.user)
-        userprofile = User.objects.get(user=self.request.user)
-        token = request.data.get('stripeToken')
-
-        # if userprofile.stripe_customer_id != '' and userprofile.stripe_customer_id is not None:
-        #     customer = stripe.Customer.retrieve(
-        #         userprofile.stripe_customer_id)
-        #     customer.sources.create(source=token)
-
-        # else:
-        #     customer = stripe.Customer.create(
-        #         email=self.request.user.email,
-        #     )
-        #     customer.sources.create(source=token)
-        #     userprofile.stripe_customer_id = customer['id']
-        #     userprofile.one_click_purchasing = True
-        #     userprofile.save()
-
-        amount = 100 #for demo
-
-        try:
-
-                # charge the customer because we cannot charge the token more than once
-            charge = stripe.Charge.create(
-                amount=amount,  # cents
-                currency="usd",
-                customer=userprofile.stripe_customer_id
-            )
-            # charge once off on the token
-            # charge = stripe.Charge.create(
-            #     amount=amount,  # cents
-            #     currency="usd",
-            #     source=token
-            # )
-
-            # create the payment
-            payment = Payment()
-            payment.stripe_charge_id = charge['id']
-            payment.user = self.request.user
-            payment.amount = course.get_total()
-            payment.save()
-
-            # assign the payment to the course
-
-            # order_items = course.items.all()
-            # order_items.update(ordered=True)
-            # for item in order_items:
-            #     item.save()
-
-            course.save()
-
-            return Response(status=HTTP_200_OK)
-
-        except stripe.error.CardError as e:
-            body = e.json_body
-            err = body.get('error', {})
-            return Response({"message": f"{err.get('message')}"}, status=HTTP_400_BAD_REQUEST)
-
-        except stripe.error.RateLimitError as e:
-            # Too many requests made to the API too quickly
-            #messages.warning(self.request, "Rate limit error")
-            return Response({"message": "Rate limit error"}, status=HTTP_400_BAD_REQUEST)
-
-        except stripe.error.InvalidRequestError as e:
-            print(e)
-            # Invalid parameters were supplied to Stripe's API
-            return Response({"message": "Invalid parameters"}, status=HTTP_400_BAD_REQUEST)
-
-        except stripe.error.AuthenticationError as e:
-            # Authentication with Stripe's API failed
-            # (maybe you changed API keys recently)
-            return Response({"message": "Not authenticated"}, status=HTTP_400_BAD_REQUEST)
-
-        except stripe.error.APIConnectionError as e:
-            # Network communication with Stripe failed
-            return Response({"message": "Network error"}, status=HTTP_400_BAD_REQUEST)
-
-        except stripe.error.StripeError as e:
-            # Display a very generic error to the user, and maybe send
-            # yourself an email
-            return Response({"message": "Something went wrong. You were not charged. Please try again."}, status=HTTP_400_BAD_REQUEST)
-
-        except Exception as e:
-            # send an email to ourselves
-            return Response({"message": "A serious error occurred. We have been notifed."}, status=HTTP_400_BAD_REQUEST)
-
-        return Response({"message": "Invalid data received"}, status=HTTP_400_BAD_REQUEST)
-
+    stripe.Charge.create(
+        amount=2000,
+        currency="inr",
+        source="tok_visa", # obtained with Stripe.js
+        metadata={'order_id': '6735'}
+        )

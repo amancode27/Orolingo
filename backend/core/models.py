@@ -50,9 +50,6 @@ class Language(models.Model):
 #     languages = models.ForeignKey(Language,on_delete=models.CASCADE)
 
 
-
-
-
 ############### Student # Course # StudentCourse ###############
 
 class Student(models.Model):
@@ -79,14 +76,15 @@ class Course(models.Model):
     amount = models.IntegerField(default=0)
 
 
-    # def __str__(self):
-    #     return self.language
+    def __str__(self):
+        return self.name
 
 
 class StudentCourse(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     completed_percent = models.IntegerField(default=0)
+    purchased = models.BooleanField(default=False)
     # startdate = models.DateField(auto_now_add=True)
     # enddate = models.DateField(null=True)
 
