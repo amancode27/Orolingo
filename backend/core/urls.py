@@ -19,7 +19,7 @@ urlpatterns = [
     path('api/forum/<int:id>/', ForumDetailAPIView.as_view(), name='forum-detail'),
     path('api/forum/<int:id>/edit/', ForumUpdateAPIView.as_view(), name='forum-update'),
     path('api/forum/<int:id>/delete/', ForumDeleteAPIView.as_view(), name='forum-delete'),
-    path('api/payment', PaymentView, name = 'payment'),
+    path('api/payment/save-stripe-info/', save_stripe_info, name = 'stripe-info')
 ]
   
 # '''

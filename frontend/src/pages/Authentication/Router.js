@@ -14,7 +14,7 @@ import Assignments from "../Students/Assignments";
 import Notes from "../Students/Notes";
 import Courses from "../Students/Courses";
 import CourseDetails from "../Students/CourseDetails";
-import purchase from "../payment/purchase";
+import Purchase from "../payment/Purchase";
 import CreateCourse from "../Teachers/CreateCourse";
 import TrainerUpload from "../Teachers/TrainerUpload" 
 import TrainerCourses from "../Teachers/TrainerCourses";
@@ -149,9 +149,12 @@ const Router = (props) => {
                         <LanguageTrainers {...props} {...userinfo} />
                     )}
                 />
+
                 <Route
-                    path = '/purchase'
-                    component = {purchase} 
+                    path = '/purchase/:id'
+                    render = {(props)=>(
+                        <Purchase {...props} {...userinfo}/>
+                    )}
                 />
 
                 <Route

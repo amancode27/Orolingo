@@ -7,7 +7,13 @@ import {ListGroup, Card, ListGroupItem, Button } from "reactstrap";
 import { Form, FormGroup, Label, Input, FormText ,Container,Row,Col} from 'reactstrap';
 import UploadModal from './UploadModal';
 import { Link } from 'react-router-dom'
-
+import {
+    CardTitle,
+    CardBody,
+    CardText,
+    
+} from "reactstrap";
+import ReactStars from "react-rating-stars-component";
 const Page = (props) => {
     const buttonStyle = {
         width:"150px",
@@ -16,9 +22,11 @@ const Page = (props) => {
         height:"40px",
         borderRadius:"10px"
       };
+    let i=0;
     const[assignment,setAssignment] = useState([]);
     const[notes,setNotes] = useState([]);
     const[lectures,setLectures] = useState([]);
+    const [feedback,setFeedback] = useState([]);
     useEffect(()=>{
         const course_id = props.match.params['id'];
         axios.get(`${basename}/api/assignments/?course=${course_id}`)
@@ -51,6 +59,25 @@ const Page = (props) => {
                     })
                  });
              })
+        axios.get(`${basename}/api/feedback/?course=${course_id}`)
+             .then(res=>{
+                 const tmp1 = res.data.objects;
+                 tmp1.map(k=>{
+                    const tmp={};
+                    console.log(k);
+                    tmp['rating'] = k['rating'];
+                    tmp['body'] = k['body'];
+                    axios.get(`${basename}${k['student']}`)
+                        .then(res1=>{
+                            console.log(res1);
+                            tmp['fullname'] = res1.data.user['fullname'];
+                            setFeedback(prev=>{
+                                return [...prev,tmp];
+                            });
+                        })
+                 })
+                 //setFeedback([...res.data.objects]);
+             })
     },[props.match.params['id']])
 
     const deleteAssignment = (id) =>{
@@ -66,9 +93,52 @@ const Page = (props) => {
             return e.id!=id;
         }))
     }
-    console.log(assignment);
+    
+    let elem=<div></div>;
+
+    if(feedback.length>=2){
+        let len = feedback.length;
+        elem = (<Container>
+        <Row style={{backgroundColor:"wheat",paddingRight:"15px",padding:"30px"}}>
+            <Col sm="6">
+                <Card body>
+                    <div>
+                        <label style={{fontSize:"15px",padding:"0px",margin:"0px"}}>Course Quality</label>
+                        <ReactStars  count={5} value={feedback[i%len]['rating']} edit={false} size={20} activeColor="#ffd700"/>
+                    </div>
+                    <CardText style={{fontSize:"15px"}}>
+                        {feedback[i%len]['body']}
+                    </CardText>
+                    <div style={{fontSize:"20px"}}>
+                        <p style={{float:"right"}}>
+                            -{feedback[i%len]['fullname']}
+                        </p>
+                    </div>
+                </Card>
+            </Col>  
+            <Col sm="6">
+                <Card body>
+                    <div>
+                        <label style={{fontSize:"15px",padding:"0px",margin:"0px"}}>Course Quality</label>
+                        <ReactStars  count={5} value={feedback[(i+1)%len]['rating']} edit={false} size={20} activeColor="#ffd700"/>
+                    </div>
+                    <CardText style={{fontSize:"15px"}}>
+                        {feedback[(i+1)%len]['body']}
+                    </CardText>
+                    <div style={{fontSize:"20px"}}>
+                        <p style={{float:"right"}}>
+                            -{feedback[(i+1)%len]['fullname']}
+                        </p>
+                    </div>
+                </Card>
+            </Col> 
+        </Row>
+    </Container>);
+    }
     return(
-        <div id="grid-container" style={{padding:"100px"}}>
+        <div>
+        {elem}
+        <div id="grid-container" style={{paddingLeft:"150px",paddingRight:"150px"}}>
             <div id="grid-item">
                 <header>ASSIGNMENTS</header>
                 <p>
@@ -130,6 +200,7 @@ const Page = (props) => {
                 </div>            */}
             </div>
         </div>
+    </div>
     );
 }; 
 

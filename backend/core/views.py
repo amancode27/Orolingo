@@ -1,7 +1,7 @@
 
 # todo/views.py
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django.shortcuts import render, get_object_or_404
 from rest_framework import generics, views, viewsets, permissions, status          # add this
 from .serializers import *      # add this
@@ -9,7 +9,7 @@ from .models import *
 from .permissions import UserPermission
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication  # added this
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
@@ -24,6 +24,8 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import stripe
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
@@ -220,11 +222,41 @@ class ForumUpdateAPIView(generics.UpdateAPIView):
     lookup_field = 'id'
 
 
+
+@api_view(['POST'])
 @csrf_exempt
-class PaymentView(APIView):
-    stripe.Charge.create(
-        amount=2000,
-        currency="inr",
-        source="tok_visa", # obtained with Stripe.js
-        metadata={'order_id': '6735'}
+@permission_classes([AllowAny])
+def save_stripe_info(request):
+    data = request.data
+    email = data['email']
+    payment_method_id = data['payment_method_id']
+    course = Course.objects.get(pk=data['course_id'])
+    student = Student.objects.get(pk=data['student_id'])
+    customer_data = stripe.Customer.list(email=email).data   
+    # creating customer
+
+    if len(customer_data) == 0:
+        # creating customer
+        customer = stripe.Customer.create(
+        email=email, payment_method=payment_method_id)
+    else:
+        customer = customer_data[0]
+        
+    stripe.PaymentIntent.create(
+        customer=customer, 
+        payment_method=payment_method_id,  
+        currency='inr', # you can provide any currency you want
+        amount=course.cost,
+        confirm = True,
         )
+    student_course = StudentCourse()
+    student_course.student = student
+    student_course.course = course
+    student_course.completed_percent = 0
+    student_course.save()
+    return Response(status=status.HTTP_200_OK, 
+        data={
+        'message': 'Success', 
+        'data': {'customer_id': customer.id},
+        }) 
+
