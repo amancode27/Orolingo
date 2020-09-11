@@ -77,7 +77,7 @@ class Course(models.Model):
     startdate = models.DateField(null=True)
     enddate = models.DateField(null=True)
     description = models.TextField(default="Give a brief description about the course")
-
+    cost = models.IntegerField(null=True)
 
     # def __str__(self):
     #     return self.language

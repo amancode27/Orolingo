@@ -1,7 +1,7 @@
 
 # todo/views.py
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django.shortcuts import render, get_object_or_404
 from rest_framework import generics, views, viewsets, permissions, status          # add this
 from .serializers import *      # add this
@@ -9,7 +9,7 @@ from .models import *
 from .permissions import UserPermission
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication  # added this
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
@@ -23,6 +23,8 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
 from django.conf import settings
 import stripe
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
@@ -217,94 +219,42 @@ class ForumUpdateAPIView(generics.UpdateAPIView):
     permission_classes = [AllowAny]
     lookup_field = 'slug'
 
-class PaymentView(APIView):
 
-    def post(self, request, *args, **kwargs):
-        course = Course.objects.get(user=self.request.user)
-        userprofile = User.objects.get(user=self.request.user)
-        token = request.data.get('stripeToken')
 
-        # if userprofile.stripe_customer_id != '' and userprofile.stripe_customer_id is not None:
-        #     customer = stripe.Customer.retrieve(
-        #         userprofile.stripe_customer_id)
-        #     customer.sources.create(source=token)
+@api_view(['POST'])
+@csrf_exempt
+@permission_classes([AllowAny])
+def save_stripe_info(request):
+    data = request.data
+    email = data['email']
+    payment_method_id = data['payment_method_id']
+    course = Course.objects.get(pk=data['course_id'])
+    student = Student.objects.get(pk=data['student_id'])
+    customer_data = stripe.Customer.list(email=email).data   
+    # creating customer
 
-        # else:
-        #     customer = stripe.Customer.create(
-        #         email=self.request.user.email,
-        #     )
-        #     customer.sources.create(source=token)
-        #     userprofile.stripe_customer_id = customer['id']
-        #     userprofile.one_click_purchasing = True
-        #     userprofile.save()
-
-        amount = 100 #for demo
-
-        try:
-
-                # charge the customer because we cannot charge the token more than once
-            charge = stripe.Charge.create(
-                amount=amount,  # cents
-                currency="usd",
-                customer=userprofile.stripe_customer_id
-            )
-            # charge once off on the token
-            # charge = stripe.Charge.create(
-            #     amount=amount,  # cents
-            #     currency="usd",
-            #     source=token
-            # )
-
-            # create the payment
-            payment = Payment()
-            payment.stripe_charge_id = charge['id']
-            payment.user = self.request.user
-            payment.amount = course.get_total()
-            payment.save()
-
-            # assign the payment to the course
-
-            # order_items = course.items.all()
-            # order_items.update(ordered=True)
-            # for item in order_items:
-            #     item.save()
-
-            course.save()
-
-            return Response(status=HTTP_200_OK)
-
-        except stripe.error.CardError as e:
-            body = e.json_body
-            err = body.get('error', {})
-            return Response({"message": f"{err.get('message')}"}, status=HTTP_400_BAD_REQUEST)
-
-        except stripe.error.RateLimitError as e:
-            # Too many requests made to the API too quickly
-            #messages.warning(self.request, "Rate limit error")
-            return Response({"message": "Rate limit error"}, status=HTTP_400_BAD_REQUEST)
-
-        except stripe.error.InvalidRequestError as e:
-            print(e)
-            # Invalid parameters were supplied to Stripe's API
-            return Response({"message": "Invalid parameters"}, status=HTTP_400_BAD_REQUEST)
-
-        except stripe.error.AuthenticationError as e:
-            # Authentication with Stripe's API failed
-            # (maybe you changed API keys recently)
-            return Response({"message": "Not authenticated"}, status=HTTP_400_BAD_REQUEST)
-
-        except stripe.error.APIConnectionError as e:
-            # Network communication with Stripe failed
-            return Response({"message": "Network error"}, status=HTTP_400_BAD_REQUEST)
-
-        except stripe.error.StripeError as e:
-            # Display a very generic error to the user, and maybe send
-            # yourself an email
-            return Response({"message": "Something went wrong. You were not charged. Please try again."}, status=HTTP_400_BAD_REQUEST)
-
-        except Exception as e:
-            # send an email to ourselves
-            return Response({"message": "A serious error occurred. We have been notifed."}, status=HTTP_400_BAD_REQUEST)
-
-        return Response({"message": "Invalid data received"}, status=HTTP_400_BAD_REQUEST)
+    if len(customer_data) == 0:
+        # creating customer
+        customer = stripe.Customer.create(
+        email=email, payment_method=payment_method_id)
+    else:
+        customer = customer_data[0]
+        
+    stripe.PaymentIntent.create(
+        customer=customer, 
+        payment_method=payment_method_id,  
+        currency='inr', # you can provide any currency you want
+        amount=course.cost,
+        confirm = True,
+        )
+    student_course = StudentCourse()
+    student_course.student = student
+    student_course.course = course
+    student_course.completed_percent = 0
+    student_course.save()
+    return Response(status=status.HTTP_200_OK, 
+        data={
+        'message': 'Success', 
+        'data': {'customer_id': customer.id},
+        }) 
 
