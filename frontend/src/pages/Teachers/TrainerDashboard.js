@@ -7,7 +7,7 @@ import {
   CardTitle,
   CardBody,
   CardText,
-  
+  Jumbotron,
   Button,
   Row,
   Col,
@@ -31,7 +31,7 @@ const TrainerDashboard = (props) => {
     borderRadius:"10px",
     marginTop:"10px"
   };
-
+  const [trainerName,setTrainerName] = useState("")
   const [upcomingCourses,setUpcomingCourses] = useState([]);
   const [liveCourses,setLiveCourses] = useState([]);
   const [languages,setLanguages] = useState({});
@@ -40,12 +40,14 @@ const TrainerDashboard = (props) => {
     axios
     .get(`${basename}/api/course/?trainer=${props.userId}`)
     .then((res) => {
+        //console.log(res.data.objects);
         const tmp = res.data.objects;
         setLiveCourses([]); setUpcomingCourses([]);
         tmp.map(k=>{
           const startdate = Date.parse(k.startdate);
           const enddate = Date.parse(k.enddate);
           const curdate = Date.now();
+          setTrainerName(k.trainer.user.fullname);
           setLanguages(prev=>{
             return {...prev,[k.language.name]:k.language.id};
           })
@@ -66,6 +68,19 @@ const TrainerDashboard = (props) => {
 
   return (
     <div>
+      <Jumbotron>
+        <Row>
+         <Col className="text-center" md="4">
+          <img src="https://source.unsplash.com/100x100/?man" height = "100"/> 
+         </Col>
+        <Col md = "8">
+         <h1 className="display-2">
+          Hello! {trainerName} 
+        </h1>
+        </Col>
+        </Row>
+        <hr className="my-2" />
+      </Jumbotron>
 <Container>
   <Row>
   <Col sm="4" >
