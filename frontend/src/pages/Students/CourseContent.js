@@ -26,6 +26,7 @@ const CourseContent = (props,user) =>{
 
       console.log(props.match.params["course"]);
 
+      const [courseName, setCourseName] = useState("");
       const [forumData, setForumData] = useState([]);
       const [title, setTitle] = useState("");
       const [description, setDescription] = useState("");
@@ -66,15 +67,20 @@ const CourseContent = (props,user) =>{
         const tmp = res.data.objects;
         setForumData(res.data); 
       });
+
+      axios.get(`${basename}/api/student_course/${student_course_id}`)
+      .then((res) =>{
+        setCourseName(res.data.course.name);
+      });
+
     },[props] );
 
     //console.log(forumData);
-
     return (
         
         <div>
           <Jumbotron>
-            <h1 className="display-1 text-center">"Course Name"</h1>
+            <h1 className="display-1 text-center">{courseName} </h1>
             <hr className="my-2" />
             <Container className = "mt-5">
             <Row>

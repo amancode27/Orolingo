@@ -5,7 +5,7 @@ import basename from "./../Home/basename.js";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import DropDown from './Dropdown.js';
-import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Jumbotron, Media } from 'reactstrap';
 import {
   Card,
   CardTitle,
@@ -16,8 +16,8 @@ import {
   Button,
   CardSubtitle,
   Container,
-  CardHeader,
-  CardFooter,
+  CardImg,
+  Progress,
 } from "reactstrap";
 import Chip from '@material-ui/core/Chip';
 
@@ -32,6 +32,7 @@ const StudentDashboard = props => {
  // const [buyCourse,setBuyCourse] = useState("");
   const [forumData, setForumData] = useState({});
   const [buyCourse,setBuyCourse] = useState({});
+  const [studentName,setStudentName] = useState("");
 
   const changeCourse = (e) =>{
     if(e.target.value=="Select a language") setBuyCourse({});
@@ -87,6 +88,7 @@ const StudentDashboard = props => {
       .get(`${basename}/api/student/${props.userId}/`)
       .then((res) => {
         const languagestolearn = res.data.languages_to_learn;
+        setStudentName(res.data.user.fullname)
         languagestolearn.forEach((e) => {
           axios.get(`${basename}${e}`).then((res) =>
             setLanguagesToLearn((prev) => {
@@ -147,10 +149,25 @@ const StudentDashboard = props => {
              })
            })
   }, [props]);
+  //console.log(studentName);
 
   console.log(liveCourses);
   return (
     <div>
+      <React.Fragment>
+      <Jumbotron>
+        <Row>
+         <Col className="text-center" md="4">
+          <img src="https://source.unsplash.com/100x100/?man" height = "100"/> 
+         </Col>
+        <Col md = "8">
+         <h1 className="display-2">
+          Hello! {studentName} 
+        </h1>
+        </Col>
+        </Row>
+        <hr className="my-2" />
+      </Jumbotron>
       <Container>
         <Card>
           <CardBody>
@@ -174,17 +191,12 @@ const StudentDashboard = props => {
         </Card>
         <Row>
           <Col md="4">
-            <Card className="text-center">
-
-              <CardTitle className="mt-3">MonoLingual</CardTitle>
-              <img width="100%" src="" alt="Profile photo" />
-              <Card>
+            <Card className="text-center" style={{marginBottom:"10px",fontSize:"15px",paddingBottom:"30px"}} body>
                 <CardBody>
                   <Row>
                     <CardTitle className="text-left mr-3 ml-3">Want to learn:</CardTitle>
                     <CardText>
                       <Row>
-
                         {Object.keys(languagesToLearn).map((key, index) => (
                           <div>
                             <Col>
@@ -197,12 +209,11 @@ const StudentDashboard = props => {
                   </Row>
                 </CardBody>
                 <DropDown availLanguages = {availableLanguages} addToLearnLanguage={addToLearnLanguage}/>
-              </Card>
             </Card>
           </Col>
           <Col md="8">
-            <Card style={{marginBottom:"30px",fontSize:"15px",paddingBottom:"30px"}}>
-              <CardBody>
+            <Card style={{marginBottom:"15px",fontSize:"15px",paddingBottom:"30px"}} body>
+              
               <Form>
               <FormGroup>
                 <Label for="buycourses">Select a language to buy a course</Label>
@@ -221,134 +232,94 @@ const StudentDashboard = props => {
               >
                 <Button size="lg">View Courses</Button>
               </Link>
-            </Form>
-                <CardTitle className="text-center" style={{fontSize:"20px"}}>Your Courses</CardTitle>
+              </Form>
+            </Card>
+          </Col>
+        </Row>
+        <Card body>
+              <CardTitle className="text-center" style={{fontSize:"20px"}}>Your Courses</CardTitle>
                 <hr></hr> <br></br>
                 <CardTitle className="text-center" style={{fontSize:"20px"}}>Live Courses</CardTitle>
                 <hr></hr>
                 <CardText>
-                  
+                  <Row>
                     {liveCourses.map((e) => (
                       <div>
-                        <Row className="text-center">
-                        <Col> 
-                          <Card body>
-                            <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
-                              <Button color="success">Go</Button>
-                            </Link>                        
+                            <Col>
+                            <Card>
+                            <CardBody>
+                              <CardTitle>{e.course.name}</CardTitle>
+                              <CardText>Start-Date : {e.course.startdate}<br/>End Date : {e.course.enddate} </CardText>
+                              <div className="text-center">{e.completed_percent}%</div>
+                              <Progress value={e.completed_percent} />
+                              <div className="text-center mt-3">
+                              <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
+                                <Button className="btn" color="success">Go</Button>
+                              </Link>
+                              </div>
+                            </CardBody>
                           </Card>
-                        </Col>
-                          <Col> 
-                            <Card body>
-                              <CardTitle>{e.course.name}</CardTitle>                        
-                            </Card>
-                          </Col>
-                          <Col> 
-                            <Card body>
-                              <CardTitle>Completed {e.completed_percent}%</CardTitle>                        
-                            </Card>
-                          </Col>
-                          <Col> 
-                            <Card body>
-                              <CardTitle>Start-Date :{e.course.startdate}</CardTitle>                        
-                            </Card>
-                          </Col>
-                          <Col> 
-                            <Card body>
-                              <CardTitle>End Date: {e.course.enddate}</CardTitle>                        
-                            </Card>
-                          </Col>
-                          </Row>
+                            </Col>
                       </div>
                     ))}
-                  
+                  </Row>
                 </CardText>
                 <hr></hr> <br></br>
                 <CardTitle className="text-center" style={{fontSize:"20px"}}>Recorded Courses</CardTitle>    
                 <hr></hr>  
                 <CardText>
-                  
+                      <Row>
                     {pastCourses.map((e) => (
                       <div>
-                        <Row className="text-center">
-                        <Col> 
-                          <Card body>
-                            <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
-                              <Button color="success">Go</Button>
-                            </Link>                        
+                        <Col>
+                            <Card>
+                            <CardBody>
+                              <CardTitle>{e.course.name}</CardTitle>
+                              <CardText>Start-Date :{e.course.startdate}<br/>End Date: {e.course.enddate} </CardText>
+                              <div className="text-center">{e.completed_percent}%</div>
+                              <Progress value={e.completed_percent} />
+                              <div className="text-center mt-3">
+                              <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
+                                <Button className="btn" color="success">Go</Button>
+                              </Link>
+                              </div>
+                            </CardBody>
                           </Card>
-                        </Col>
-                          <Col> 
-                            <Card body>
-                              <CardTitle>{e.course.name}</CardTitle>                        
-                            </Card>
-                          </Col>
-                          <Col> 
-                            <Card body>
-                              <CardTitle>Completed {e.completed_percent}%</CardTitle>                        
-                            </Card>
-                          </Col>
-                          <Col> 
-                            <Card body>
-                              <CardTitle>Start-Date :{e.course.startdate}</CardTitle>                        
-                            </Card>
-                          </Col>
-                          <Col> 
-                            <Card body>
-                              <CardTitle>End Date: {e.course.enddate}</CardTitle>                        
-                            </Card>
-                          </Col>
-                          </Row>
+                            </Col>
                       </div>
                     ))}
-                  
+                  </Row>
                 </CardText>
                 <hr></hr> <br></br>
                 <CardTitle className="text-center" style={{fontSize:"20px"}}>Upcoming Courses</CardTitle>
                 <hr></hr>
                 <CardText>
-                  
+                    <Row>
                     {upcomingCourses.map((e) => (
                       <div>
-                        <Row className="text-center">
-                        <Col> 
-                          <Card body>
-                            <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
-                              <Button color="success">Go</Button>
-                            </Link>                        
+                         <Col>
+                            <Card>
+                            <CardBody>
+                              <CardTitle>{e.course.name}</CardTitle>
+                              <CardText>Start-Date :{e.course.startdate}<br/>End Date: {e.course.enddate} </CardText>
+                              <div className="text-center">{e.completed_percent}%</div>
+                              <Progress value={e.completed_percent} />
+                              <div className="text-center mt-3">
+                              <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
+                                <Button className="btn" color="success">Go</Button>
+                              </Link>
+                              </div>
+                            </CardBody>
                           </Card>
-                        </Col>
-                          <Col> 
-                            <Card body>
-                              <CardTitle>{e.course.name}</CardTitle>                        
-                            </Card>
-                          </Col>
-                          <Col> 
-                            <Card body>
-                              <CardTitle>Completed {e.completed_percent}%</CardTitle>                        
-                            </Card>
-                          </Col>
-                          <Col> 
-                            <Card body>
-                              <CardTitle>Start-Date :{e.course.startdate}</CardTitle>                        
-                            </Card>
-                          </Col>
-                          <Col> 
-                            <Card body>
-                              <CardTitle>End Date: {e.course.enddate}</CardTitle>                        
-                            </Card>
-                          </Col>
-                          </Row>
+                            </Col>
                       </div>
                     ))}
-                  
+                  </Row>
                 </CardText>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+              </Card>
         </Container>
 
+        </React.Fragment>
         
           
       </div>

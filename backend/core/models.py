@@ -25,8 +25,6 @@ class User(AbstractUser):
 
 
 
-
-
 ############### Trainer # Language # LanguageTrainer ###############
 
 class Trainer(models.Model):

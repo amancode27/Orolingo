@@ -14,7 +14,7 @@ import Assignments from "../Students/Assignments";
 import Notes from "../Students/Notes";
 import Courses from "../Students/Courses";
 import CourseDetails from "../Students/CourseDetails";
-import Purchase from "../payment/Purchase";
+import Purchase from "../payment/purchase";
 import CreateCourse from "../Teachers/CreateCourse";
 import TrainerUpload from "../Teachers/TrainerUpload" 
 import TrainerCourses from "../Teachers/TrainerCourses";
