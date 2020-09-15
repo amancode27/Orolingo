@@ -15,11 +15,34 @@ import {
   Col,
   Button,
   CardSubtitle,
-  Container,
   CardImg,
   Progress,
 } from "reactstrap";
 import Chip from '@material-ui/core/Chip';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Drawer from '@material-ui/core/Drawer';
+import Box from '@material-ui/core/Box';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { mainListItems, secondaryListItems } from './listItems';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+// import Chart from './Chart';
+// import Deposits from './Deposits';
+// import Orders from './Orders';
 
 
 const StudentDashboard = props => {
@@ -33,6 +56,110 @@ const StudentDashboard = props => {
   const [forumData, setForumData] = useState({});
   const [buyCourse,setBuyCourse] = useState({});
   const [studentName,setStudentName] = useState("");
+  const [open, setOpen ] =useState(true);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  const drawerWidth = 240;
+
+      const useStyles = makeStyles((theme) => ({
+        root: {
+          display: 'flex',
+        },
+        toolbar: {
+          paddingRight: 24, // keep right padding when drawer closed
+        },
+        openIcon : {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          padding: '0 8px',
+          ...theme.mixins.toolbar,
+        },
+        toolbarIcon: {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          padding: '0 8px',
+          ...theme.mixins.toolbar,
+        },
+        appBar: {
+          zIndex: theme.zIndex.drawer + 1,
+          transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+          }),
+        },
+        appBarShift: {
+          marginLeft: drawerWidth,
+          width: `calc(100% - ${drawerWidth}px)`,
+          transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+        },
+        menuButton: {
+          marginRight: 36,
+        },
+        menuButtonHidden: {
+          display: 'none',
+        },
+        title: {
+          flexGrow: 1,
+        },
+        drawerPaper: {
+          position: 'relative',
+          whiteSpace: 'nowrap',
+          width: drawerWidth,
+          transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+        },
+        drawerPaperClose: {
+          overflowX: 'hidden',
+          transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+          }),
+          width: theme.spacing(7),
+          [theme.breakpoints.up('sm')]: {
+            width: theme.spacing(9),
+          },
+        },
+        appBarSpacer: theme.mixins.toolbar,
+        content: {
+          flexGrow: 1,
+          height: '100vh',
+          overflow: 'auto',
+        },
+        container: {
+          paddingTop: theme.spacing(4),
+          paddingBottom: theme.spacing(4),
+        },
+        paper: {
+          padding: theme.spacing(2),
+          display: 'flex',
+          overflow: 'auto',
+          flexDirection: 'column',
+        },
+        fixedHeight: {
+          height: 240,
+        },
+        heading: {
+          fontSize: theme.typography.pxToRem(15),
+          fontWeight: theme.typography.fontWeightRegular,
+        },
+      }));
+
+    const classes = useStyles();
+
+
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const changeCourse = (e) =>{
     if(e.target.value=="Select a language") setBuyCourse({});
@@ -151,47 +278,79 @@ const StudentDashboard = props => {
   }, [props]);
   //console.log(studentName);
 
-  console.log(liveCourses);
+  
   return (
-    <div>
-      <React.Fragment>
+    <div className={classes.root}>
+      <CssBaseline/>
+      <Drawer
+        variant="permanent"
+        classes={{
+          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+        }}
+        open={open}
+      >
+        <div className={classes.toolbarIcon}>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+          >
+            <ChevronRightIcon />
+          </IconButton>
+        </div>
+        <Divider />
+        <List>{mainListItems}</List>
+        <Divider />
+        <List>{secondaryListItems}</List>
+      </Drawer>
+      <React.Fragment className={classes.content}>
       <Jumbotron>
-        <Row>
-         <Col className="text-center" md="4">
-          <img src="https://source.unsplash.com/100x100/?man" height = "100"/> 
-         </Col>
-        <Col md = "8">
-         <h1 className="display-2">
-          Hello! {studentName} 
-        </h1>
-        </Col>
-        </Row>
-        <hr className="my-2" />
+        <Grid>
+          
+          <Grid item xs={12}>
+          <h1 className="display-2">
+            Hello! {studentName} 
+          </h1>
+          </Grid>
+          <hr className="my-2" />
+          <Grid item xs={12}>
+          <img src="https://source.unsplash.com/200x200/?man" height = "200"/> 
+          </Grid>
+        </Grid>
       </Jumbotron>
-      <Container>
-        <Card>
-          <CardBody>
-            <Row>
-              <CardTitle className="ml-3 mr-3">Courses Completed : </CardTitle>
-              <CardText>
-                <Row>
-                  {Object.keys(languagesLearnt).map((key, index) => (
-                    <div>
-                      <Col>
-                        <Link to={`/dashboard/courses/coursecontent/${languagesLearnt[key]}`}>
-                          <Button color="success" > {key}</Button>
-                        </Link>
-                      </Col>
-                    </div>
-                  ))}
-                </Row>
-              </CardText>
-            </Row>
-          </CardBody>
-        </Card>
-        <Row>
-          <Col md="4">
-            <Card className="text-center" style={{marginBottom:"10px",fontSize:"15px",paddingBottom:"30px"}} body>
+      <Container maxWidth="lg" className={classes.container}>
+        <Grid container spacing = {3}>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <CardBody>
+                  <Row>
+                    <CardTitle className="ml-3 mr-3">Courses Completed : </CardTitle>
+                    <CardText>
+                      <Row>
+                        {Object.keys(languagesLearnt).map((key, index) => (
+                          <div>
+                            <Col>
+                              <Link to={`/dashboard/courses/coursecontent/${languagesLearnt[key]}`}>
+                                <Button color="success" > {key}</Button>
+                                
+                              </Link>
+                            </Col>
+                          </div>
+                        ))}
+                      </Row>
+                    </CardText>
+                  </Row>
+                </CardBody>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>
                 <CardBody>
                   <Row>
                     <CardTitle className="text-left mr-3 ml-3">Want to learn:</CardTitle>
@@ -209,39 +368,49 @@ const StudentDashboard = props => {
                   </Row>
                 </CardBody>
                 <DropDown availLanguages = {availableLanguages} addToLearnLanguage={addToLearnLanguage}/>
-            </Card>
-          </Col>
-          <Col md="8">
-            <Card style={{marginBottom:"15px",fontSize:"15px",paddingBottom:"30px"}} body>
-              
-              <Form>
-              <FormGroup>
-                <Label for="buycourses">Select a language to buy a course</Label>
-                <Input type="select" name="select" id="buycourses" onChange = {(e)=>changeCourse(e)} size="lg">
-                  <option>Select a language</option>
-                  {Object.keys(availableLanguages).map((key,index)=>(
-                    <option>{key}</option>
-                  ))}
-                </Input>
-              </FormGroup>
-              <Link to={{pathname:`/dashboard/courses/${Object.keys(buyCourse)[0]}`,
-                        aboutProps:{
-                            language:buyCourse[Object.keys(buyCourse)[0]],
-                        }
-              }}
-              >
-                <Button size="lg">View Courses</Button>
-              </Link>
-              </Form>
-            </Card>
-          </Col>
-        </Row>
-        <Card body>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={8} lg={9}>
+              <Paper className={fixedHeightPaper}>
+                  
+                  <Form>
+                  <FormGroup>
+                    <Label for="buycourses">Select a language to buy a course</Label>
+                    <Input type="select" name="select" id="buycourses" onChange = {(e)=>changeCourse(e)} size="lg">
+                      <option>Select a language</option>
+                      {Object.keys(availableLanguages).map((key,index)=>(
+                        <option>{key}</option>
+                      ))}
+                    </Input>
+                  </FormGroup>
+                  <Link to={{pathname:`/dashboard/courses/${Object.keys(buyCourse)[0]}`,
+                            aboutProps:{
+                                language:buyCourse[Object.keys(buyCourse)[0]],
+                            }
+                  }}
+                  >
+                    <Button size="lg">View Courses</Button>
+                  </Link>
+                  </Form>
+              </Paper>
+            </Grid>
+
+        </Grid>
+
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper >
               <CardTitle className="text-center" style={{fontSize:"20px"}}>Your Courses</CardTitle>
-                <hr></hr> <br></br>
-                <CardTitle className="text-center" style={{fontSize:"20px"}}>Live Courses</CardTitle>
-                <hr></hr>
-                <CardText>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon/>}
+                    aria-controls = "panel1a-content"
+                    id="panel1a-header"
+                  >
+                  <CardTitle className="text-center" style={{fontSize:"20px"}}>Live Courses</CardTitle>
+                  </AccordionSummary>
+                  <AccordionDetails>
                   <Row>
                     {liveCourses.map((e) => (
                       <div>
@@ -254,7 +423,7 @@ const StudentDashboard = props => {
                               <Progress value={e.completed_percent} />
                               <div className="text-center mt-3">
                               <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
-                                <Button className="btn" color="success">Go</Button>
+                                <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
                               </Link>
                               </div>
                             </CardBody>
@@ -263,12 +432,17 @@ const StudentDashboard = props => {
                       </div>
                     ))}
                   </Row>
-                </CardText>
-                <hr></hr> <br></br>
-                <CardTitle className="text-center" style={{fontSize:"20px"}}>Recorded Courses</CardTitle>    
-                <hr></hr>  
-                <CardText>
-                      <Row>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel2a-content"
+                    id="panel2a-header"
+                  >
+                <CardTitle className="text-center" style={{fontSize:"20px"}}>Recorded Courses</CardTitle>                  </AccordionSummary>
+                  <AccordionDetails>
+                  <Row>
                     {pastCourses.map((e) => (
                       <div>
                         <Col>
@@ -280,7 +454,7 @@ const StudentDashboard = props => {
                               <Progress value={e.completed_percent} />
                               <div className="text-center mt-3">
                               <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
-                                <Button className="btn" color="success">Go</Button>
+                                <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
                               </Link>
                               </div>
                             </CardBody>
@@ -289,12 +463,19 @@ const StudentDashboard = props => {
                       </div>
                     ))}
                   </Row>
-                </CardText>
-                <hr></hr> <br></br>
-                <CardTitle className="text-center" style={{fontSize:"20px"}}>Upcoming Courses</CardTitle>
-                <hr></hr>
-                <CardText>
-                    <Row>
+                  </AccordionDetails>
+                </Accordion>
+
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel2a-content"
+                    id="panel2a-header"
+                  >
+                    <CardTitle className="text-center" style={{fontSize:"20px"}}>Upcoming Courses</CardTitle>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                  <Row>
                     {upcomingCourses.map((e) => (
                       <div>
                          <Col>
@@ -306,7 +487,7 @@ const StudentDashboard = props => {
                               <Progress value={e.completed_percent} />
                               <div className="text-center mt-3">
                               <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
-                                <Button className="btn" color="success">Go</Button>
+                                <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
                               </Link>
                               </div>
                             </CardBody>
@@ -315,12 +496,16 @@ const StudentDashboard = props => {
                       </div>
                     ))}
                   </Row>
-                </CardText>
-              </Card>
+                  </AccordionDetails>
+                </Accordion>
+                
+                </Paper>
+          </Grid>
+        </Grid>
+        
         </Container>
 
         </React.Fragment>
-        
           
       </div>
   )

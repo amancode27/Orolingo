@@ -8,13 +8,13 @@ const DropDown = (props) => {
   const addToLearnLanguage = props.addToLearnLanguage;
   return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-      <DropdownToggle caret style={{width:"200px",fontSize:"16px"}}>
+      <DropdownToggle caret style={{width:"100%",fontSize:"16px"}}>
         Add Languages
         </DropdownToggle>
       <DropdownMenu>
       <DropdownItem header style={{fontSize:"16px"}}>Choose a language</DropdownItem>
           {Object.keys(availLanguages).map((key,index)=>(
-              <DropdownItem style={{width:"200px",fontSize:"16px"}} onClick = {(e)=>addToLearnLanguage(key,availLanguages[key])}>{key}</DropdownItem>
+              <DropdownItem style={{width:"100%",fontSize:"16px"}} onClick = {(e)=>addToLearnLanguage(key,availLanguages[key])}>{key}</DropdownItem>
           ))}
       </DropdownMenu>
     </Dropdown>
