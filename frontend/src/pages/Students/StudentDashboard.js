@@ -1,31 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types';
-
 import basename from "./../Home/basename.js";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import DropDown from './Dropdown.js';
-import { Form, FormGroup, Label, Input, Jumbotron, Media } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Jumbotron} from 'reactstrap';
 import {
-  Card,
   CardTitle,
   CardBody,
   CardText,
   Row,
   Col,
   Button,
-  CardSubtitle,
-  CardImg,
   Progress,
 } from "reactstrap";
 import Chip from '@material-ui/core/Chip';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme  } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -40,10 +32,12 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import Chart from './Chart';
-// import Deposits from './Deposits';
-// import Orders from './Orders';
-
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import SkipNextIcon from '@material-ui/icons/SkipNext';
 
 const StudentDashboard = props => {
   const [languagesLearnt, setLanguagesLearnt] = useState({});
@@ -154,9 +148,31 @@ const StudentDashboard = props => {
           fontSize: theme.typography.pxToRem(15),
           fontWeight: theme.typography.fontWeightRegular,
         },
+        details: {
+          display: 'flex',
+          flexDirection: 'column',
+        },
+        content: {
+          flex: '1 0 auto',
+        },
+        cover: {
+          width: 151,
+        },
+        controls: {
+          display: 'flex',
+          alignItems: 'center',
+          paddingLeft: theme.spacing(1),
+          paddingBottom: theme.spacing(1),
+        },
+        playIcon: {
+          height: 38,
+          width: 38,
+        },
       }));
 
     const classes = useStyles();
+
+    const theme = useTheme();
 
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
@@ -319,7 +335,7 @@ const StudentDashboard = props => {
           </Grid>
           <hr className="my-2" />
           <Grid item xs={12}>
-          <img src="https://source.unsplash.com/200x200/?man" height = "200"/> 
+          <img src="https://source.unsplash.com/200x200/?student" height = "200"/> 
           </Grid>
         </Grid>
       </Jumbotron>
@@ -415,19 +431,42 @@ const StudentDashboard = props => {
                     {liveCourses.map((e) => (
                       <div>
                             <Col>
-                            <Card>
-                            <CardBody>
-                              <CardTitle>{e.course.name}</CardTitle>
-                              <CardText>Start-Date : {e.course.startdate}<br/>End Date : {e.course.enddate} </CardText>
-                              <div className="text-center">{e.completed_percent}%</div>
-                              <Progress value={e.completed_percent} />
-                              <div className="text-center mt-3">
-                              <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
-                                <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
-                              </Link>
-                              </div>
-                            </CardBody>
-                          </Card>
+                            <Card className={classes.root}>
+                                <CardMedia
+                                  className={classes.cover}
+                                  image="https://source.unsplash.com/200x200/?study"
+                                  title="Live from space album cover"
+                                />
+                                <div className={classes.details}>
+                                  <CardContent className={classes.content}>
+                                    <Typography component="h5" variant="h5">
+                                    {e.course.name}
+                                    </Typography>
+                                    <Typography variant="subtitle1" color="textSecondary">
+                                    Start-Date : {e.course.startdate}
+                                    </Typography>
+                                    <Typography variant="subtitle1" color="textSecondary">
+                                    End Date : {e.course.enddate}
+                                    </Typography>
+                                  <div className="">
+                                    <div className="text-center">
+                                      <Typography component="h5" variant="h5">
+                                      {e.completed_percent}%
+                                        </Typography>
+                                       <Progress className="ml-2 mr-2" value={e.completed_percent} /> </div>
+                                  </div>
+                                  <div className="mt-3">
+                                    <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
+                                      <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
+                                    </Link>
+                                    </div>
+                                  </CardContent>
+
+                                </div>
+                                
+                              </Card>
+                              
+                              
                             </Col>
                       </div>
                     ))}
@@ -446,19 +485,42 @@ const StudentDashboard = props => {
                     {pastCourses.map((e) => (
                       <div>
                         <Col>
-                            <Card>
-                            <CardBody>
-                              <CardTitle>{e.course.name}</CardTitle>
-                              <CardText>Start-Date :{e.course.startdate}<br/>End Date: {e.course.enddate} </CardText>
-                              <div className="text-center">{e.completed_percent}%</div>
-                              <Progress value={e.completed_percent} />
-                              <div className="text-center mt-3">
-                              <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
-                                <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
-                              </Link>
-                              </div>
-                            </CardBody>
-                          </Card>
+                        <Card className={classes.root}>
+                                <CardMedia
+                                  className={classes.cover}
+                                  image="https://source.unsplash.com/200x200/?study"
+                                  title="Live from space album cover"
+                                />
+                                <div className={classes.details}>
+                                  <CardContent className={classes.content}>
+                                    <Typography component="h5" variant="h5">
+                                    {e.course.name}
+                                    </Typography>
+                                    <Typography variant="subtitle1" color="textSecondary">
+                                    Start-Date : {e.course.startdate}
+                                    </Typography>
+                                    <Typography variant="subtitle1" color="textSecondary">
+                                    End Date : {e.course.enddate}
+                                    </Typography>
+                                  <div className="">
+                                    <div className="text-center">
+                                      <Typography component="h5" variant="h5">
+                                      {e.completed_percent}%
+                                        </Typography>
+                                       <Progress className="ml-2 mr-2" value={e.completed_percent} /> </div>
+                                  </div>
+                                  <div className="mt-3">
+                                    <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
+                                      <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
+                                    </Link>
+                                    </div>
+                                  </CardContent>
+
+                                </div>
+                                
+                              </Card>
+                              
+                              
                             </Col>
                       </div>
                     ))}
@@ -479,19 +541,42 @@ const StudentDashboard = props => {
                     {upcomingCourses.map((e) => (
                       <div>
                          <Col>
-                            <Card>
-                            <CardBody>
-                              <CardTitle>{e.course.name}</CardTitle>
-                              <CardText>Start-Date :{e.course.startdate}<br/>End Date: {e.course.enddate} </CardText>
-                              <div className="text-center">{e.completed_percent}%</div>
-                              <Progress value={e.completed_percent} />
-                              <div className="text-center mt-3">
-                              <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
-                                <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
-                              </Link>
-                              </div>
-                            </CardBody>
-                          </Card>
+                         <Card className={classes.root}>
+                                <CardMedia
+                                  className={classes.cover}
+                                  image="https://source.unsplash.com/200x200/?study"
+                                  title="Live from space album cover"
+                                />
+                                <div className={classes.details}>
+                                  <CardContent className={classes.content}>
+                                    <Typography component="h5" variant="h5">
+                                    {e.course.name}
+                                    </Typography>
+                                    <Typography variant="subtitle1" color="textSecondary">
+                                    Start-Date : {e.course.startdate}
+                                    </Typography>
+                                    <Typography variant="subtitle1" color="textSecondary">
+                                    End Date : {e.course.enddate}
+                                    </Typography>
+                                  <div className="">
+                                    <div className="text-center">
+                                      <Typography component="h5" variant="h5">
+                                      {e.completed_percent}%
+                                        </Typography>
+                                       <Progress className="ml-2 mr-2" value={e.completed_percent} /> </div>
+                                  </div>
+                                  <div className="mt-3">
+                                    <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
+                                      <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
+                                    </Link>
+                                    </div>
+                                  </CardContent>
+
+                                </div>
+                                
+                              </Card>
+                              
+                              
                             </Col>
                       </div>
                     ))}

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
+import {  Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
 import ReactStars from "react-rating-stars-component";
 import './../style/ModalForFeedback.css';
 import axios from 'axios';
 import basename from "../Home/basename.js";
 import { Alert } from 'reactstrap';
+import Button from '@material-ui/core/Button';
+
 
 const FeedbackModal = (props) => {
     const className = props.className;
@@ -70,8 +72,9 @@ const FeedbackModal = (props) => {
     else
         element = <div></div>;
     return (
-        <div style={{marginTop:"30px"}}>
-            <Button color="danger" onClick={toggle} size="lg" style = {props.buttonStyle}>{buttonLabel}</Button>
+        <div>
+            <Button color="primary" variant="outlined" onClick={toggle} size="lg" style = {props.buttonStyle}>{buttonLabel}</Button>
+            {/* <Button color="danger" onClick={toggle} size="lg" style = {props.buttonStyle}>{buttonLabel}</Button> */}
             <Modal isOpen={modal} toggle={toggle} className={className} >
                 <ModalHeader toggle={toggle}>Feedback Form</ModalHeader>
                 <ModalBody>
@@ -85,8 +88,8 @@ const FeedbackModal = (props) => {
                     {element}
                 </ModalBody>
                 <ModalFooter >
-                    <Button color="primary" onClick={submitForm} size="lg">Send</Button>{' '}
-                    <Button color="secondary" onClick={toggle} size="lg">Cancel</Button>
+                    <Button color="primary" variant="contained" onClick={submitForm} size="lg">Send</Button> {'  '}
+                    <Button color="secondary" variant="contained" onClick={toggle} size="lg" style={{marginLeft:"20px"}}>Cancel</Button>
                 </ModalFooter>
             </Modal>
         </div>
