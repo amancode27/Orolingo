@@ -22,7 +22,7 @@ function Copyright() {
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" href="https://material-ui.com/">
-                Your Website
+                OrOlingo
       </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -32,7 +32,7 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        height: '100vh',
+        height: "100vh",
     },
     image: {
         backgroundImage: 'url(https://source.unsplash.com/random)',
@@ -156,7 +156,7 @@ const SignupForm = (props) => {
                     <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h3">
                         Sign Up
                     </Typography>
                     <form className={classes.form} onSubmit={(e) => props.handleSignup(e, formdata, props.history.push)}>
@@ -246,12 +246,14 @@ const SignupForm = (props) => {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            style={{height:"50px", fontSize: "15px"}}
+
                         >
                             Sign Up
                         </Button>
                         <Grid container>
                             <Grid item>
-                                <Link href="/login" variant="body2">
+                                <Link href="/login" variant="body1">
                                     {"Sign In"}
                                 </Link>
                             </Grid>

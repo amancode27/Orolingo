@@ -4,10 +4,26 @@ import axios from "axios";
 import basename from "../Home/basename.js";
 import '../style/CourseDetails.css';
 import Reviews from './Reviews';
-import { Button } from 'reactstrap';
-import { Link } from 'react-router-dom'
+import { Button, Jumbotron } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { Container, CssBaseline } from '@material-ui/core';
+import { makeStyles, useTheme  } from '@material-ui/core/styles';
+
+const drawerWidth = 240;
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+    },
+    content: {
+      flex: '1 0 auto',
+      padding: '50px',
+    
+    },
+  }));
 
 const CourseDetails = (props,userinfo) =>{
+    const classes = useStyles();
     const buttonStyle = {
         width:"100px",
         fontSize:"15px",
@@ -32,6 +48,9 @@ const CourseDetails = (props,userinfo) =>{
                     const trainertmp = {};
                     coursetmp['name'] = k.name;
                     coursetmp['language'] = k.language.name;
+                    coursetmp['startdate'] = k.startdate;
+                    coursetmp['enddate'] = k.enddate;
+                    coursetmp['cost'] = k.cost;
                     coursetmp['description'] = k.description;
                     trainertmp['name'] = k.trainer.user.fullname;
                     setCourseDetals(coursetmp);
@@ -42,22 +61,29 @@ const CourseDetails = (props,userinfo) =>{
     },[props.match.params['course_id']]);
 
     return(
-        <div>
-            <div id="container">
-                <div id="profile">
-                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="profilephoto" id="profilephoto"></img>
-                    <div id="profile-description">
-                        Hi!I'm {trainerDetails['name']}.
-                    </div>
-                </div>
+        <div className={classes.root}>
+            <React.Fragment className={classes.content}> 
+            
+            <CssBaseline/>
+            
+                <Jumbotron>
+                    <h1 className="display-2">
+                        Hi! I'm {trainerDetails['name']}.
+                    </h1>
+                    <hr className="my-2" />
+                    <img src="https://source.unsplash.com/200x200/?teacher" alt="profilephoto" id="profilephoto"></img>
+                </Jumbotron>
+                <div id="container">
+
                 <div id="main">
                     <div id="course-details">
                         <div id="course-desc">
                             <h1 style={{textAlign:"center",paddingTop:"30px",textDecoration:"underline"}}>Course Details</h1>
                             <ul id="about">
                                 <li>Course Name : {courseDetails['name']}</li>
-                                <li>Course Duration : </li>
-                                <li>Prerequisites : </li>
+                                <li>Start Data  : {courseDetails['startdate']} </li>
+                                <li>End Date : {courseDetails['enddate']} </li>
+                                <li>Purchase Amount  : Rs. {courseDetails['cost']} </li>
                                 <li>Brief Discription : {courseDetails['description']}</li>
                             </ul>
                                 <Link to = {`/purchase/${id}`}>
@@ -70,6 +96,7 @@ const CourseDetails = (props,userinfo) =>{
                     </div>
                 </div>
             </div>
+            </React.Fragment>
         </div>
     );
 }

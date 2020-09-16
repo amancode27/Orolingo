@@ -4,7 +4,7 @@
 #container {
     display:flex;
     align-items: stretch;
-    background-color: gainsboro;
+    /* background-color: gainsboro; */
     width: 100%;
     min-height: 600px;
     font-size: 20px;
@@ -41,9 +41,8 @@
 #course-details{
     display:flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    background-color: white;
-    min-height: 500px;
+    flex-wrap: wrap;    
+    min-height: 580px;
 }
 #course-desc{
     background-color: wheat;
@@ -56,7 +55,4 @@
 #about{
     margin-left: 50px;
     padding-top: 40px;
-}
-#about li{
-    max-width: 200px;
 }

@@ -21,8 +21,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="/">
+        OrOlingo
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -32,7 +32,7 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    height: '93vh',
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
@@ -125,7 +125,7 @@ const LoginForm = (props) =>{
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h3" >
             Sign in
           </Typography>
             <form className={classes.form} onSubmit={(e) => props.handleLogin(e, formdata, props.history.push)}>
@@ -173,10 +173,11 @@ const LoginForm = (props) =>{
               variant="contained"
               color="primary"
               className={classes.submit}
+              style={{height:"50px", fontSize: "15px"}}
             >
               Sign In
             </Button>
-            <Typography component="h1" variant="h6">
+            <Typography component="h1" variant="h5">
                 Or Sign In With
             </Typography>
             <div className="login-icons">
@@ -194,13 +195,13 @@ const LoginForm = (props) =>{
               />
             </div>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
+              <Grid item xs style={{marginTop:"10px"}}>
+                <Link href="#" variant="body1">
                   Forgot password?
                 </Link>
               </Grid>
-              <Grid item>
-                <Link href="/signup" variant="body2">
+              <Grid item style={{marginTop:"10px"}}>
+                <Link href="/signup" variant="body1">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
