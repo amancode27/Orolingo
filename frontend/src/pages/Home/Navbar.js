@@ -10,7 +10,8 @@ const Navbar = (props) => {
       <Navlink link="/services" linktext="Services" />
       <Navlink link="/courses" linktext="Courses" />
       <Navlink link="/about" linktext="About us" />
-      <Navlink link="/login" linktext="Login" />
+      <Navlink link="/login" linktext="Log In" />
+      {/* <Navlink link="/profile" linktext="Profile" /> */}
     </nav>
   );
 };

@@ -1,84 +1,117 @@
-import React, { useState, useEffect } from "react";
-import '../style/TrainerUpload.css';
-import PropTypes from "prop-types";
+
+import React, { useState, useEffect } from 'react'
 import basename from "../Home/basename.js";
-import axios from "axios";
-import {ListGroup, Card, ListGroupItem, Button } from "reactstrap";
-import { Form, FormGroup, Label, Input, FormText ,Container,Row,Col} from 'reactstrap';
-import UploadModal from './UploadModal';
-import { Link } from 'react-router-dom'
-import {
-    CardTitle,
-    CardBody,
-    CardText,
-    
-} from "reactstrap";
-import ReactStars from "react-rating-stars-component";
+import axios from "axios";  
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import CameraIcon from '@material-ui/icons/PhotoCamera';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Link from '@material-ui/core/Link';
+
+
+const useStyles = makeStyles((theme) => ({
+    icon: {
+        marginRight: theme.spacing(2),
+    },
+    heroContent: {
+        backgroundColor: theme.palette.background.paper,
+        padding: theme.spacing(8, 0, 6),
+    },
+    heroButtons: {
+        marginTop: theme.spacing(4),
+    },
+    cardGrid: {
+        paddingTop: theme.spacing(8),
+        paddingBottom: theme.spacing(8),
+    },
+    card: {
+        //height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    cardMedia: {
+        paddingTop: '56.25%', // 16:9
+    },
+    cardContent: {
+        flexGrow: 1,
+    },
+    footer: {
+        backgroundColor: theme.palette.background.paper,
+        padding: theme.spacing(6),
+    },
+}));
+
+const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 const Page = (props) => {
-    const buttonStyle = {
-        width:"150px",
-        fontSize:"14px",
-        fontFamily: "sans-serif",
-        height:"40px",
-        borderRadius:"10px"
-      };
-    let i=0;
-    const[assignment,setAssignment] = useState([]);
-    const[notes,setNotes] = useState([]);
-    const[lectures,setLectures] = useState([]);
-    const [feedback,setFeedback] = useState([]);
-    useEffect(()=>{
+    const classes = useStyles();
+    const [assignment, setAssignment] = useState([]);
+    const [notes, setNotes] = useState([]);
+    const [lectures, setLectures] = useState([]);
+    const [feedback, setFeedback] = useState([]);
+    let course_id;
+    const student_course_id = props.match.params['id'];
+
+    useEffect(() => {
         const course_id = props.match.params['id'];
         axios.get(`${basename}/api/assignments/?course=${course_id}`)
-             .then(res=>{
-                 const a = res.data.objects;
-                 a.map(k=>{
+            .then(res => {
+                const a = res.data.objects;
+                a.map(k => {
                     const tmp = {};
                     tmp['id'] = k.id;
                     tmp['topic'] = k.topic;
                     tmp['description'] = k.description;
                     tmp['created_at'] = k.created_at;
                     tmp['pdf'] = k.pdf;
-                    setAssignment(prev=>{
-                        return [...prev,tmp];
+                    setAssignment(prev => {
+                        return [...prev, tmp];
                     })
-                 });
-             })
+                });
+            })
         axios.get(`${basename}/api/note/?course=${course_id}`)
-             .then(res=>{
-                 const a = res.data.objects;
-                 a.map(k=>{
+            .then(res => {
+                const a = res.data.objects;
+                a.map(k => {
                     const tmp = {};
                     tmp['id'] = k.id;
                     tmp['topic'] = k.topic;
                     tmp['description'] = k.description;
                     tmp['created_at'] = k.created_at;
                     tmp['pdf'] = k.pdf;
-                    setNotes(prev=>{
-                        return [...prev,tmp];
+                    setNotes(prev => {
+                        return [...prev, tmp];
                     })
-                 });
-             })
+                });
+            })
         axios.get(`${basename}/api/feedback/?course=${course_id}`)
-             .then(res=>{
-                 const tmp1 = res.data.objects;
-                 tmp1.map(k=>{
-                    const tmp={};
+            .then(res => {
+                const tmp1 = res.data.objects;
+                tmp1.map(k => {
+                    const tmp = {};
                     console.log(k);
                     tmp['rating'] = k['rating'];
                     tmp['body'] = k['body'];
                     axios.get(`${basename}${k['student']}`)
-                        .then(res1=>{
+                        .then(res1 => {
                             console.log(res1);
                             tmp['fullname'] = res1.data.user['fullname'];
-                            setFeedback(prev=>{
-                                return [...prev,tmp];
+                            setFeedback(prev => {
+                                return [...prev, tmp];
                             });
                         })
-                 })
-                 //setFeedback([...res.data.objects]);
-             })
-    },[props.match.params['id']])
+                })
+            })
+    }, [props.match.params['id']])
 
     const deleteAssignment = (id) =>{
         axios.delete(`${basename}/api/assignments/${id}/`);
@@ -93,115 +126,133 @@ const Page = (props) => {
             return e.id!=id;
         }))
     }
-    
-    let elem=<div></div>;
+    return (
+        <React.Fragment>
+            <CssBaseline />
+            <main>
+                {/* Hero unit */}
+                <div className={classes.heroContent}>
+                    <Container maxWidth="sm">
+                        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                            Course Name
+                        </Typography>
+                        <Typography variant="h5" align="center" color="textSecondary" paragraph>
+                            A One go to page for managing your uploads.
+                        </Typography>
+                        {/* <div className={classes.heroButtons}>
+                            <Grid container spacing={2} justify="center">
+                                <Grid item>
+                                    <Button variant="contained" color="primary">
+                                        Show Completed
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    <Button variant="outlined" color="primary">
+                                        Search
+                                </Button>
+                                </Grid>
+                            </Grid>
+                        </div> */}
+                    </Container>
+                </div>
+                {/* <UploadModal {...props} {...{'content':'note'}} buttonLabel = {"Upload Notes"} className = {"feedback"} buttonStyle = {buttonStyle}/> */}
+                <Container className={classes.cardGrid} maxWidth="lg">
+                    {/* End hero unit */}
+                    <Grid container spacing={4} >
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card className={classes.card}>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h4" component="h2">
+                                        Assignments
+                                    </Typography>
+                                    <Button variant="contained" color="primary">
+                                        Upload
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                            {assignment.map((e) => (
+                                <Card className={classes.card}>
+                                    <CardMedia
+                                        className={classes.cardMedia}
+                                        image="https://source.unsplash.com/random"
+                                        title="Image title"
+                                    />
+                                    <CardContent className={classes.cardContent}>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            {e['topic']}
+                                        </Typography>
+                                        <Typography>
+                                            {e['description']}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button size="small" color="primary" onClick={()=>deleteAssignment(e.id)}>
+                                            Delete
+                                        </Button>
+                                        <Button size="small" color="primary">
+                                            {e['created_at']}
+                                        </Button>
+                                    </CardActions>
+                                </Card>
+                            ))}
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card className={classes.card}>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h4" component="h2">
+                                        Notes
+                                    </Typography>
+                                    <Button variant="contained" color="primary">
+                                        Upload
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                            {notes.map((e) => (
+                                <Card className={classes.card}>
+                                    <CardMedia
+                                        className={classes.cardMedia}
+                                        image="https://source.unsplash.com/random"
+                                        title="Image title"
+                                    />
+                                    <CardContent className={classes.cardContent}>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            {e['topic']}
+                                        </Typography>
+                                        <Typography>
+                                            {e['description']}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button size="small" color="primary" onClick={()=>deleteNote(e.id)}>
+                                            Delete
+                                        </Button>
+                                        <Button size="small" color="primary">
+                                            {e['created_at']}
+                                        </Button>
+                                    </CardActions>
+                                </Card>
+                            ))}
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card className={classes.card}>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h4" component="h2">
+                                        Lectures
+                                    </Typography>
+                                    <Button variant="contained" color="secondary">
+                                        GO LIVE
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                            {/* */}
+                        </Grid>
+                    </Grid>
+                </Container>
+            </main>
+            {/* Footer */}
 
-    if(feedback.length>=2){
-        let len = feedback.length;
-        elem = (<Container>
-        <Row style={{backgroundColor:"wheat",paddingRight:"15px",padding:"30px"}}>
-            <Col sm="6">
-                <Card body>
-                    <div>
-                        <label style={{fontSize:"15px",padding:"0px",margin:"0px"}}>Course Quality</label>
-                        <ReactStars  count={5} value={feedback[i%len]['rating']} edit={false} size={20} activeColor="#ffd700"/>
-                    </div>
-                    <CardText style={{fontSize:"15px"}}>
-                        {feedback[i%len]['body']}
-                    </CardText>
-                    <div style={{fontSize:"20px"}}>
-                        <p style={{float:"right"}}>
-                            -{feedback[i%len]['fullname']}
-                        </p>
-                    </div>
-                </Card>
-            </Col>  
-            <Col sm="6">
-                <Card body>
-                    <div>
-                        <label style={{fontSize:"15px",padding:"0px",margin:"0px"}}>Course Quality</label>
-                        <ReactStars  count={5} value={feedback[(i+1)%len]['rating']} edit={false} size={20} activeColor="#ffd700"/>
-                    </div>
-                    <CardText style={{fontSize:"15px"}}>
-                        {feedback[(i+1)%len]['body']}
-                    </CardText>
-                    <div style={{fontSize:"20px"}}>
-                        <p style={{float:"right"}}>
-                            -{feedback[(i+1)%len]['fullname']}
-                        </p>
-                    </div>
-                </Card>
-            </Col> 
-        </Row>
-    </Container>);
-    }
-    return(
-        <div>
-        {elem}
-        <div id="grid-container" style={{paddingLeft:"150px",paddingRight:"150px"}}>
-            <div id="grid-item">
-                <header>ASSIGNMENTS</header>
-                <p>
-                <UploadModal {...props}  {...{'content':'assignments'}} buttonLabel = {"Upload Assignment"} className = {"feedback"} buttonStyle = {buttonStyle}/>
-                </p>
-                
-                {assignment.map(k=>(
-                    <div class ='content'>
-                        <header>{k.topic}</header>
-                        <h2>
-                            Description: {k.description}
-                        </h2>
-                        <h4>Date-uploaded: {k.created_at}</h4>
-                        <h4>Date-to-be-submitted</h4>
-                        <button id='delete' onClick={()=>deleteAssignment(k.id)}>Delete</button>
-                        <a href={`http://localhost:8000${k.pdf}`} target='blank'>
-                            <button id='download'>Download</button>
-                        </a>
-                    </div>
-                ))}
-            </div>
-
-
-            <div id="grid-item">
-                <header>NOTES</header>
-                <p>
-                <UploadModal {...props} {...{'content':'note'}} buttonLabel = {"Upload Notes"} className = {"feedback"} buttonStyle = {buttonStyle}/>    
-                </p>
-                {notes.map(k=>(
-                    <div class ='content'>
-                        <header>{k.topic}</header>
-                        <h2>
-                            Description: {k.description}
-                        </h2>
-                        <h4>Date-uploaded: {k.created_at}</h4>
-                        <h4>Date-to-be-submitted</h4>
-                        <button id='delete' onClick={()=>deleteNote(k.id)}>Delete</button>
-                        <a href={`http://localhost:8000${k.pdf}`} target='blank'>
-                            <button id='download'>Download</button>
-                        </a>
-                    </div>
-                ))}
-            </div>
-
-
-
-            <div id="grid-item">
-                <header>LECTURES</header>
-                <h3>Go LIVE</h3>
-                {/* <div id ='content'>
-                    <header>Assignment Name</header>
-                    <h2>
-                        Assignment Content
-                    </h2>
-                    <h4>Date-uploaded</h4>
-                    <h4>Date-to-be-submitted</h4>
-                    <button id='delete'>Delete</button>
-                    <button id='download'>Download</button>
-                </div>            */}
-            </div>
-        </div>
-    </div>
+        </React.Fragment>
     );
-}; 
+}
 
-export default Page;
+export default Page

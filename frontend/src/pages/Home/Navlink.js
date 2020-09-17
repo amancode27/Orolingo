@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 const Navlink = (props) => {
   return (
     <div>
-    {props.link === "/login" ? (
-      <Link to={props.link} className="navbar--link navbar--btn">Log in</Link>
+    {props.link === "/login" || props.link === "/profile"? (
+      <Link to={props.link} className="navbar--link navbar--btn">{props.linktext}</Link>
     ) : (
       <Link to={props.link} className="navbar--link">{props.linktext}</Link>
     )}
