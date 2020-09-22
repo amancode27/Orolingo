@@ -40,7 +40,7 @@ const CourseCard = (props) => {
             <Row>
             {
                 courses.map(k=>(
-                    <Col md="4" style={{marginBottom:"20px"}}>
+                    <Col md="4" style={{marginTop:"20px"}}>
                     <Card className={classes.pap}>
                         <CardActionArea>
                             <CardMedia

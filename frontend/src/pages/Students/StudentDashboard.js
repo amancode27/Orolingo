@@ -35,9 +35,19 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
+import { blue } from '@material-ui/core/colors';
+import Avatar from '@material-ui/core/Avatar';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import PersonIcon from '@material-ui/icons/Person';
+import AddIcon from '@material-ui/icons/Add';
+
+const emails = ['username@gmail.com', 'user02@gmail.com'];
+
+
 
 const StudentDashboard = props => {
   const [languagesLearnt, setLanguagesLearnt] = useState({});
@@ -58,6 +68,18 @@ const StudentDashboard = props => {
     setOpen(false);
   };
 
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("Select a language");
+
+  const handleClickOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleClose = (value) => {
+    setOpenDialog(false);
+    setSelectedValue(value);
+  };
+  
   const drawerWidth = 240;
 
       const useStyles = makeStyles((theme) => ({
@@ -168,6 +190,10 @@ const StudentDashboard = props => {
           height: 38,
           width: 38,
         },
+        avatar: {
+          backgroundColor: blue[100],
+          color: blue[600],
+        },
       }));
 
     const classes = useStyles();
@@ -224,6 +250,46 @@ const StudentDashboard = props => {
             });
           }
       });
+  }
+
+  function SimpleDialog(props) {
+
+    const avatars = makeStyles({
+    avatar: {
+      backgroundColor: blue[100],
+      color: blue[600],
+      },
+    });
+    const classes = avatars();
+    const { onClose, selectedValue, open } = props;
+  
+    const handleClose = () => {
+      onClose(selectedValue);
+    };
+  
+    const handleListItemClick = (e) => {
+      onClose(e);
+      console.log(e);
+      setBuyCourse({[e]:availableLanguages[e]});
+    };
+  
+    return (
+      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} >
+        <DialogTitle id="simple-dialog-title">Select a language </DialogTitle>
+        <List name="select" id="buycourses" onChange = {(e)=>changeCourse(e)}>
+            {Object.keys(availableLanguages).map((key,index)=>(
+              <ListItem button onClick= {()=> handleListItemClick(key)}  key={key}>
+              <ListItemAvatar>
+                <Avatar className={classes.avatar}>
+                  <PersonIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={key} />
+            </ListItem>
+            ))}
+        </List>
+      </Dialog>
+    );
   }
 
   useEffect(() => {
@@ -392,13 +458,14 @@ const StudentDashboard = props => {
                   
                   <Form>
                   <FormGroup>
-                    <Label for="buycourses">Select a language to buy a course</Label>
-                    <Input type="select" name="select" id="buycourses" onChange = {(e)=>changeCourse(e)} size="lg">
-                      <option>Select a language</option>
-                      {Object.keys(availableLanguages).map((key,index)=>(
-                        <option>{key}</option>
-                      ))}
-                    </Input>
+                    <div>
+                      <Typography variant="h4">Selected a language to buy a course</Typography>
+                      <br />
+                      <Button variant="outlined" size="lg" color="primary" onClick={handleClickOpen}>
+                        {selectedValue} 
+                      </Button>
+                      <SimpleDialog selectedValue={selectedValue} open={openDialog} onClose={handleClose} />
+                    </div>
                   </FormGroup>
                   <Link to={{pathname:`/dashboard/courses/${Object.keys(buyCourse)[0]}`,
                             aboutProps:{
