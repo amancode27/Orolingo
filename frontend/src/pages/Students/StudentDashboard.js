@@ -325,7 +325,7 @@ const StudentDashboard = props => {
         <List>{secondaryListItems}</List>
       </Drawer>
       <React.Fragment className={classes.content}>
-      <Jumbotron>
+      {/* <Jumbotron>
         <Grid>
           
           <Grid item xs={12}>
@@ -338,7 +338,7 @@ const StudentDashboard = props => {
           <img src="https://source.unsplash.com/200x200/?student" height = "200"/> 
           </Grid>
         </Grid>
-      </Jumbotron>
+      </Jumbotron> */}
       <Container maxWidth="lg" className={classes.container}>
         <Grid container spacing = {3}>
             <Grid item xs={12}>

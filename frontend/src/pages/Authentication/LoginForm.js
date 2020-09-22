@@ -3,6 +3,7 @@ import FacebookLogin from "react-facebook-login";
 import { GoogleLogin } from "react-google-login";
 import { FormErrors } from './FormError';
 
+import Fade from 'react-reveal/Fade';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -117,6 +118,8 @@ const LoginForm = (props) =>{
 
 
   return (
+    
+    <Fade left>
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -213,6 +216,7 @@ const LoginForm = (props) =>{
         </div>
       </Grid>
     </Grid>
+    </Fade>
   );
 }
 export default LoginForm

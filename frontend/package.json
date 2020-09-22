@@ -20,6 +20,7 @@
     "react-google-login": "^5.1.21",
     "react-rating-stars-component": "^2.2.0",
     "react-responsive-carousel": "^3.2.9",
+    "react-reveal": "^1.2.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FormErrors } from './FormError';
 
+import Fade from 'react-reveal/Fade';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -149,123 +150,125 @@ const SignupForm = (props) => {
         return error.length === 0 ? "" : "has-error";
     }
     return (
-        <Grid container component="main" className={classes.root}>
-            <CssBaseline />
-            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h3">
-                        Sign Up
-                    </Typography>
-                    <form className={classes.form} onSubmit={(e) => props.handleSignup(e, formdata, props.history.push)}>
-                        <div id="signup-form-error"></div>
-                        <FormErrors formErrors={formdata.formErrors} />
-                        <div className={`form-group ${errorClass(formdata.formErrors.username)}`}>
-                            <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="username"
-                            label="Username"
-                            name="username"
-                            value={formdata.username}
-                            onChange={handleChange}
-                            autoComplete="username"
-                            autoFocus
-                            />
-                        </div>
-                        <div className={`form-group ${errorClass(formdata.formErrors.password)}`}>
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                                value={formdata.password}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className={`form-group ${errorClass(formdata.formErrors.fullname)}`}>
-                            <TextField 
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                name = "fullname"
-                                label = "Fullname"
-                                autoComplete="Fullname"
-                                value={formdata.fullname}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className={`form-group ${errorClass(formdata.formErrors.email)}`}>
-                            <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            label  ="email"
-                            name="email"
-                            value={formdata.email}
-                            onChange={handleChange}
-                            />
-                        </div>
-                        <input
-                            className="form--input"
-                            id="type-student"
-                            type="radio"
-                            name="type"
-                            value="student"
-                            onChange={handleChange}
-                        />
-                        <label className="form--label" htmlFor="type-student">
-                            Student
-                        </label>
-                        <input
-                            className="form--input"
-                            id="type-trainer"
-                            type="radio"
-                            name="type"
-                            value="trainer"
-                            onChange={handleChange}
-                        />
-                        <label className="form--label" htmlFor="type-trainer">
-                            Trainer
-                        </label>
-                        <Button
-                            disabled={!formdata.formValid}
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                            style={{height:"50px", fontSize: "15px"}}
-
-                        >
+        <Fade right>
+            <Grid container component="main" className={classes.root}>
+                <CssBaseline />
+                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                    <div className={classes.paper}>
+                        <Avatar className={classes.avatar}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h3">
                             Sign Up
+                    </Typography>
+                        <form className={classes.form} onSubmit={(e) => props.handleSignup(e, formdata, props.history.push)}>
+                            <div id="signup-form-error"></div>
+                            <FormErrors formErrors={formdata.formErrors} />
+                            <div className={`form-group ${errorClass(formdata.formErrors.username)}`}>
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="username"
+                                    label="Username"
+                                    name="username"
+                                    value={formdata.username}
+                                    onChange={handleChange}
+                                    autoComplete="username"
+                                    autoFocus
+                                />
+                            </div>
+                            <div className={`form-group ${errorClass(formdata.formErrors.password)}`}>
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    value={formdata.password}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className={`form-group ${errorClass(formdata.formErrors.fullname)}`}>
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="fullname"
+                                    label="Fullname"
+                                    autoComplete="Fullname"
+                                    value={formdata.fullname}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className={`form-group ${errorClass(formdata.formErrors.email)}`}>
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    label="email"
+                                    name="email"
+                                    value={formdata.email}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <input
+                                className="form--input"
+                                id="type-student"
+                                type="radio"
+                                name="type"
+                                value="student"
+                                onChange={handleChange}
+                            />
+                            <label className="form--label" htmlFor="type-student">
+                                Student
+                        </label>
+                            <input
+                                className="form--input"
+                                id="type-trainer"
+                                type="radio"
+                                name="type"
+                                value="trainer"
+                                onChange={handleChange}
+                            />
+                            <label className="form--label" htmlFor="type-trainer">
+                                Trainer
+                        </label>
+                            <Button
+                                disabled={!formdata.formValid}
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                style={{ height: "50px", fontSize: "15px" }}
+
+                            >
+                                Sign Up
                         </Button>
-                        <Grid container>
-                            <Grid item>
-                                <Link href="/login" variant="body1">
-                                    {"Sign In"}
-                                </Link>
+                            <Grid container>
+                                <Grid item>
+                                    <Link href="/login" variant="body1">
+                                        {"Sign In"}
+                                    </Link>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <Box mt={5}>
-                            <Copyright />
-                        </Box>
-                    </form>
-                </div>
+                            <Box mt={5}>
+                                <Copyright />
+                            </Box>
+                        </form>
+                    </div>
+                </Grid>
+                <Grid item xs={false} sm={4} md={7} className={classes.image} />
             </Grid>
-            <Grid item xs={false} sm={4} md={7} className={classes.image} />
-        </Grid>
+        </Fade>
     );
 }
 
