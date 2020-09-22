@@ -279,7 +279,7 @@ const CourseContent = (props,user) =>{
                     <CardMedia
                       className={classes.media}
                       image="https://source.unsplash.com/318x180"
-                      title="Contemplative Reptile"
+                      title="dvsdv"
                     />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
