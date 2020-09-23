@@ -19,10 +19,13 @@ const NavBar = (props) => {
   return (
     <nav className="navbar">
       <Navbar dark expand="md">
-      <NavbarBrand className="mr-auto" ><Navlink link="/" linktext="Home" /> </NavbarBrand>
+      <NavbarBrand className="mr-auto" >{''}</NavbarBrand>
       <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav navbar style={{marginBottom: "-10px" }}>
+            <NavItem>
+              <Navlink link="/" linktext="Home" /> 
+            </NavItem>
             <NavItem>
               <Navlink link="/services" linktext="Services" />
             </NavItem>
@@ -33,7 +36,7 @@ const NavBar = (props) => {
               <Navlink link="/about" linktext="About us" />
             </NavItem>
             <NavItem>
-            <Navlink link="/login" linktext="Log In" />
+              <Navlink link="/login" linktext="Log In" />
             </NavItem>
           </Nav>
         </Collapse>

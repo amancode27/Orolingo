@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
         }),
     },
     menuButton: {
-        marginRight: 36,
+        marginRight: 10,
     },
     menuButtonHidden: {
         display: 'none',
@@ -226,7 +226,8 @@ const TrainerDashboard = (props) => {
                     open={open}
                 >
                     <div className={classes.toolbarIcon}>
-                        <IconButton onClick={handleDrawerClose}>
+                        <IconButton onClick={handleDrawerClose}
+                         className={clsx(classes.menuButton, (!open) &&classes.menuButtonHidden)}>
                             <ChevronLeftIcon />
                         </IconButton>
                         <IconButton
