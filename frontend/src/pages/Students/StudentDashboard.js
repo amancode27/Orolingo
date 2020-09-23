@@ -27,7 +27,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems } from './listItems';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -35,7 +35,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import { blue } from '@material-ui/core/colors';
+import { blue } from '@material-ui/core/colors'; 
 import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -80,7 +80,7 @@ const StudentDashboard = props => {
     setSelectedValue(value);
   };
   
-  const drawerWidth = 240;
+  // const drawerWidth = [150,240];
 
       const useStyles = makeStyles((theme) => ({
         root: {
@@ -111,15 +111,16 @@ const StudentDashboard = props => {
           }),
         },
         appBarShift: {
-          marginLeft: drawerWidth,
-          width: `calc(100% - ${drawerWidth}px)`,
+          marginLeft: 150,
+          width: `calc(100% - 240px)`,   
+          // ${""}px
           transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
           }),
         },
         menuButton: {
-          marginRight: 36,
+          marginRight: 10,
         },
         menuButtonHidden: {
           display: 'none',
@@ -130,7 +131,7 @@ const StudentDashboard = props => {
         drawerPaper: {
           position: 'relative',
           whiteSpace: 'nowrap',
-          width: drawerWidth,
+          width: "140%",
           transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -372,13 +373,11 @@ const StudentDashboard = props => {
         open={open}
       >
         <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose}
+            className={clsx(classes.menuButton, (!open) &&classes.menuButtonHidden)}>
             <ChevronLeftIcon />
           </IconButton>
           <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
             onClick={handleDrawerOpen}
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
           >
@@ -388,7 +387,7 @@ const StudentDashboard = props => {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        
       </Drawer>
       <React.Fragment className={classes.content}>
       {/* <Jumbotron>

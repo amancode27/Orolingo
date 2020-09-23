@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Navbar from "./../Home/Navbar";
+import NavBar from "./../Home/Navbar";
 import Login from "./Login";
 import Signup from "./Signup";
 import Landing from "../Home/Landing";
@@ -37,7 +37,7 @@ const Router = (props) => {
 
     return (
         <BrowserRouter basename='/'>
-            <Navbar />
+            <NavBar />
             <Switch>
                 <Route
                     exact

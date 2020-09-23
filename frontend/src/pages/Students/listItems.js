@@ -49,27 +49,3 @@ export const mainListItems = (
     </ListItem>
   </div>
 );
-
-export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Your Submissions</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Your Notes" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Your Assignments" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Your Performance" />
-    </ListItem>
-  </div>
-);

@@ -23,7 +23,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems } from './listItems';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -53,7 +53,7 @@ const CourseContent = (props,user) =>{
     setOpen(false);
   };
 
-  const drawerWidth = 240;
+  const drawerWidth = 150;
 
       const useStyles = makeStyles((theme) => ({
         root: {
@@ -226,7 +226,6 @@ const CourseContent = (props,user) =>{
             <Divider />
             <List>{mainListItems}</List>
             <Divider />
-            <List>{secondaryListItems}</List>
           </Drawer>
           <React.Fragment className={classes.content}>
           <Jumbotron>

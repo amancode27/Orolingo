@@ -89,7 +89,7 @@ const SignupForm = (props) => {
             if (value === "student") {
                 name = "is_student";
                 value = true;
-            } else if (value === "trainer") {
+            } else  {
                 name = "is_trainer";
                 value = true;
             }
