@@ -1,5 +1,6 @@
 import axios from "axios";
 import basename from "../Home/basename.js";
+
 export const api = axios.create({
   baseURL: basename,
   headers: {

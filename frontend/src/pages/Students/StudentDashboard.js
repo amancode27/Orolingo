@@ -44,10 +44,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import PersonIcon from '@material-ui/icons/Person';
 import AddIcon from '@material-ui/icons/Add';
-
-const emails = ['username@gmail.com', 'user02@gmail.com'];
-
-
+import { mdiTrophyAward, mdiTrophyOutline } from '@mdi/js';
+import Icon from '@mdi/react';
 
 const StudentDashboard = props => {
   const [languagesLearnt, setLanguagesLearnt] = useState({});
@@ -165,7 +163,7 @@ const StudentDashboard = props => {
           flexDirection: 'column',
         },
         fixedHeight: {
-          height: 240,
+          height: 200,
         },
         heading: {
           fontSize: theme.typography.pxToRem(15),
@@ -275,14 +273,14 @@ const StudentDashboard = props => {
     };
   
     return (
-      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} >
+      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}  >
         <DialogTitle id="simple-dialog-title">Select a language </DialogTitle>
-        <List name="select" id="buycourses" onChange = {(e)=>changeCourse(e)}>
+        <List name="select" id="buycourses" onChange = {(e)=>changeCourse(e)} style={{minWidth : "300px"}}>
             {Object.keys(availableLanguages).map((key,index)=>(
               <ListItem button onClick= {()=> handleListItemClick(key)}  key={key}>
               <ListItemAvatar>
                 <Avatar className={classes.avatar}>
-                  <PersonIcon />
+                  <AddIcon/>
                 </Avatar>
               </ListItemAvatar>
               <ListItemText primary={key} />
@@ -345,9 +343,6 @@ const StudentDashboard = props => {
                 })
              });
            });
-
-
-      
       
       axios.get(`${basename}/api/student_course/?student=${props.userId}&completed_percent=100`)
            .then(res=>{
@@ -405,75 +400,90 @@ const StudentDashboard = props => {
         </Grid>
       </Jumbotron> */}
       <Container maxWidth="lg" className={classes.container}>
-        <Grid container spacing = {3}>
-            <Grid item xs={12}>
+        <Typography className="text-center" variant="h2" gutterBottom>
+          Hello! {studentName} 
+        </Typography>
+        <hr/>
+        <Grid container spacing = {1}>
+            <Grid item xs={12} className="text-center">
               <Paper className={classes.paper}>
                 <CardBody>
-                  <Row>
-                    <CardTitle className="ml-3 mr-3">Courses Completed : </CardTitle>
+                    <CardTitle style={{padding: "2px", fontSize : "20px"}}>Courses Completed  
+                    <Icon path={mdiTrophyAward}
+                      title="Completed"
+                      size={3}
+                      horizontal
+                      vertical
+                      rotate={-180}
+                      color="green"
+                      />
+                     </CardTitle>
                     <CardText>
+                      <Container>
                       <Row>
                         {Object.keys(languagesLearnt).map((key, index) => (
                           <div>
                             <Col>
                               <Link to={`/dashboard/courses/coursecontent/${languagesLearnt[key]}`}>
-                                <Button color="success" > {key}</Button>
-                                
+                                <Chip color="primary" style={{fontSize : "13px"}}  label={key} size="lg" clickable icon = {<Icon path = { mdiTrophyOutline} size = {2} color = "white" />}></Chip>
                               </Link>
+                              
                             </Col>
                           </div>
                         ))}
                       </Row>
+                      </Container>
                     </CardText>
-                  </Row>
                 </CardBody>
               </Paper>
             </Grid>
 
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
                 <CardBody>
-                  <Row>
-                    <CardTitle className="text-left mr-3 ml-3">Want to learn:</CardTitle>
+                  
+                    <CardTitle className="text-center" style={{fontSize : "20px" }}>Want to learn</CardTitle>
+                    
                     <CardText>
                       <Row>
                         {Object.keys(languagesToLearn).map((key, index) => (
                           <div>
-                            <Col>
-                              <Chip onDelete={()=>{deleteToLearnLanguage(key)}} label={key}></Chip>
+                            <Col style={{marginTop : "5px"}}>
+                              <Chip onDelete={()=>{deleteToLearnLanguage(key)}} style={{fontSize : "15px"}} label={key}></Chip>
                             </Col>
                           </div>
                         ))}
                       </Row>
                     </CardText>
-                  </Row>
+                
                 </CardBody>
-                <DropDown availLanguages = {availableLanguages} addToLearnLanguage={addToLearnLanguage}/>
+                <DropDown availLanguages = {availableLanguages} addToLearnLanguage={addToLearnLanguage} />
               </Paper>
             </Grid>
 
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
                   
                   <Form>
                   <FormGroup>
-                    <div>
-                      <Typography variant="h4">Selected a language to buy a course</Typography>
-                      <br />
-                      <Button variant="outlined" size="lg" color="primary" onClick={handleClickOpen}>
-                        {selectedValue} 
-                      </Button>
+                    <div className="text-center">
+                      <Typography variant="h4" className="text-center">Selected a language to buy a course <br/>
+                      <Chip size="lg" color="primary" style={{float: "unset", fontSize : "15px", marginTop : "20px"}} label={selectedValue} onClick={handleClickOpen} clickable>
+                        
+                      </Chip>
+                      </Typography>
                       <SimpleDialog selectedValue={selectedValue} open={openDialog} onClose={handleClose} />
-                    </div>
+                    
+                        <Link style = {{float : "none"}} to={{pathname:`/dashboard/courses/${Object.keys(buyCourse)[0]}`,
+                                  aboutProps:{
+                                      language:buyCourse[Object.keys(buyCourse)[0]],
+                                  }
+                        }}
+                        >
+                          <Chip  variant="outlined" clickable color="primary" style={{ fontSize : "15px" , marginTop : "20px"}} label="View Course" size="lg"></Chip>
+                        </Link>
+                  </div>
                   </FormGroup>
-                  <Link to={{pathname:`/dashboard/courses/${Object.keys(buyCourse)[0]}`,
-                            aboutProps:{
-                                language:buyCourse[Object.keys(buyCourse)[0]],
-                            }
-                  }}
-                  >
-                    <Button size="lg">View Courses</Button>
-                  </Link>
                   </Form>
               </Paper>
             </Grid>
@@ -483,7 +493,7 @@ const StudentDashboard = props => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Paper >
-              <CardTitle className="text-center" style={{fontSize:"20px"}}>Your Courses</CardTitle>
+              <CardTitle className="text-center" style={{fontSize:"20px", padding : "10px"}}>Your Courses</CardTitle>
                 <Accordion>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon/>}

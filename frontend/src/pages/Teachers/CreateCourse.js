@@ -31,6 +31,7 @@ const CreateCourse = (props) =>{
                                                 "language":res3.data.objects[0],
                                                 "name":courseDetails['name'],
                                                 "trainer":res1.data.objects[0],
+                                                "cost":courseDetails['cost'],
                                                 "startdate":courseDetails['startdate'] ,
                                                 "enddate": courseDetails['enddate'],
                                                 "description":courseDetails['description'],
@@ -44,6 +45,7 @@ const CreateCourse = (props) =>{
                                     "language":res2.data.objects[0],
                                     "name":courseDetails['name'],
                                     "trainer":res1.data.objects[0],
+                                    "cost":courseDetails['cost'],
                                     "startdate":courseDetails['startdate'] ,
                                     "enddate": courseDetails['enddate'],
                                     "description":courseDetails['description'],
@@ -89,6 +91,10 @@ const CreateCourse = (props) =>{
                     size="lg"
                     onChange={changeField}
                     />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="cost">Purchase Amount</Label>
+                    <Input type="text" name="cost" id="cost" placeholder="Enter the purchase amount" size="lg" onChange={changeField}/>
                 </FormGroup>
                 <FormGroup>
                     <Label for="description">Course Description</Label>

@@ -4,7 +4,6 @@ import './Checkout.css';
 import axios from "axios";
 import basename from "../Home/basename.js";
 import { Alert } from 'reactstrap';
-
 const CheckoutForm = (props) => {
   const [error, setError] = useState(null);
   const [email, setEmail] = useState('');
@@ -68,6 +67,7 @@ else
     e = <div></div>
 
 return (
+  <div>
   <form onSubmit={handleSubmit} className="stripe-form">
     <div className="form-row">
       <label htmlFor="email">Email Address :</label>
@@ -83,6 +83,7 @@ value={email} onChange={(event) => { setEmail(event.target.value)}} />
       Submit Payment
     </button>
   </form>
+  </div>
  );
 };
 export default CheckoutForm;

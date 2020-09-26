@@ -81,7 +81,6 @@ class StudentCourse(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     completed_percent = models.IntegerField(default=0)
-    purchased = models.BooleanField(default=False)
     # startdate = models.DateField(auto_now_add=True)
     # enddate = models.DateField(null=True)
 
@@ -155,12 +154,3 @@ class Forum(models.Model):
     def __str__(self):
         return self.title
 
-
-class Payment(models.Model):
-    stripe_charge_id = models.CharField(max_length=50)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    amount = models.FloatField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.user.fullname

@@ -84,15 +84,15 @@ const CourseContent = (props,user) =>{
           }),
         },
         appBarShift: {
-          marginLeft: drawerWidth,
-          width: `calc(100% - ${drawerWidth}px)`,
+          marginLeft: '150%',
+          width: `calc(100% - 150px)`,
           transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
           }),
         },
         menuButton: {
-          marginRight: 36,
+          marginRight: 5,
         },
         menuButtonHidden: {
           display: 'none',
@@ -103,7 +103,7 @@ const CourseContent = (props,user) =>{
         drawerPaper: {
           position: 'relative',
           whiteSpace: 'nowrap',
-          width: drawerWidth,
+          width: '240px',
           transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -210,7 +210,7 @@ const CourseContent = (props,user) =>{
             open={open}
           >
             <div className={classes.toolbarIcon}>
-              <IconButton onClick={handleDrawerClose}>
+              <IconButton onClick={handleDrawerClose} className={clsx(classes.menuButton, !open && classes.menuButtonHidden)}>
                 <ChevronLeftIcon />
               </IconButton>
               <IconButton
@@ -228,20 +228,16 @@ const CourseContent = (props,user) =>{
             <Divider />
           </Drawer>
           <React.Fragment className={classes.content}>
-          <Jumbotron>
+          
+          <Container className = "mt-5">
           <Grid>
             <Grid item xs={12}>
-              <h1 className="display-2">
+              <h1 className="display-2 text-center">
               {courseName} 
               </h1>
-            </Grid>
-              <hr className="my-2" />
-            <Grid item xs={12}>
-              <img src="https://source.unsplash.com/200x200/?language" height = "200"/> 
+              <hr/>
             </Grid>
           </Grid>
-          </Jumbotron>
-          <Container className = "mt-5">
             <Grid container spacing = {3}>
               <Grid item xs={12} md={6} lg={6}>
               <Card className={classes.paper}>

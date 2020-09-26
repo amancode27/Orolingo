@@ -6,20 +6,30 @@ import '../style/CourseDetails.css';
 import Reviews from './Reviews';
 import { Button, Jumbotron } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Container, CssBaseline } from '@material-ui/core';
+import { Chip, Container, CssBaseline, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles, useTheme  } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+//import Button from '@material-ui/core/Button';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
+      marginTop : "40px"
     },
     content: {
       flex: '1 0 auto',
       padding: '50px',
     
     },
+    media: {
+        height: 400,
+      },
   }));
 
 const CourseDetails = (props,userinfo) =>{
@@ -50,7 +60,7 @@ const CourseDetails = (props,userinfo) =>{
                     coursetmp['language'] = k.language.name;
                     coursetmp['startdate'] = k.startdate;
                     coursetmp['enddate'] = k.enddate;
-                    coursetmp['cost'] = k.cost;
+                    coursetmp['cost'] = "Price : Rs" + k.cost;
                     coursetmp['description'] = k.description;
                     trainertmp['name'] = k.trainer.user.fullname;
                     setCourseDetals(coursetmp);
@@ -60,42 +70,63 @@ const CourseDetails = (props,userinfo) =>{
         });
     },[props.match.params['course_id']]);
 
+    console.log(trainerDetails);
     return(
         <div className={classes.root}>
             <React.Fragment className={classes.content}> 
             
             <CssBaseline/>
-            
-                <Jumbotron>
-                    <h1 className="display-2">
-                        Hi! I'm {trainerDetails['name']}.
-                    </h1>
-                    <hr className="my-2" />
-                    <img src="https://source.unsplash.com/200x200/?teacher" alt="profilephoto" id="profilephoto"></img>
-                </Jumbotron>
-                <div id="container">
+            <Container>
+            <Grid container spacing={1}>
+                <Grid item md={4} sm={12}>
+                <CardActionArea>
+                    <Card elevation = {3} style={{minHeight : "600px"}}>                        
+                        <Typography variant="h2" gutterBottom style={{padding : "30px"}}>
+                            Hi! I'm {trainerDetails['name']}.
+                        </Typography>
+                    <hr/>
+                    <img src="https://source.unsplash.com/400x400/?teacher" alt="profilephoto" width="100%"></img>                    
+                    </Card>
+                    </CardActionArea>
+                </Grid>
+                <Grid item md = {8} sm={12}>
+                <CardActionArea>
+                    <Card elevation = {3} style={{minHeight : "600px"}}>
+                        <CardMedia
+                            className={classes.media}
+                            image="https://source.unsplash.com/1000x300/?language"
+                            title="Course Name"
+                            />
+                            <CardContent>
+                            <Typography gutterBottom variant="h3" component="h2">
+                            {courseDetails['name']}
+                            </Typography>
+                            <Typography gutterBottom variant="h4">
+                               <span style={{float : "left"}}> Starts on {courseDetails['startdate']}!</span> <span style={{marginRight : "20px", float : "right"}}> Ends on {courseDetails['enddate']} !!</span> <br/>
+                            </Typography>
+                            <Typography gutterBottom variant = "body1" style={{fontSize : "13px"}}>
+                                {courseDetails['description']}
+                            </Typography>
+                            <Chip 
+                                label={courseDetails['cost']}
+                                clickable
+                                style={{fontSize : "15px", float:"left"}}></Chip>
+                            <Link to = {`/purchase/${id}`}>
+                                <Chip 
+                                    label = "Join Now!"
+                                    clickable
+                                    color = "primary"
+                                    style = {{fontSize : "15px", float:"right", marginRight : "20px"}}></Chip>   
+                            </Link>        
+                            </CardContent>
+                        </Card>
+                    </CardActionArea>    
+                </Grid>
+            </Grid>
+            </Container>
+                    
+                
 
-                <div id="main">
-                    <div id="course-details">
-                        <div id="course-desc">
-                            <h1 style={{textAlign:"center",paddingTop:"30px",textDecoration:"underline"}}>Course Details</h1>
-                            <ul id="about">
-                                <li>Course Name : {courseDetails['name']}</li>
-                                <li>Start Data  : {courseDetails['startdate']} </li>
-                                <li>End Date : {courseDetails['enddate']} </li>
-                                <li>Purchase Amount  : Rs. {courseDetails['cost']} </li>
-                                <li>Brief Discription : {courseDetails['description']}</li>
-                            </ul>
-                                <Link to = {`/purchase/${id}`}>
-                                    <Button style ={buttonStyle} color="primary" size="lg">Buy</Button>
-                                </Link>
-                        </div>
-                        <div id="course-video">
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
             </React.Fragment>
         </div>
     );

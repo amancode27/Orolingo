@@ -1,5 +1,7 @@
 :root {
   --color-primary: rgb(10, 3, 102);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 10px;
 }
 
 * {
@@ -13,6 +15,7 @@ html {
 }
 
 body {
+  background-color:  #ddeefc;
 }
 
 .button-standard {
