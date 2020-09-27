@@ -28,6 +28,7 @@
     "react-scripts": "^3.4.3",
     "react-social-login": "^3.4.8",
     "react-stripe-elements": "^6.1.2",
+    "react-transition-group": "^4.4.1",
     "reactstrap": "^6.5.0",
     "semantic-ui-react": "^1.2.1",
     "timeago.js": "^4.0.2"
