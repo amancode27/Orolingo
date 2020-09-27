@@ -7,8 +7,8 @@ const DropDown = (props) => {
   const toggle = () => setDropdownOpen(prevState => !prevState);
   const addToLearnLanguage = props.addToLearnLanguage;
   return (
-    <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-      <DropdownToggle caret style={{width:"100%",fontSize:"16px"}}>
+    <Dropdown className="text-center" isOpen={dropdownOpen} toggle={toggle}>
+      <DropdownToggle caret style={{width:"70%",fontSize:"16px"}}>
         Add Languages
         </DropdownToggle>
       <DropdownMenu>
