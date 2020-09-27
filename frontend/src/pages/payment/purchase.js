@@ -11,6 +11,7 @@ const stripePromise = loadStripe('pk_test_51HPYCmEIFPCEHoD2IMgEmOaX06T2UyqNeciaj
 const Purchase = (props) => (
   
   <Elements stripe={stripePromise}>
+    <Screen />
     <CheckoutForm {...props}/>
   </Elements>
 );
