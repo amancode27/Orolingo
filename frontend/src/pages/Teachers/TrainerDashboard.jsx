@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import basename from "./../Home/basename.js";
+import basename from "../Home/basename.js";
 import axios from "axios";
+
+import Sidebar from "./sidebar"
+import ThemeRoutes from './routing';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -13,6 +16,11 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import TranslateOutlinedIcon from '@material-ui/icons/TranslateOutlined';
+import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
+import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
@@ -53,6 +61,11 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(8),
         paddingBottom: theme.spacing(8),
     },
+    cardheader: {
+        backgroundColor: '#3f50b5',
+        color: 'white',
+        textAlign: 'center',
+    },
     card: {
         height: '100%',
         display: 'flex',
@@ -70,6 +83,7 @@ const useStyles = makeStyles((theme) => ({
     },
     root: {
         display: 'flex',
+        backgroundColor : "#eeeeee",
     },
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
@@ -158,16 +172,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TrainerDashboard = (props) => {
-    const buttonStyle = {
-        width: "100px",
-        fontSize: "10px",
-        fontFamily: "sans-serif",
-        height: "35px",
-        marginLeft: "auto",
-        marginRight: "auto",
-        borderRadius: "10px",
-        marginTop: "10px"
-    };
     const [trainerName, setTrainerName] = useState("")
     const [upcomingCourses, setUpcomingCourses] = useState([]);
     const [liveCourses, setLiveCourses] = useState([]);
@@ -182,7 +186,7 @@ const TrainerDashboard = (props) => {
     const classes = useStyles();
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+    const [width, setWidth] = useState(window.innerWidth);
 
     useEffect(() => {
         axios
@@ -215,7 +219,7 @@ const TrainerDashboard = (props) => {
 
 
     return (
-        <div>
+        <div className="main-wrapper">
             <div className={classes.root}>
                 <CssBaseline />
                 <Drawer
@@ -243,23 +247,39 @@ const TrainerDashboard = (props) => {
                     <Divider />
                     <List>{mainListItems}</List>
                     <Divider />
-                    {/* <List>{secondaryListItems}</List> */}
+                    /* <List>{secondaryListItems}</List>
                 </Drawer>
+                {/*<Sidebar {...props} routes={ThemeRoutes}/> */}
                 <Container className={classes.cardGrid} maxWidth="md">
                     <Grid container spacing={4}>
-                        <Grid item xs={12}>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                Languages You Teach
-                            </Typography>
+                        <Grid item xs={12} sm={6} md={8}>
+                            <Card className={classes.cardheader} >
+                                <Typography gutterBottom variant="h4" component="h2" >
+                                    Languages You Teach
+                                </Typography>
+                            </Card>
+                            {Object.keys(languages).map(e => (
+                            <Grid item key={e} xs={12} >
+                                <Card className={classes.card} style={{width:'100%',textAlign:'center'}}>
+                                    <CardContent className={classes.cardContent} >
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            <Link style={{ textDecoration: "none", }} to={`dashboard/trainercourses/${e}`}>
+                                                <TranslateOutlinedIcon/> {e}
+                                            </Link>
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
                         </Grid>
-                        {Object.keys(languages).map(e => (
+                        {/* {Object.keys(languages).map(e => (
                             <Grid item key={e} xs={12} sm={6} md={4}>
                                 <Card className={classes.card}>
-                                <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
+                                    <CardMedia
+                                        className={classes.cardMedia}
+                                        image="https://source.unsplash.com/400x400/?language"
+                                        title="Image title"
+                                    />
                                     <CardContent className={classes.cardContent} >
                                         <Typography gutterBottom variant="h5" component="h2">
                                             <Link style={{ textDecoration: "none", }} to={`dashboard/trainercourses/${e}`}>
@@ -269,11 +289,36 @@ const TrainerDashboard = (props) => {
                                     </CardContent>
                                 </Card>
                             </Grid>
-                        ))}
+                        ))} */}
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card style={{backgroundColor:'#e65100'}}>
+                                <Typography gutterBottom variant="h4" component="h2" 
+                                    style={{textAlign:'center'}}>
+                                    Schedule
+                                </Typography>
+                            </Card>
+                            <Grid item xs={12} >
+                                <Card className={classes.card} style={{width:'100%'}}>
+                                    <CardContent className={classes.cardContent} >
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            <AccessTimeIcon/> Place - 2:00 P.M.
+                                        </Typography>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            <AccessTimeIcon/> Place - 2:00 P.M.
+                                        </Typography>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            <AccessTimeIcon/> Place - 2:00 P.M.
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        </Grid>
                         <Grid item xs={12}>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                Live Courses
-                        </Typography>
+                            <Card className={classes.cardheader} >
+                                <Typography gutterBottom variant="h4" component="h2">
+                                    Live Courses
+                                </Typography>
+                            </Card>
                         </Grid>
                         {liveCourses.map(e => (
                             <Grid item key={e} xs={12} sm={6} md={4}>
@@ -286,41 +331,43 @@ const TrainerDashboard = (props) => {
                                     <CardContent className={classes.cardContent}>
                                         <Typography gutterBottom variant="h5" component="h2">{e.name}</Typography>
                                         <Typography gutterBottom variant="h6" component="h2">
-                                            Start-Date :{e.startdate}<br/>End Date: {e.enddate} 
+                                            Start-Date :{e.startdate}<br />End Date: {e.enddate}
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
                                         <Grid container spacing={1}>
-                                        <Grid item xs={6} >
-                                        <Button variant="contained" color="primary" className="dor">
-                                            <Link to={`/dashboard/trainercourses/uploads/${e.id}`} color="inherit">
-                                                Upload Content
-                                            </Link> 
-                                        </Button>
-                                        </Grid>
-                                        <Grid item xs={6} >
-                                        <Button variant="contained" color="primary" className="dor">>
-                                            <Link to={`/dashboard/chatapp/${e.id}`}>
-                                                Chat App
-                                            </Link> 
-                                        </Button>
-                                        <Grid item xs={6} >
-                                        <Button variant="contained" color="primary" className="dor">>
-                                            <Link to={`dashboard/editcourse/${e.id}`}>
-                                                Edit
-                                            </Link> 
-                                        </Button>
-                                        </Grid>
-                                        </Grid>
+                                            <Grid item xs={7} >
+                                                <Button variant="contained" color="primary">
+                                                    <Link to={`/dashboard/trainercourses/uploads/${e.id}`} style={{color:'white'}}>
+                                                        <CloudUploadOutlinedIcon/>Upload Content
+                                                    </Link>
+                                                </Button>
+                                            </Grid>
+                                            <Grid item xs={5} >
+                                                    <Button variant="contained" color="primary">
+                                                        <Link to={`dashboard/editcourse/${e.id}`} style={{color:'white'}}>
+                                                            <EditOutlinedIcon/>Edit
+                                                        </Link>
+                                                    </Button>
+                                            </Grid>
+                                            <Grid item xs={12} >
+                                                    <Button variant="contained" color="primary">
+                                                        <Link to={`/dashboard/chatapp/${e.id}`} style={{color:'white', textAlign:'center'}}>
+                                                            <ChatOutlinedIcon/> Chat App
+                                                        </Link>
+                                                    </Button>
+                                            </Grid>
                                         </Grid>
                                     </CardActions>
                                 </Card>
                             </Grid>
                         ))}
                         <Grid item xs={12}>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                Upcoming Courses
-                        </Typography>
+                            <Card className={classes.cardheader} >
+                                <Typography gutterBottom variant="h4" component="h2">
+                                    Upcoming Courses
+                                </Typography>
+                            </Card>
                         </Grid>
                         {upcomingCourses.map(e => (
                             <Grid item key={e} xs={12} sm={6} md={4}>
@@ -333,52 +380,50 @@ const TrainerDashboard = (props) => {
                                     <CardContent className={classes.cardContent}>
                                         <Typography gutterBottom variant="h5" component="h2">{e.name}</Typography>
                                         <Typography gutterBottom variant="h6" component="h2">
-                                            Start-Date :{e.startdate}<br/>End Date: {e.enddate} 
+                                            Start-Date :{e.startdate}<br />End Date: {e.enddate}
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
                                         <Grid container spacing={1}>
-                                        <Grid item xs={6} >
-                                        <Button variant="contained" color="primary" className="dor">
-                                            <Link to={`/dashboard/trainercourses/uploads/${e.id}`}>
-                                                Upload Content
-                                            </Link> 
-                                        </Button>
-                                        </Grid>
-                                        <Grid item xs={6} >
-                                        <Button variant="contained" color="primary" className="dor">>
+                                            <Grid item xs={6} >
+                                                <Button variant="contained" color="primary" className="dor">
+                                                    <Link to={`/dashboard/trainercourses/uploads/${e.id}`}>
+                                                        Upload Content
+                                            </Link>
+                                                </Button>
+                                            </Grid>
+                                            <Grid item xs={6} >
+                                                <Button variant="contained" color="primary" className="dor">>
                                             <Link to={`dashboard/editcourse/${e.id}`}>
-                                                Chat App
-                                            </Link> 
-                                        </Button>
-                                        </Grid>
-                                        <Grid item xs={6} >
-                                        <Button variant="contained" color="primary" className="dor">>
+                                                        Chat App
+                                            </Link>
+                                                </Button>
+                                            </Grid>
+                                            <Grid item xs={6} >
+                                                <Button variant="contained" color="primary" className="dor">>
                                             <Link to={`/dashboard/chatapp/${e.id}`}>
-                                                Edit
-                                            </Link> 
-                                        </Button>
-                                        </Grid>
+                                                        Edit
+                                            </Link>
+                                                </Button>
+                                            </Grid>
                                         </Grid>
                                     </CardActions>
                                 </Card>
                             </Grid>
                         ))}
                         <Grid xs={12} sm={6} md={4}>
-                                <Card className={classes.card}>
-                                    <CardMedia
-                                        className={classes.cardMedia}
-                                        image="https://source.unsplash.com/random"
-                                        title="Image title"
-                                    />
-                                    <CardContent className={classes.cardContent} >
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                        <Link to="dashboard/createcourse" style={{marginLeft:"auto",marginRight:"auto"}}>
-                                            <Button variant="outlined" color="primary">Upload Course</Button>
-                                         </Link>
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
+                            <Card className={classes.card}>
+                                <CardContent className={classes.cardContent} >
+                                    <Link to="dashboard/createcourse" >
+                                        <Button  variant='outlined' color="primary">Upload Course</Button>
+                                    </Link>
+                                </CardContent>
+                                <CardMedia
+                                    className={classes.cardMedia}
+                                    image="https://source.unsplash.com/400x400/?space"
+                                    title="Image title"
+                                />
+                            </Card>
                         </Grid>
                     </Grid>
                 </Container>
