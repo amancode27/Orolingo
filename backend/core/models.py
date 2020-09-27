@@ -143,7 +143,7 @@ class Zoom(models.Model):
 
 class Forum(models.Model):
     title = models.CharField(max_length=30)
-    description = models.CharField(max_length=200)
+    description = models.TextField(max_length=1000)
     creator = models.CharField(max_length=50, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     student_course = models.ForeignKey(StudentCourse, on_delete=models.CASCADE,null = True)

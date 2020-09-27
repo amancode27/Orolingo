@@ -73,7 +73,7 @@ const FeedbackModal = (props) => {
         element = <div></div>;
     return (
         <div>
-            <Button color="primary" variant="outlined" onClick={toggle} size="lg" style = {props.buttonStyle}>{buttonLabel}</Button>
+            <Button color="primary" variant="outlined" onClick={toggle} size="lg" style = {{float : "right"}}>{buttonLabel}</Button>
             {/* <Button color="danger" onClick={toggle} size="lg" style = {props.buttonStyle}>{buttonLabel}</Button> */}
             <Modal isOpen={modal} toggle={toggle} className={className} >
                 <ModalHeader toggle={toggle}>Feedback Form</ModalHeader>

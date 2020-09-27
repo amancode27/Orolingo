@@ -6,6 +6,7 @@ import axios from "axios";
 import {
     CardTitle,
     CardText,
+    Row,
     Col,
     Jumbotron,
   } from "reactstrap";
@@ -34,6 +35,9 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import { mdiAccountVoice } from '@mdi/js';
+import Icon from '@mdi/react';
+import TextField from '@material-ui/core/TextField';
 
 const CourseContent = (props,user) =>{
     
@@ -147,6 +151,12 @@ const CourseContent = (props,user) =>{
         media: {
           height: 140,
         },
+        discuss : {
+          '& > *': {
+            margin: theme.spacing(1),
+            width: '25ch',
+          },
+        },
       }));
 
       const classes = useStyles();
@@ -240,8 +250,9 @@ const CourseContent = (props,user) =>{
           </Grid>
             <Grid container spacing = {3}>
               <Grid item xs={12} md={6} lg={6}>
-              <Card className={classes.paper}>
-                  <CardActionArea>
+              <CardActionArea>
+              <Card className={classes.paper} style={{fontSize : "13px"}}>
+                  <Link to={`${student_course_id}/assignments`} style={{textDecoration : "none", color: "black"}}>
                     <CardMedia
                       className={classes.media}
                       image="https://source.unsplash.com/318x180"
@@ -251,51 +262,34 @@ const CourseContent = (props,user) =>{
                       <Typography gutterBottom variant="h5" component="h2">
                         Your Assignments
                       </Typography>
-                      <Typography variant="body2" color="textSecondary" component="p">
+                      <Typography variant="body1" color="textSecondary" component="p">
                         Your Course Assignments are available here !
                       </Typography>
                     </CardContent>
-                  </CardActionArea>
-                  <CardActions>
-                  <Link to={`${student_course_id}/assignments`}>
-                    <Button size="small" color="primary" variant="contained">
-                      Your Assignments
-                    </Button>
                   </Link>
-                    <Button size="small" color="primary">
-                      Learn More
-                    </Button>
-                  </CardActions>
                 </Card>  
+                </CardActionArea>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
-              <Card className={classes.paper}>
               <CardActionArea>
+              <Card className={classes.paper} style={{fontSize : "13px"}}>
+              <Link to={`${student_course_id}/notes`} style={{textDecoration : "none", color: "black"}}>
                     <CardMedia
                       className={classes.media}
                       image="https://source.unsplash.com/318x180"
                       title="dvsdv"
                     />
-                    <CardContent>
+                    <CardContent >
                       <Typography gutterBottom variant="h5" component="h2">
                         Your Notes
                       </Typography>
-                      <Typography variant="body2" color="textSecondary" component="p">
+                      <Typography variant="body1" color="textSecondary" component="p">
                         Your Notes are available here !
                       </Typography>
                     </CardContent>
-                  </CardActionArea>
-                  <CardActions>
-                  <Link to={`${student_course_id}/notes`}>
-                    <Button size="small" color="primary" variant="contained">
-                      Your Notes
-                    </Button>
-                  </Link>
-                    <Button size="small" color="primary">
-                      Learn More
-                    </Button>
-                  </CardActions>
+                  </Link>               
                 </Card>
+                </CardActionArea>
               </Grid>
             </Grid>
             <Grid container spacing = {3}>
@@ -304,14 +298,8 @@ const CourseContent = (props,user) =>{
                   <Typography gutterBottom variant="h5" component="h2">
                       Live video lectures, Recorded videos, etc here.
                   </Typography>
-              </Card>
-              </Grid>
-            </Grid>
-            <Grid container spacing = {3}>
-              <Grid item xs={12}>
-              <Paper className={classes.paper}>
                   <FeedbackModal {...props} buttonLabel = {"Give Feedback"} className = {"feedback"} />
-              </Paper>
+              </Card>
               </Grid>
             </Grid>
 
@@ -327,60 +315,57 @@ const CourseContent = (props,user) =>{
                   <CardTitle className="text-center mt-3" style={{fontSize:"20px"}}>Discussion Forum </CardTitle>
                   </AccordionSummary>
               <AccordionDetails>
-              <Col md={8}>
+                <Row>
+              <Col md={10}>
                 <div className="commentList">
                     {forumData.map(k => (
-
-                        <div className="media mb-3">
-                        <img
+                      <Card variant="outlined" elevation={3}>
+                        <CardActionArea>
+                  
+                        {/* <img
                         className="mr-3 bg-light rounded"
                         width="48"
                         height="48"
                         src={`https://livechat.s3.amazonaws.com/default/avatars/male_8.jpg`}
                         alt="Avatar"
-                        />
-
-                        <div className="media-body p-2 shadow-sm rounded bg-light border">
-                        <p className="float-right text-muted">{timeago.format(k.created_at)} </p>
-                        <h4 className = "mt-0 mb-1 text-muted">{ k.creator } </h4>
-                        <h6 className="mt-1 mb-1 text-muted">{ k.title }</h6>
-                        {k.description}
-                        </div>
-                        </div>
-
+                        /> */} 
+                        <Row>
+                          <Col md={1} >
+                            <Icon style={{padding : "10px"}} path = {mdiAccountVoice} size={4} />
+                        </Col>
+                        <Col md={11}>
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="h2">
+                          { k.creator } 
+                          </Typography>
+                          <Typography gutterBottom variant="h6" component="h2">
+                          { k.title }
+                          </Typography>
+                          <Typography variant="subtitle1">
+                          {k.description}
+                          </Typography>
+                          <Typography variant="body1"  component="p" style={{float : "right"}}>
+                          {timeago.format(k.created_at)}
+                          </Typography>
+                        </CardContent>
+                        </Col>
+                        </Row>
+                    
+                        </CardActionArea>
+                        </Card>
                     ))}
                 </div>
               </Col>
-              <Col md={4}>
-                  <form >
-                    <div className="form-group">
-                      <input
-                        className="form-control"
-                        placeholder="Title"
-                        name="Title"
-                        type="text"
-                        onChange = {changeTitle}
-                        value = {title}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <textarea
-                        className="form-control"
-                        placeholder="Details (200 letters)"
-                        name="Description"
-                        rows="5"
-                        onChange = {changeDescription}
-                        value = {description}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <button  className="btn btn-primary" onClick={discuss}>
-                        Discuss &#10148;
-                      </button>
-                    </div>
-                  </form>
+              <Col md={2}>
+              <form className={classes.discuss} style={{fontSize : "25px", color :"black"}} noValidate autoComplete="off">
+                <TextField id="standard-basic" label="Title" onChange = {changeTitle} value = {title} /> <br/>
+                <TextField id="outlined-basic" label="Description" variant="outlined" onChange = {changeDescription} multiline value = {description} />
+                <Button variant="contained" color="primary" onClick = {discuss}>
+                  Discuss &#10148;
+                </Button>
+              </form>
               </Col>
+              </Row>
               </AccordionDetails>
           </Accordion>
               </Paper>
