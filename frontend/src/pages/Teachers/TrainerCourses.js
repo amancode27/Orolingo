@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -89,9 +89,13 @@ const TrainerCourses = (props) => {
     const classes = useStyles();
     const [courses, setCourses] = useState([]);   //contains all the courses related to chosen language
     const [language,setLanguage] = useState("");
+    const [loader,showLoader,hideLoader] = useFullPageLoader();
+
     useEffect(() => {
+      showLoader();
         axios.get(`${basename}/api/language/`)
             .then(res => {
+              hideLoader();
                 const tmp = res.data.objects;
                 tmp.map(k => {
                     if (k.name == props.match.params['language']) {
@@ -149,6 +153,7 @@ const TrainerCourses = (props) => {
           </Container>
         </div>
             <CourseCard courses={courses} />
+            {loader}
         </main>
     )
 }

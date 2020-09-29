@@ -17,6 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import { CssBaseline } from "@material-ui/core";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import useFullPageLoader from "../../Components/FullPageLoader/useFullPageLoader.js";
 
 const useStyles = makeStyles({
     pap: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles({
     },
     
 });
+
 
 const useMoreStyles = makeStyles((theme) => ({
     icon: {
@@ -64,6 +66,7 @@ const CourseCard = (props) => {
     const courses = props.courses;
     const classes = useStyles();
     const [langName, setLangName] = useState("");
+
     const moreclasses = useMoreStyles();
     useEffect(() => {
         courses.map( k => (setLangName( k.language ) ))
@@ -122,15 +125,20 @@ const CourseCard = (props) => {
             }
             </Grid>
             </Container>
+            
         </React.Fragment>
     );
   };
 
 const Courses =(props) => {
     const [courses,setCourses] = useState([]);   //contains all the courses related to chosen language
+    const [loader,showLoader, hideLoader] = useFullPageLoader();
+
     useEffect(()=>{
+        showLoader();
         axios.get(`${basename}/api/language/`)
         .then(res=>{
+            hideLoader();
             const tmp = res.data.objects;
             tmp.map(k=>{
                 if(k.name == props.match.params['language']){
@@ -159,6 +167,7 @@ const Courses =(props) => {
     return(
         <div>    
             <CourseCard courses = {courses}/>
+            {loader}
         </div>
     )
 }

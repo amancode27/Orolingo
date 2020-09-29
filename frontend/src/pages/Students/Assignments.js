@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -51,19 +52,24 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const Assignment = (props) =>{
   const classes = useStyles();
   const [assignments,setAssignments] = useState([]);
+  const [loader,showLoader,hideLoader] = useFullPageLoader();
+
   let course_id;
   const student_course_id = props.match.params['id'];
   useEffect(()=>{
-
+    showLoader();
     axios.get(`${basename}/api/student_course/${student_course_id}`)
           .then((res)=>{
+            hideLoader();
             console.log(res.data);
             course_id = res.data.course['id'];
+            
           }).then(()=>{
             console.log("sadsadasd",course_id);
             axios.get(`${basename}/api/assignments/?course=${course_id}`)
             .then(res=>{
                const tmp = res.data.objects;
+               
                tmp.map(k=>{
                    const tmpassignment = {};
                    tmpassignment['topic'] = k.topic;
@@ -76,6 +82,7 @@ const Assignment = (props) =>{
                });
             });
           })
+    //hideLoader();      
   },[props.match.params['id']]);
 
 
@@ -145,7 +152,7 @@ const Assignment = (props) =>{
         </Container>
       </main>
       {/* Footer */}
-      
+      {loader}
     </React.Fragment>
   );
 }

@@ -23,7 +23,7 @@ import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
 import { ListGroup, ListGroupItem } from 'reactstrap';
-
+import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 
 import { mainListItems, secondaryListItems } from './listItems';
 import { Link } from "react-router-dom";
@@ -177,6 +177,9 @@ const TrainerDashboard = (props) => {
     const [liveCourses, setLiveCourses] = useState([]);
     const [languages, setLanguages] = useState({});
     const [open, setOpen] = useState(false);
+    const [loader,showLoader,hideLoader] = useFullPageLoader();
+
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -189,9 +192,11 @@ const TrainerDashboard = (props) => {
     const [width, setWidth] = useState(window.innerWidth);
 
     useEffect(() => {
+        showLoader();
         axios
             .get(`${basename}/api/course/?trainer=${props.userId}`)
             .then((res) => {
+                hideLoader();
                 //console.log(res.data.objects);
                 const tmp = res.data.objects;
                 setLiveCourses([]); setUpcomingCourses([]);
@@ -428,6 +433,7 @@ const TrainerDashboard = (props) => {
                     </Grid>
                 </Container>
             </div>
+            {loader}
         </div>
     );
 };

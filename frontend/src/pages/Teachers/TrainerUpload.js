@@ -17,6 +17,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import UploadModal from './UploadModal.js';
+import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
+
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -60,11 +62,15 @@ const Page = (props) => {
     const [feedback, setFeedback] = useState([]);
     let course_id;
     const student_course_id = props.match.params['id'];
+    const [loader,showLoader,hideLoader] = useFullPageLoader();
+
 
     useEffect(() => {
+        showLoader();
         const course_id = props.match.params['id'];
         axios.get(`${basename}/api/assignments/?course=${course_id}`)
             .then(res => {
+                hideLoader();
                 const a = res.data.objects;
                 a.map(k => {
                     const tmp = {};
@@ -252,7 +258,7 @@ const Page = (props) => {
                 </Container>
             </main>
             {/* Footer */}
-
+        {loader}
         </React.Fragment>
     );
 }

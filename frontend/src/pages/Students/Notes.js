@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 
 
   const useStyles = makeStyles((theme) => ({
@@ -86,10 +87,13 @@ const Notes = (props) =>{
       const [notes,setNotes] = useState([]);
       let course_id;
       const student_course_id = props.match.params['id'];
+      const [loader,showLoader,hideLoader] = useFullPageLoader();
 
       useEffect(()=>{
+        showLoader();
         axios.get(`${basename}/api/student_course/${student_course_id}`)
              .then(res=>{
+               hideLoader();
                 course_id=res.data.course['id'];
              }).then(()=>{
               axios.get(`${basename}/api/note/?course=${course_id}`)
@@ -145,7 +149,7 @@ const Notes = (props) =>{
               </Grid>
             </Container>
         </main>  
-        
+        {loader}
         </React.Fragment>  
     );
 };
