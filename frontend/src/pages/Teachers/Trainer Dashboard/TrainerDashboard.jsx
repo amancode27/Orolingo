@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import basename from "../Home/basename.js";
+import basename from "../../Home/basename.js";
 import axios from "axios";
 
-import Sidebar from "./sidebar"
-import ThemeRoutes from './routing';
+import Sidebar from "../sidebar"
+import ThemeRoutes from '../routing';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -23,9 +23,9 @@ import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
 import { ListGroup, ListGroupItem } from 'reactstrap';
-import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
+import useFullPageLoader from '../../../Components/FullPageLoader/useFullPageLoader.js';
 
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems, secondaryListItems } from '../listItems';
 import { Link } from "react-router-dom";
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
@@ -43,6 +43,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import LiveCourses from "./LiveCourses.js";
 
 
 const drawerWidth = 240
@@ -62,9 +63,10 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: theme.spacing(8),
     },
     cardheader: {
-        backgroundColor: '#3f50b5',
-        color: 'white',
-        textAlign: 'center',
+        fontSize :"4em",
+        textAlign :"center",
+        backgroundColor : "#757ce8",
+        color:"white",
     },
     card: {
         height: '100%',
@@ -188,9 +190,6 @@ const TrainerDashboard = (props) => {
     };
     const classes = useStyles();
 
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-    const [width, setWidth] = useState(window.innerWidth);
-
     useEffect(() => {
         showLoader();
         axios
@@ -255,7 +254,7 @@ const TrainerDashboard = (props) => {
                     /* <List>{secondaryListItems}</List>
                 </Drawer>
                 {/*<Sidebar {...props} routes={ThemeRoutes}/> */}
-                <Container className={classes.cardGrid} maxWidth="lg">
+                <Container className={classes.cardGrid}>
                     <Grid container spacing={4}>
                         <Grid item xs={12} sm={6} md={8}>
                             <Card className={classes.cardheader} >
@@ -277,24 +276,6 @@ const TrainerDashboard = (props) => {
                             </Grid>
                         ))}
                         </Grid>
-                        {/* {Object.keys(languages).map(e => (
-                            <Grid item key={e} xs={12} sm={6} md={4}>
-                                <Card className={classes.card}>
-                                    <CardMedia
-                                        className={classes.cardMedia}
-                                        image="https://source.unsplash.com/400x400/?language"
-                                        title="Image title"
-                                    />
-                                    <CardContent className={classes.cardContent} >
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            <Link style={{ textDecoration: "none", }} to={`dashboard/trainercourses/${e}`}>
-                                                {e}
-                                            </Link>
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        ))} */}
                         <Grid item xs={12} sm={6} md={4}>
                             <Card style={{backgroundColor:'#e65100'}}>
                                 <Typography gutterBottom variant="h4" component="h2" 
@@ -319,60 +300,17 @@ const TrainerDashboard = (props) => {
                             </Grid>
                         </Grid>
                         <Grid item xs={12}>
-                            <Card className={classes.cardheader} >
-                                <Typography gutterBottom variant="h4" component="h2">
+                                <Typography gutterBottom variant="h3" component="h2">
                                     Live Courses
                                 </Typography>
-                            </Card>
                         </Grid>
-                        {liveCourses.map(e => (
-                            <Grid item key={e} xs={12} sm={6} md={4}>
-                                <Card className={classes.card}>
-                                    <CardMedia
-                                        className={classes.cardMedia}
-                                        image="https://source.unsplash.com/random"
-                                        title="Image title"
-                                    />
-                                    <CardContent className={classes.cardContent}>
-                                        <Typography gutterBottom variant="h5" component="h2">{e.name}</Typography>
-                                        <Typography gutterBottom variant="h6" component="h2">
-                                            Start-Date :{e.startdate}<br />End Date: {e.enddate}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Grid container spacing={1}>
-                                            <Grid item xs={7} >
-                                                <Button variant="contained" color="primary">
-                                                    <Link to={`/dashboard/trainercourses/uploads/${e.id}`} style={{color:'white'}}>
-                                                        <CloudUploadOutlinedIcon/>Upload Content
-                                                    </Link>
-                                                </Button>
-                                            </Grid>
-                                            <Grid item xs={5} >
-                                                    <Button variant="contained" color="primary">
-                                                        <Link to={`dashboard/editcourse/${e.id}`} style={{color:'white'}}>
-                                                            <EditOutlinedIcon/>Edit
-                                                        </Link>
-                                                    </Button>
-                                            </Grid>
-                                            <Grid item xs={12} >
-                                                    <Button variant="contained" color="primary">
-                                                        <Link to={`/dashboard/chatapp/${e.id}`} style={{color:'white', textAlign:'center'}}>
-                                                            <ChatOutlinedIcon/> Chat App
-                                                        </Link>
-                                                    </Button>
-                                            </Grid>
-                                        </Grid>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        ))}
+                        <Grid xs={12}>
+                            <LiveCourses liveCourses={liveCourses}/>    
+                        </Grid> 
                         <Grid item xs={12}>
-                            <Card className={classes.cardheader} >
-                                <Typography gutterBottom variant="h4" component="h2">
+                                <Typography gutterBottom variant="h3" component="h2">
                                     Upcoming Courses
                                 </Typography>
-                            </Card>
                         </Grid>
                         {upcomingCourses.map(e => (
                             <Grid item key={e} xs={12} sm={6} md={4}>
