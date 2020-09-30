@@ -241,24 +241,61 @@ def save_stripe_info(request):
         email=email, payment_method=payment_method_id)
     else:
         customer = customer_data[0]
-        
-    stripe.PaymentIntent.create(
-        customer=customer, 
-        payment_method=payment_method_id,  
-        currency='inr', # you can provide any currency you want
-        amount=course.cost,
-        confirm = True,
-        )
-    student_course = StudentCourse()
-    student_course.student = student
-    student_course.course = course
-    student_course.completed_percent = 0
-    student_course.save()
-    return Response(status=status.HTTP_200_OK, 
-        data={
-        'message': 'Success', 
-        'data': {'customer_id': customer.id},
-        }) 
+    try:
+        stripe.PaymentIntent.create(
+                customer=customer, 
+                payment_method=payment_method_id,  
+                currency='inr', # you can provide any currency you want
+                amount=(course.cost)*100,
+                confirm = True,
+                )
+
+        student_course = StudentCourse()
+        student_course.student = student
+        student_course.course = course
+        student_course.completed_percent = 0
+        student_course.save()
+        return Response(status=status.HTTP_200_OK, 
+            data={
+            'message': 'Success', 
+            'data': {'customer_id': customer.id},
+            })
+
+    except stripe.error.CardError as e:
+        body = e.json_body
+        err = body.get('error', {})
+        return Response({"message": f"{err.get('message')}"}, status=HTTP_400_BAD_REQUEST)
+
+    except stripe.error.RateLimitError as e:
+        # Too many requests made to the API too quickly
+        messages.warning(self.request, "Rate limit error")
+        return Response({"message": "Rate limit error"}, status=HTTP_400_BAD_REQUEST)
+
+    except stripe.error.InvalidRequestError as e:
+        print(e)
+        # Invalid parameters were supplied to Stripe's API
+        return Response({"message": "Invalid parameters"}, status=HTTP_400_BAD_REQUEST)
+
+    except stripe.error.AuthenticationError as e:
+        # Authentication with Stripe's API failed
+        # (maybe you changed API keys recently)
+        return Response({"message": "Not authenticated"}, status=HTTP_400_BAD_REQUEST)
+
+    except stripe.error.APIConnectionError as e:
+        # Network communication with Stripe failed
+        return Response({"message": "Network error"}, status=HTTP_400_BAD_REQUEST)
+
+    except stripe.error.StripeError as e:
+        # Display a very generic error to the user, and maybe send
+        # yourself an email
+        return Response({"message": "Something went wrong. You were not charged. Please try again."}, status=HTTP_400_BAD_REQUEST)
+
+    except Exception as e:
+        # send an email to ourselves
+        return Response({"message": "A serious error occurred. We have been notifed."}, status=HTTP_400_BAD_REQUEST)
+
+    return Response({"message": "Invalid data received"}, status=HTTP_400_BAD_REQUEST)
+
 
 import jwt
 import base64

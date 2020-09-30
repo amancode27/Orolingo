@@ -27,7 +27,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { mainListItems } from './listItems';
+import mainListItems  from './listItems';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -47,18 +47,20 @@ import AddIcon from '@material-ui/icons/Add';
 import { mdiTrophyAward, mdiTrophyOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 
+
 const StudentDashboard = props => {
   const [languagesLearnt, setLanguagesLearnt] = useState({});
   const [languagesToLearn, setLanguagesToLearn] = useState({});
-  const [liveCourses, setLiveCourses] = useState([]);
-  const [pastCourses,setPastCourses] = useState([]);
-  const [upcomingCourses,setUpcomingCourses] = useState([]);
+  const [liveCourses, setLiveCourses] = useState({});
+  const [pastCourses,setPastCourses] = useState({});
+  const [upcomingCourses,setUpcomingCourses] = useState({});
   const [availableLanguages , setavailableLanguages] = useState({});
  // const [buyCourse,setBuyCourse] = useState("");
   const [forumData, setForumData] = useState({});
   const [buyCourse,setBuyCourse] = useState({});
   const [studentName,setStudentName] = useState("");
   const [open, setOpen ] =useState(true);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -312,19 +314,20 @@ const StudentDashboard = props => {
                 const startdate = Date.parse(k.course.startdate);
                 const enddate = Date.parse(k.course.enddate);
                 const curdate = Date.now();
+                
                 if(curdate>=startdate&&curdate<=enddate&&k.completed_percent!=100){
                   setLiveCourses(prev=>{
-                    return [...prev,k];
+                    return {...prev,[k.id]:k};
                   })
                 }
                 else if(curdate>enddate&&k.completed_percent!=100){
                   setPastCourses(prev=>{
-                    return [...prev,k];
+                    return {...prev,[k.id]:k};
                   })
                 }
                 else if(curdate<startdate&&k.completed_percent!=100){
                   setUpcomingCourses(prev=>{
-                    return [...prev,k];
+                    return {...prev,[k.id]:k};
                   })
                 }
               });
@@ -356,7 +359,7 @@ const StudentDashboard = props => {
   }, [props]);
   //console.log(studentName);
 
-  
+  console.log(pastCourses);
   return (
     <div className={classes.root}>
       <CssBaseline/>
@@ -380,7 +383,7 @@ const StudentDashboard = props => {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+          <List>{mainListItems}</List>
         <Divider />
         
       </Drawer>
@@ -504,7 +507,7 @@ const StudentDashboard = props => {
                   </AccordionSummary>
                   <AccordionDetails>
                   <Row>
-                    {liveCourses.map((e) => (
+                    {Object.keys(liveCourses).map((e,index) => (
                       <div>
                             <Col>
                             <Card className={classes.root}>
@@ -516,23 +519,23 @@ const StudentDashboard = props => {
                                 <div className={classes.details}>
                                   <CardContent className={classes.content}>
                                     <Typography component="h5" variant="h5">
-                                    {e.course.name}
+                                    {liveCourses[e].course.name}
                                     </Typography>
                                     <Typography variant="subtitle1" color="textSecondary">
-                                    Start-Date : {e.course.startdate}
+                                    Start-Date : {liveCourses[e].course.startdate}
                                     </Typography>
                                     <Typography variant="subtitle1" color="textSecondary">
-                                    End Date : {e.course.enddate}
+                                    End Date : {liveCourses[e].course.enddate}
                                     </Typography>
                                   <div className="">
                                     <div className="text-center">
                                       <Typography component="h5" variant="h5">
-                                      {e.completed_percent}%
+                                      {liveCourses[e].completed_percent}%
                                         </Typography>
-                                       <Progress className="ml-2 mr-2" value={e.completed_percent} /> </div>
+                                       <Progress className="ml-2 mr-2" value={liveCourses[e].completed_percent} /> </div>
                                   </div>
                                   <div className="mt-3">
-                                    <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
+                                    <Link to={`/dashboard/courses/coursecontent/${e}`}>
                                       <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
                                     </Link>
                                     </div>
@@ -558,7 +561,7 @@ const StudentDashboard = props => {
                 <CardTitle className="text-center" style={{fontSize:"20px"}}>Recorded Courses</CardTitle>                  </AccordionSummary>
                   <AccordionDetails>
                   <Row>
-                    {pastCourses.map((e) => (
+                    {Object.keys(pastCourses).map((e,index) => (
                       <div>
                         <Col>
                         <Card className={classes.root}>
@@ -570,23 +573,23 @@ const StudentDashboard = props => {
                                 <div className={classes.details}>
                                   <CardContent className={classes.content}>
                                     <Typography component="h5" variant="h5">
-                                    {e.course.name}
+                                    {pastCourses[e].course.name}
                                     </Typography>
                                     <Typography variant="subtitle1" color="textSecondary">
-                                    Start-Date : {e.course.startdate}
+                                    Start-Date : {pastCourses[e].course.startdate}
                                     </Typography>
                                     <Typography variant="subtitle1" color="textSecondary">
-                                    End Date : {e.course.enddate}
+                                    End Date : {pastCourses[e].course.enddate}
                                     </Typography>
                                   <div className="">
                                     <div className="text-center">
                                       <Typography component="h5" variant="h5">
-                                      {e.completed_percent}%
+                                      {pastCourses[e].completed_percent}%
                                         </Typography>
-                                       <Progress className="ml-2 mr-2" value={e.completed_percent} /> </div>
+                                       <Progress className="ml-2 mr-2" value={pastCourses[e].completed_percent} /> </div>
                                   </div>
                                   <div className="mt-3">
-                                    <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
+                                    <Link to={`/dashboard/courses/coursecontent/${e}`}>
                                       <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
                                     </Link>
                                     </div>
@@ -614,7 +617,7 @@ const StudentDashboard = props => {
                   </AccordionSummary>
                   <AccordionDetails>
                   <Row>
-                    {upcomingCourses.map((e) => (
+                    {Object.keys(upcomingCourses).map((e,index) => (
                       <div>
                          <Col>
                          <Card className={classes.root}>
@@ -626,23 +629,23 @@ const StudentDashboard = props => {
                                 <div className={classes.details}>
                                   <CardContent className={classes.content}>
                                     <Typography component="h5" variant="h5">
-                                    {e.course.name}
+                                    {upcomingCourses[e].course.name}
                                     </Typography>
                                     <Typography variant="subtitle1" color="textSecondary">
-                                    Start-Date : {e.course.startdate}
+                                    Start-Date : {upcomingCourses[e].course.startdate}
                                     </Typography>
                                     <Typography variant="subtitle1" color="textSecondary">
-                                    End Date : {e.course.enddate}
+                                    End Date : {upcomingCourses[e].course.enddate}
                                     </Typography>
                                   <div className="">
                                     <div className="text-center">
                                       <Typography component="h5" variant="h5">
-                                      {e.completed_percent}%
+                                      {upcomingCourses[e].completed_percent}%
                                         </Typography>
-                                       <Progress className="ml-2 mr-2" value={e.completed_percent} /> </div>
+                                       <Progress className="ml-2 mr-2" value={upcomingCourses[e].completed_percent} /> </div>
                                   </div>
                                   <div className="mt-3">
-                                    <Link to={`/dashboard/courses/coursecontent/${e.id}`}>
+                                    <Link to={`/dashboard/courses/coursecontent/${e}`}>
                                       <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
                                     </Link>
                                     </div>

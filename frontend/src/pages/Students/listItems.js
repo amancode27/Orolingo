@@ -10,8 +10,10 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Link } from 'react-router-dom';
+import List from '@material-ui/core/List';
 
-export const mainListItems = (
+const mainListItems = (props) =>{ 
+  return (
   <div>
     <Link to="/dashboard" style={{color : "black", textDecoration: "none"}}>
     <ListItem button>
@@ -48,4 +50,7 @@ export const mainListItems = (
       <ListItemText primary="Free-Lancing" />
     </ListItem>
   </div>
-);
+  );
+}
+
+export default mainListItems;

@@ -28,11 +28,12 @@ const CheckoutForm = (props) => {
 // Handle form submission.
   const MakePayment = async () =>{
     const card = elements.getElement(CardElement);
+    console.log(card);
     const {paymentMethod, error} = await stripe.createPaymentMethod({
       type: 'card',
       card: card
     });
-
+    
     console.log(paymentMethod);
     axios.post(`${basename}/auth/api/payment/save-stripe-info/`,{
         'email':email,
@@ -41,9 +42,14 @@ const CheckoutForm = (props) => {
         'student_id':props.userId
     }).then(res=>{
         console.log(res);
+    }).catch(err=>{
+      console.log(err.response);
+      setError(err.response.data["message"]);
     })
           
   }
+
+  
 const handleSubmit = (event) => {
     event.preventDefault();
     axios.get(`${basename}/api/student_course/?student=${props.userId}&course=${course_id}`)
