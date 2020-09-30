@@ -22,6 +22,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { mdiAccountVoice } from '@mdi/js';
 import Icon from '@mdi/react';
+import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,6 +51,7 @@ const ChatApp = (props) => {
     const changeDescription = (e) => {
         setDescription(e.target.value);
     }
+    const [loader,showLoader,hideLoader] = useFullPageLoader();
 
     const display = (val) => {
         selstd = val;
@@ -74,9 +76,11 @@ const ChatApp = (props) => {
 
     const discuss = (e) => {
         e.preventDefault();
+        showLoader();
         axios.get(`${basename}/api/student_course/?course=${id}&student=${anselstd}`)
                 .then(res=>{
                     //console.log(res.data)
+                    hideLoader();
                 axios.post(`${basename}/auth/api/forum/create/`,{
                     "title" : title,
                     "description" : description,
@@ -109,9 +113,11 @@ const ChatApp = (props) => {
     
 
     useEffect(() => {
+        showLoader();
         axios.get(`${basename}/api/student_course/?course=${id}`)
         .then((res) => {
             //console.log(res.data);
+            hideLoader();
             res.data.objects.map(k => {
                 axios.get(`${basename}${k.student}`)
                 .then(res1 => {
@@ -188,7 +194,7 @@ const ChatApp = (props) => {
                 </Col>
             </Row>
 
-            
+            {loader}
         </div>
     )
 

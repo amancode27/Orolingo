@@ -16,6 +16,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+import UploadModal from './UploadModal.js';
+import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -60,11 +62,15 @@ const Page = (props) => {
     const [feedback, setFeedback] = useState([]);
     let course_id;
     const student_course_id = props.match.params['id'];
+    const [loader,showLoader,hideLoader] = useFullPageLoader();
+
 
     useEffect(() => {
+        showLoader();
         const course_id = props.match.params['id'];
         axios.get(`${basename}/api/assignments/?course=${course_id}`)
             .then(res => {
+                hideLoader();
                 const a = res.data.objects;
                 a.map(k => {
                     const tmp = {};
@@ -155,7 +161,7 @@ const Page = (props) => {
                         </div> */}
                     </Container>
                 </div>
-                {/* <UploadModal {...props} {...{'content':'note'}} buttonLabel = {"Upload Notes"} className = {"feedback"} buttonStyle = {buttonStyle}/> */}
+                
                 <Container className={classes.cardGrid} maxWidth="lg">
                     {/* End hero unit */}
                     <Grid container spacing={4} >
@@ -165,9 +171,10 @@ const Page = (props) => {
                                     <Typography gutterBottom variant="h4" component="h2">
                                         Assignments
                                     </Typography>
-                                    <Button variant="contained" color="primary">
+                                    {/* <Button variant="contained" color="primary">
                                         Upload
-                                    </Button>
+                                    </Button> */}
+                                    <UploadModal {...props} {...{'content':'assignments'}} buttonLabel = {"Upload Assignments"} className = {"feedback"} />
                                 </CardContent>
                             </Card>
                             {assignment.map((e) => (
@@ -202,9 +209,10 @@ const Page = (props) => {
                                     <Typography gutterBottom variant="h4" component="h2">
                                         Notes
                                     </Typography>
-                                    <Button variant="contained" color="primary">
+                                    {/* <Button variant="contained" color="primary">
                                         Upload
-                                    </Button>
+                                    </Button> */}
+                                    <UploadModal {...props} {...{'content':'note'}} buttonLabel = {"Upload Notes"} className = {"feedback"} />
                                 </CardContent>
                             </Card>
                             {notes.map((e) => (
@@ -250,7 +258,7 @@ const Page = (props) => {
                 </Container>
             </main>
             {/* Footer */}
-
+        {loader}
         </React.Fragment>
     );
 }

@@ -4,6 +4,8 @@ import axios from "axios";
 import { Col,Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import '../style/CreateCourse.css';
 import { Redirect } from "react-router";
+import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
+
 
 const CreateCourse = (props) =>{
     const [courseDetails,setCourseDetails] = useState({});
@@ -15,11 +17,15 @@ const CreateCourse = (props) =>{
             return {...prev,[field]:value};
         })
     }
+    const [loader,showLoader,hideLoader] = useFullPageLoader();
+
     console.log(courseDetails);
     const course_id = props.match.params['id'];
     useEffect(()=>{
+        showLoader();
         axios.get(`${basename}/api/course/${course_id}`)
             .then(res=>{
+                hideLoader();
                 const tmp = res.data;
                 const tmp1={};
                 tmp1["language"]=tmp.language.name;
@@ -113,6 +119,7 @@ const CreateCourse = (props) =>{
                 </FormGroup>
                 <Button size="lg" onClick={submitForm}>Submit</Button>
             </Form>
+            {loader}
         </div>
     );
 }

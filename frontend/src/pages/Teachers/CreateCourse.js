@@ -4,10 +4,13 @@ import axios from "axios";
 import { Col,Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import '../style/CreateCourse.css';
 import { Redirect } from "react-router";
+import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 
 const CreateCourse = (props) =>{
     const [courseDetails,setCourseDetails] = useState({});
     const [redirect,setRedirect] = useState(false);
+    const [loader,showLoader,hideLoader] = useFullPageLoader();
+
     const changeField = (e) =>{
         const field = e.target.name;
         const value = e.target.value;
@@ -16,9 +19,11 @@ const CreateCourse = (props) =>{
         })
     }
     const submitForm = () =>{
+        showLoader();
         const user_id = props.userId;
         axios.get(`${basename}/api/trainer/?user=${user_id}`)
              .then(res1=>{
+                 hideLoader();
                  axios.get(`${basename}/api/language/?name=${courseDetails['language']}`)
                       .then(res2=>{
                             if(!res2.data.objects.length){
@@ -102,6 +107,7 @@ const CreateCourse = (props) =>{
                 </FormGroup>
                 <Button size="lg" onClick={submitForm}>Submit</Button>
             </Form>
+            {loader}
         </div>
     );
 }

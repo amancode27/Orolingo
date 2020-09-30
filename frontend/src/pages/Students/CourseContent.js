@@ -37,6 +37,7 @@ import Typography from '@material-ui/core/Typography';
 import { mdiAccountVoice } from '@mdi/js';
 import Icon from '@mdi/react';
 import TextField from '@material-ui/core/TextField';
+import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 
 const CourseContent = (props,user) =>{
     
@@ -44,6 +45,7 @@ const CourseContent = (props,user) =>{
       const preventDefault = (event) => event.preventDefault();
       console.log(props.match.params["course"]);
 
+      const [loader, showLoader, hideLoader] = useFullPageLoader();
       const [courseName, setCourseName] = useState("");
       const [forumData, setForumData] = useState([]);
       const [title, setTitle] = useState("");
@@ -171,8 +173,10 @@ const CourseContent = (props,user) =>{
       }
       const discuss = (e) => {
         e.preventDefault();
+        showLoader();
         axios.get(`${basename}/api/student_course/${student_course_id}`)
              .then(res=>{
+               hideLoader();
                 axios.post(`${basename}/auth/api/forum/create/`,{
                   "title" : title,
                   "description" : description,
@@ -181,7 +185,6 @@ const CourseContent = (props,user) =>{
                   "student" : props.userId
                 })
                 .then((res) => {
-                  
                   axios.get(`${basename}/auth/api/forum?student_course=${student_course_id}`)
                   .then((res) => {
                   setForumData(res.data); 
@@ -191,10 +194,12 @@ const CourseContent = (props,user) =>{
         setDescription("");
       }
 
-    useEffect(() => {       
+    useEffect(() => {
+      showLoader();       
       axios.
       get(`${basename}/auth/api/forum?student_course=${student_course_id}`)
       .then((res) => {
+        hideLoader();
         const tmp = res.data.objects;
         setForumData(res.data); 
       });
@@ -371,6 +376,7 @@ const CourseContent = (props,user) =>{
             </Grid>
           </Grid>
         </Container>
+        {loader}
         </React.Fragment>
         </div>
     );

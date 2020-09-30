@@ -46,6 +46,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import AddIcon from '@material-ui/icons/Add';
 import { mdiTrophyAward, mdiTrophyOutline } from '@mdi/js';
 import Icon from '@mdi/react';
+import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 
 
 const StudentDashboard = props => {
@@ -67,7 +68,6 @@ const StudentDashboard = props => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedValue, setSelectedValue] = useState("Select a language");
 
@@ -79,7 +79,7 @@ const StudentDashboard = props => {
     setOpenDialog(false);
     setSelectedValue(value);
   };
-  
+  const [loader, showLoader, hideLoader] = useFullPageLoader();
   // const drawerWidth = [150,240];
 
       const useStyles = makeStyles((theme) => ({
@@ -294,9 +294,11 @@ const StudentDashboard = props => {
   }
 
   useEffect(() => {
+    showLoader();
     axios
       .get(`${basename}/api/student/${props.userId}/`)
       .then((res) => {
+        hideLoader();
         const languagestolearn = res.data.languages_to_learn;
         setStudentName(res.data.user.fullname)
         languagestolearn.forEach((e) => {
@@ -670,7 +672,7 @@ const StudentDashboard = props => {
         </Container>
 
         </React.Fragment>
-          
+          {loader}
       </div>
   )
 }

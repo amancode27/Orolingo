@@ -17,6 +17,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { CssBaseline } from "@material-ui/core";
 
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import useFullPageLoader from "../../Components/FullPageLoader/useFullPageLoader.js";
+
 const useStyles = makeStyles({
     pap: {
     maxWidth: 345,
@@ -27,11 +31,48 @@ const useStyles = makeStyles({
     
 });
 
-
+const useMoreStyles = makeStyles((theme) => ({
+    icon: {
+      marginRight: theme.spacing(2),
+    },
+    heroContent: {
+      backgroundColor: theme.palette.background.paper,
+      padding: theme.spacing(8, 0, 6),
+    },
+    heroButtons: {
+      marginTop: theme.spacing(4),
+    },
+    cardGrid: {
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(8),
+    },
+    card: {
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    cardMedia: {
+      paddingTop: '56.25%', // 16:9
+    },
+    cardContent: {
+      flexGrow: 1,
+    },
+    footer: {
+      backgroundColor: theme.palette.background.paper,
+      padding: theme.spacing(6),
+    },
+  }));
 
 const CourseCard = (props) => {
     const courses = props.courses;
     const classes = useStyles();
+    const [langName, setLangName] = useState("");
+
+    const moreclasses = useMoreStyles();
+    useEffect(() => {
+        courses.map( k => (setLangName( k.language ) ))
+    },[props]);
+
     console.log(courses);
     return (
         <div>
@@ -70,16 +111,20 @@ const CourseCard = (props) => {
                 ))
             }
             </Row>
-            </Container>
-      </div>
+            </Container>         
+        </div>
     );
   };
 
 const Courses =(props) => {
     const [courses,setCourses] = useState([]);   //contains all the courses related to chosen language
+    const [loader,showLoader, hideLoader] = useFullPageLoader();
+
     useEffect(()=>{
+        showLoader();
         axios.get(`${basename}/api/language/`)
         .then(res=>{
+            hideLoader();
             const tmp = res.data.objects;
             tmp.map(k=>{
                 if(k.name == props.match.params['language']){
@@ -108,6 +153,7 @@ const Courses =(props) => {
     return(
         <div>    
             <CourseCard courses = {courses}/>
+            {loader}
         </div>
     )
 }

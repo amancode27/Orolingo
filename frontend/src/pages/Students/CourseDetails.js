@@ -14,6 +14,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 //import Button from '@material-ui/core/Button';
+import useFullPageLoader from "../../Components/FullPageLoader/useFullPageLoader.js";
+
 
 const drawerWidth = 240;
 
@@ -44,13 +46,16 @@ const CourseDetails = (props,userinfo) =>{
         top:"89%",
         position:"absolute"
       };
+    const [loader,showLoader,hideLoader] = useFullPageLoader();
 
     const [courseDetails,setCourseDetals] = useState({});
     const [trainerDetails,setTrainerDetails] = useState({});
     const id = props.match.params['course_id'];
     useEffect(()=>{
+        showLoader();
         axios.get(`${basename}/api/course/`)
         .then((res)=>{
+            hideLoader();
             const tmp = res.data.objects;
             tmp.map(k=>{
                 if(k.id == id){
@@ -124,9 +129,7 @@ const CourseDetails = (props,userinfo) =>{
                 </Grid>
             </Grid>
             </Container>
-                    
-                
-
+            {loader}
             </React.Fragment>
         </div>
     );

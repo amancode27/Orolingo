@@ -80,7 +80,6 @@ const UploadModal = (props) => {
                 </ModalFooter>
             </Modal>
         </div>
-        <div>Discussion Forum</div>
         </div>
     );
 }

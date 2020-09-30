@@ -3,7 +3,7 @@ import basename from "./../Home/basename.js";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import StudentDashboard from "./StudentDashboard";
-import TrainerDashboard from "../Teachers/TrainerDashboard";
+import TrainerDashboard from "../Teachers/TrainerDashboard.jsx";
 
 const Dashboard = (props) => {
   // const [userDetail, setUserDetail] = useState({});
