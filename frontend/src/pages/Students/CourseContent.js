@@ -34,16 +34,17 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { mdiAccountVoice } from '@mdi/js';
+import { mdiAccountVoice, mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
 import TextField from '@material-ui/core/TextField';
 import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
+import { Bounce, Slide, Zoom } from 'react-awesome-reveal';
 
 const CourseContent = (props,user) =>{
     
       const student_course_id = props.match.params['id'];
       const preventDefault = (event) => event.preventDefault();
-      console.log(props.match.params["course"]);
+      //console.log(props.match.params["course"]);
 
       const [loader, showLoader, hideLoader] = useFullPageLoader();
       const [courseName, setCourseName] = useState("");
@@ -194,6 +195,23 @@ const CourseContent = (props,user) =>{
         setDescription("");
       }
 
+      const deleteF = (e) => {
+       // e.preventDefault();
+       let delId = e.id;
+        console.log(delId);
+          axios.delete(`${basename}/auth/api/forum/${delId}/delete`)
+          .then((res) => {
+            showLoader();
+            axios.
+              get(`${basename}/auth/api/forum?student_course=${student_course_id}`)
+              .then((res1) => {
+                hideLoader();
+                const tmp = res1.data.objects;
+                setForumData(res1.data); 
+              });
+            })
+      }
+
     useEffect(() => {
       showLoader();       
       axios.
@@ -243,7 +261,7 @@ const CourseContent = (props,user) =>{
           </Drawer>
           <React.Fragment className={classes.content}>
           
-          <Container className = "mt-5">
+          <Container maxWidth="md" className = "mt-5">
           <Grid>
             <Grid item xs={12}>
               <h1 className="display-2 text-center">
@@ -254,6 +272,7 @@ const CourseContent = (props,user) =>{
           </Grid>
             <Grid container spacing = {3}>
               <Grid item xs={12} md={6} lg={6}>
+                <Slide>
               <CardActionArea>
               <Card className={classes.paper} style={{fontSize : "13px"}}>
                   <Link to={`${student_course_id}/assignments`} style={{textDecoration : "none", color: "black"}}>
@@ -273,8 +292,10 @@ const CourseContent = (props,user) =>{
                   </Link>
                 </Card>  
                 </CardActionArea>
+                </Slide>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
+                <Slide direction="right">
               <CardActionArea>
               <Card className={classes.paper} style={{fontSize : "13px"}}>
               <Link to={`${student_course_id}/notes`} style={{textDecoration : "none", color: "black"}}>
@@ -294,21 +315,25 @@ const CourseContent = (props,user) =>{
                   </Link>               
                 </Card>
                 </CardActionArea>
+                </Slide>
               </Grid>
             </Grid>
             <Grid container spacing = {3}>
               <Grid item xs={12}>
+                <Zoom>
               <Card className={classes.paper}>
                   <Typography gutterBottom variant="h5" component="h2">
                       Live video lectures, Recorded videos, etc here.
                   </Typography>
                   <FeedbackModal {...props} buttonLabel = {"Give Feedback"} className = {"feedback"} />
               </Card>
+              </Zoom>
               </Grid>
             </Grid>
 
           <Grid container spacing={3}>
             <Grid item xs={12}>
+              <Slide direction="up">
               <Paper>
                 <Accordion>
                 <AccordionSummary
@@ -319,10 +344,11 @@ const CourseContent = (props,user) =>{
                   <CardTitle className="text-center mt-3" style={{fontSize:"20px"}}>Discussion Forum </CardTitle>
                   </AccordionSummary>
               <AccordionDetails>
-                <Row>
-              <Col md={10}>
-                <div className="commentList">
+                <Row style={{maxHeight : "500px", width: "100%", overflowY : "scroll" }} >
+              <Col md={12} >
+                <div className="commentList" >
                     {forumData.map(k => (
+                      <div style={{padding : "5px"}}>
                       <Card variant="outlined" elevation={3}>
                         <CardActionArea>
                   
@@ -341,6 +367,7 @@ const CourseContent = (props,user) =>{
                         <CardContent>
                           <Typography gutterBottom variant="h5" component="h2">
                           { k.creator } 
+                          <Icon style = {{padding : "10px", display : "flex", float : "right"}} path = { mdiDelete } size = {3} onClick= { () => deleteF(k) } />
                           </Typography>
                           <Typography gutterBottom variant="h6" component="h2">
                           { k.title }
@@ -351,19 +378,20 @@ const CourseContent = (props,user) =>{
                           <Typography variant="body1"  component="p" style={{float : "right"}}>
                           {timeago.format(k.created_at)}
                           </Typography>
+                          
                         </CardContent>
                         </Col>
                         </Row>
-                    
                         </CardActionArea>
                         </Card>
+                        </div>
                     ))}
                 </div>
               </Col>
-              <Col md={2}>
+              <Col md={12} style= {{minHeight : "200px"}}>
               <form className={classes.discuss} style={{fontSize : "25px", color :"black"}} noValidate autoComplete="off">
                 <TextField id="standard-basic" label="Title" onChange = {changeTitle} value = {title} /> <br/>
-                <TextField id="outlined-basic" label="Description" variant="outlined" onChange = {changeDescription} multiline value = {description} />
+                <TextField  label="Description" variant="outlined" rows={5} onChange = {changeDescription} multiline value = {description} />
                 <Button variant="contained" color="primary" onClick = {discuss}>
                   Discuss &#10148;
                 </Button>
@@ -373,6 +401,7 @@ const CourseContent = (props,user) =>{
               </AccordionDetails>
           </Accordion>
               </Paper>
+              </Slide>
             </Grid>
           </Grid>
         </Container>
