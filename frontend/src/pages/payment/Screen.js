@@ -25,7 +25,7 @@ const MainScreen = () => {
         },
         [state]
     );
-
+    console.log(state);
     // References for the Form Inputs used to focus corresponding inputs.
     let formFieldsRefObj = {
         cardNumber: useRef(),

@@ -37,7 +37,7 @@ const Router = (props) => {
 
     return (
         <BrowserRouter basename='/'>
-            <NavBar />
+            <NavBar {...props} {...userinfo} handleLogout={handleLogout}/>
             <Switch>
                 <Route
                     exact
