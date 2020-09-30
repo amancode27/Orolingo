@@ -505,7 +505,7 @@ const StudentDashboard = props => {
                   >
                   <CardTitle className="text-center" style={{fontSize:"20px"}}>Live Courses</CardTitle>
                   </AccordionSummary>
-                  <AccordionDetails style= {{maxHeight : "500px", overflow : "scroll"}}>
+                  <AccordionDetails style= {{maxHeight : "500px", overflowY : "scroll"}}>
                   <CardBody>
                     {liveCourses.map((e) => (
                       <div style={{padding : "10px"}}>
@@ -550,7 +550,7 @@ const StudentDashboard = props => {
                     id="panel2a-header"
                   >
                 <CardTitle className="text-center" style={{fontSize:"20px"}}>Recorded Courses</CardTitle>                  </AccordionSummary>
-                  <AccordionDetails style= {{maxHeight : "500px", overflow : "scroll"}} >
+                  <AccordionDetails style= {{maxHeight : "500px", overflowY : "scroll", scrollBehavior : "smooth"}} >
                   <CardBody>
                     {pastCourses.map((e) => (
                       <div style={{padding : "10px"}}>
@@ -597,7 +597,7 @@ const StudentDashboard = props => {
                   >
                     <CardTitle className="text-center" style={{fontSize:"20px"}}>Upcoming Courses</CardTitle>
                   </AccordionSummary>
-                  <AccordionDetails>
+                  <AccordionDetails style= {{maxHeight : "500px", overflowY : "scroll"}}>
                   <Row>
                     {upcomingCourses.map((e) => (
                       <div style={{padding : "10px"}}>
