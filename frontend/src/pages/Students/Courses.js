@@ -4,8 +4,7 @@ import {Link} from 'react-router-dom';
 import PropTypes from "prop-types";
 import basename from "../Home/basename.js";
 import {
-     CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Container, Row, Col
+      Row, Col
   } from 'reactstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -77,40 +76,52 @@ const CourseCard = (props) => {
     return (
         <div>
             <CssBaseline/>
+            <div className={moreclasses.heroContent}>
+                <Container maxWidth="sm">
+                    <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                    {langName}
+                    </Typography>
+                    <Typography variant="h5" align="center" color="textSecondary" paragraph>
+                        You can veiw all the course of {langName} language here! Try one know!
+                        </Typography>
+                        <div className={classes.heroButtons}>
+                        <Grid container spacing={2} justify="center">
+                            <Grid item>
+                            <Button variant="outlined" color="primary">
+                                Search
+                            </Button>
+                            </Grid>
+                        </Grid>
+                        </div>
+                </Container>
+            </div>
             <Container>
-            <Row>
+            <Grid container spacing={4}>
             {
                 courses.map(k=>(
-                    <Col md="4" style={{marginTop:"20px"}}>
+                    <Grid item key={k} xs={12} sm={6} md={4} style={{marginTop:"20px"}}>
                     <Card className={classes.pap}>
-                        <CardActionArea>
+                    <CardActionArea>
+                        <Link to={`/dashboard/courses/details/${k.id}`} style={{textDecoration : "none", color : "black"}}>
                             <CardMedia
                             className={classes.media}
                             image="https://source.unsplash.com/200x200/?language"
                             />
                             <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
+                            <Typography gutterBottom variant="h5" component="h2" >
                             {k.name}
                             </Typography>
-                            <Typography variant="h5" color="textSecondary" component="h4">
-                                Language : {k.language}
+                            <Typography gutterBottom variant="h6" component="h2" style={{float : "right",padding : "2px" }}>
+                            By - { k.trainer }
                             </Typography>
-
                             </CardContent>
+                        </Link>    
                         </CardActionArea>
-                        <CardActions>
-                            <Link to={`/dashboard/courses/details/${k.id}`}>
-                                <Button variant="contained" color="primary" size="lg">View </Button>
-                            </Link>
-                            <Button size="small" color="primary">
-                            Learn More
-                            </Button>
-                        </CardActions>
                         </Card>
-                    </Col>
+                    </Grid>
                 ))
             }
-            </Row>
+            </Grid>
             </Container>         
         </div>
     );

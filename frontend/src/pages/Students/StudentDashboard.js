@@ -10,8 +10,6 @@ import {
   CardText,
   Row,
   Col,
-  Button,
-  Progress,
 } from "reactstrap";
 import Chip from '@material-ui/core/Chip';
 import { makeStyles, useTheme  } from '@material-ui/core/styles';
@@ -24,6 +22,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import Paper from '@material-ui/core/Paper';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -47,6 +46,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { mdiTrophyAward, mdiTrophyOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
+import { Slide } from 'react-awesome-reveal';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 const StudentDashboard = props => {
@@ -404,14 +405,16 @@ const StudentDashboard = props => {
           </Grid>
         </Grid>
       </Jumbotron> */}
-      <Container maxWidth="lg" className={classes.container}>
+      <Container maxWidth="md" className={classes.container}>
         <Typography className="text-center" variant="h2" gutterBottom>
           Hello! {studentName} 
         </Typography>
         <hr/>
-        <Grid container spacing = {1}>
+        <Grid container spacing = {3}>
             <Grid item xs={12} className="text-center">
-              <Paper className={classes.paper}>
+              <Slide direction="down" >
+                
+              <Paper className={classes.paper} >
                 <CardBody>
                     <CardTitle style={{padding: "2px", fontSize : "20px"}}>Courses Completed  
                     <Icon path={mdiTrophyAward}
@@ -441,15 +444,14 @@ const StudentDashboard = props => {
                     </CardText>
                 </CardBody>
               </Paper>
+              </Slide>
             </Grid>
 
             <Grid item xs={12} md={6} lg={6}>
+              <Slide direction = "left">
               <Paper className={fixedHeightPaper}>
-                <CardBody>
-                  
+                  <CardBody>
                     <CardTitle className="text-center" style={{fontSize : "20px" }}>Want to learn</CardTitle>
-                    
-                    <CardText>
                       <Row>
                         {Object.keys(languagesToLearn).map((key, index) => (
                           <div>
@@ -459,26 +461,23 @@ const StudentDashboard = props => {
                           </div>
                         ))}
                       </Row>
-                    </CardText>
-                
-                </CardBody>
-                <DropDown availLanguages = {availableLanguages} addToLearnLanguage={addToLearnLanguage} />
+                      </CardBody>
+                      <div style={{float : "bottom"}}>
+                <DropDown availLanguages = {availableLanguages} addToLearnLanguage={addToLearnLanguage}  /> </div>                
               </Paper>
+              </Slide> 
             </Grid>
 
             <Grid item xs={12} md={6} lg={6}>
+              <Slide direction = "right">
               <Paper className={fixedHeightPaper}>
-                  
                   <Form>
                   <FormGroup>
                     <div className="text-center">
                       <Typography variant="h4" className="text-center">Selected a language to buy a course <br/>
-                      <Chip size="lg" color="primary" style={{float: "unset", fontSize : "15px", marginTop : "20px"}} label={selectedValue} onClick={handleClickOpen} clickable>
-                        
-                      </Chip>
+                      <Chip size="lg" color="primary" style={{float: "unset", fontSize : "15px", marginTop : "20px"}} label={selectedValue} onClick={handleClickOpen} clickable></Chip>
                       </Typography>
                       <SimpleDialog selectedValue={selectedValue} open={openDialog} onClose={handleClose} />
-                    
                         <Link style = {{float : "none"}} to={{pathname:`/dashboard/courses/${Object.keys(buyCourse)[0]}`,
                                   aboutProps:{
                                       language:buyCourse[Object.keys(buyCourse)[0]],
@@ -491,12 +490,14 @@ const StudentDashboard = props => {
                   </FormGroup>
                   </Form>
               </Paper>
+              </Slide>
             </Grid>
 
         </Grid>
 
         <Grid container spacing={3}>
           <Grid item xs={12}>
+            <Slide direction = "up">
             <Paper >
               <CardTitle className="text-center" style={{fontSize:"20px", padding : "10px"}}>Your Courses</CardTitle>
                 <Accordion>
@@ -507,51 +508,42 @@ const StudentDashboard = props => {
                   >
                   <CardTitle className="text-center" style={{fontSize:"20px"}}>Live Courses</CardTitle>
                   </AccordionSummary>
-                  <AccordionDetails>
-                  <Row>
+                  <AccordionDetails style= {{maxHeight : "500px", overflow : "scroll"}}>
+                  <CardBody>
                     {Object.keys(liveCourses).map((e,index) => (
-                      <div>
-                            <Col>
-                            <Card className={classes.root}>
-                                <CardMedia
-                                  className={classes.cover}
-                                  image="https://source.unsplash.com/200x200/?study"
-                                  title="Live from space album cover"
-                                />
-                                <div className={classes.details}>
-                                  <CardContent className={classes.content}>
+                      <div style={{padding : "10px"}}>
+                      <CardActionArea>
+                      <Link to={`/dashboard/courses/coursecontent/${e.id}`} style={{textDecoration : "none", color : "black"}} >
+                          <Card className={classes.root} style={{width : "100%",padding : "10px"}}>
+                              <CardMedia
+                                className={classes.cover}
+                                image="https://source.unsplash.com/200x200/?study"
+                                title="Live from space album cover"
+                              />
+                                <CardContent style={{width: "100%"}}>
+                                  <Typography component="h4" variant="h5">
+                                  {liveCourses['e'].course.name}
+                                  </Typography>
+                                  <Typography variant="h6" color="textSecondary">
+                                  Start-Date : {liveCourses['e'].course.startdate}
+                                  <Typography variant="h6" color="textSecondary" style={{float : "right"}} >
+                                  End Date : {liveCourses['e'].course.enddate}
+                                  </Typography>
+                                  </Typography>
+                                <div className="">
+                                  <div className="text-center">
                                     <Typography component="h5" variant="h5">
-                                    {liveCourses[e].course.name}
-                                    </Typography>
-                                    <Typography variant="subtitle1" color="textSecondary">
-                                    Start-Date : {liveCourses[e].course.startdate}
-                                    </Typography>
-                                    <Typography variant="subtitle1" color="textSecondary">
-                                    End Date : {liveCourses[e].course.enddate}
-                                    </Typography>
-                                  <div className="">
-                                    <div className="text-center">
-                                      <Typography component="h5" variant="h5">
-                                      {liveCourses[e].completed_percent}%
-                                        </Typography>
-                                       <Progress className="ml-2 mr-2" value={liveCourses[e].completed_percent} /> </div>
-                                  </div>
-                                  <div className="mt-3">
-                                    <Link to={`/dashboard/courses/coursecontent/${e}`}>
-                                      <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
-                                    </Link>
-                                    </div>
-                                  </CardContent>
-
+                                    {liveCourses['e'].completed_percent}%
+                                      </Typography>
+                                     <LinearProgress variant="determinate" className="ml-2 mr-2" value={liveCourses['e'].completed_percent} /> </div>
                                 </div>
-                                
-                              </Card>
-                              
-                              
-                            </Col>
-                      </div>
+                                </CardContent>
+                            </Card>
+                          </Link>        
+                    </CardActionArea>
+                    </div>         
                     ))}
-                  </Row>
+                    </CardBody>
                   </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -561,51 +553,42 @@ const StudentDashboard = props => {
                     id="panel2a-header"
                   >
                 <CardTitle className="text-center" style={{fontSize:"20px"}}>Recorded Courses</CardTitle>                  </AccordionSummary>
-                  <AccordionDetails>
-                  <Row>
+                  <AccordionDetails style= {{maxHeight : "500px", overflow : "scroll"}} >
+                  <CardBody>
                     {Object.keys(pastCourses).map((e,index) => (
-                      <div>
-                        <Col>
-                        <Card className={classes.root}>
-                                <CardMedia
-                                  className={classes.cover}
-                                  image="https://source.unsplash.com/200x200/?study"
-                                  title="Live from space album cover"
-                                />
-                                <div className={classes.details}>
-                                  <CardContent className={classes.content}>
+                      <div style={{padding : "10px"}}>
+                      <CardActionArea>
+                      <Link to={`/dashboard/courses/coursecontent/${e.id}`} style={{textDecoration : "none", color : "black"}} >
+                          <Card className={classes.root} style={{width : "100%",padding : "10px"}}>
+                              <CardMedia
+                                className={classes.cover}
+                                image="https://source.unsplash.com/200x200/?study"
+                                title="Live from space album cover"
+                              />
+                                <CardContent style={{width: "100%"}}>
+                                  <Typography component="h4" variant="h5">
+                                  {pastCourses['e'].course.name}
+                                  </Typography>
+                                  <Typography variant="h6" color="textSecondary">
+                                  Start-Date : {pastCourses['e'].course.startdate}
+                                  <Typography variant="h6" color="textSecondary" style={{float : "right"}} >
+                                  End Date : {pastCourses['e'].course.enddate}
+                                  </Typography>
+                                  </Typography>
+                                <div className="">
+                                  <div className="text-center">
                                     <Typography component="h5" variant="h5">
-                                    {pastCourses[e].course.name}
-                                    </Typography>
-                                    <Typography variant="subtitle1" color="textSecondary">
-                                    Start-Date : {pastCourses[e].course.startdate}
-                                    </Typography>
-                                    <Typography variant="subtitle1" color="textSecondary">
-                                    End Date : {pastCourses[e].course.enddate}
-                                    </Typography>
-                                  <div className="">
-                                    <div className="text-center">
-                                      <Typography component="h5" variant="h5">
-                                      {pastCourses[e].completed_percent}%
-                                        </Typography>
-                                       <Progress className="ml-2 mr-2" value={pastCourses[e].completed_percent} /> </div>
-                                  </div>
-                                  <div className="mt-3">
-                                    <Link to={`/dashboard/courses/coursecontent/${e}`}>
-                                      <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
-                                    </Link>
-                                    </div>
-                                  </CardContent>
-
+                                    {pastCourses['e'].completed_percent}%
+                                      </Typography>
+                                     <LinearProgress variant="determinate" className="ml-2 mr-2" value={pastCourses['e'].completed_percent} /> </div>
                                 </div>
-                                
-                              </Card>
-                              
-                              
-                            </Col>
-                      </div>
+                                </CardContent>
+                            </Card>
+                          </Link>        
+                    </CardActionArea>
+                    </div>    
                     ))}
-                  </Row>
+                    </CardBody>
                   </AccordionDetails>
                 </Accordion>
 
@@ -620,52 +603,44 @@ const StudentDashboard = props => {
                   <AccordionDetails>
                   <Row>
                     {Object.keys(upcomingCourses).map((e,index) => (
-                      <div>
-                         <Col>
-                         <Card className={classes.root}>
-                                <CardMedia
-                                  className={classes.cover}
-                                  image="https://source.unsplash.com/200x200/?study"
-                                  title="Live from space album cover"
-                                />
-                                <div className={classes.details}>
-                                  <CardContent className={classes.content}>
+                      <div style={{padding : "10px"}}>
+                      <CardActionArea>
+                      <Link to={`/dashboard/courses/coursecontent/${e.id}`} style={{textDecoration : "none", color : "black"}} >
+                          <Card className={classes.root} style={{width : "100%",padding : "10px"}}>
+                              <CardMedia
+                                className={classes.cover}
+                                image="https://source.unsplash.com/200x200/?study"
+                                title="Live from space album cover"
+                              />
+                                <CardContent style={{width: "100%"}}>
+                                  <Typography component="h4" variant="h5">
+                                  {upcomingCourses['e'].course.name}
+                                  </Typography>
+                                  <Typography variant="h6" color="textSecondary">
+                                  Start-Date : {upcomingCourses['e'].course.startdate}
+                                  <Typography variant="h6" color="textSecondary" style={{float : "right"}} >
+                                  End Date : {upcomingCourses['e'].course.enddate}
+                                  </Typography>
+                                  </Typography>
+                                <div className="">
+                                  <div className="text-center">
                                     <Typography component="h5" variant="h5">
-                                    {upcomingCourses[e].course.name}
-                                    </Typography>
-                                    <Typography variant="subtitle1" color="textSecondary">
-                                    Start-Date : {upcomingCourses[e].course.startdate}
-                                    </Typography>
-                                    <Typography variant="subtitle1" color="textSecondary">
-                                    End Date : {upcomingCourses[e].course.enddate}
-                                    </Typography>
-                                  <div className="">
-                                    <div className="text-center">
-                                      <Typography component="h5" variant="h5">
-                                      {upcomingCourses[e].completed_percent}%
-                                        </Typography>
-                                       <Progress className="ml-2 mr-2" value={upcomingCourses[e].completed_percent} /> </div>
-                                  </div>
-                                  <div className="mt-3">
-                                    <Link to={`/dashboard/courses/coursecontent/${e}`}>
-                                      <Button className="btn" color="success" style={{width:"100%"}}>Go</Button>
-                                    </Link>
-                                    </div>
-                                  </CardContent>
-
+                                    {upcomingCourses['e'].completed_percent}%
+                                      </Typography>
+                                     <LinearProgress variant="determinate" className="ml-2 mr-2" value={upcomingCourses['e'].completed_percent} /> </div>
                                 </div>
-                                
-                              </Card>
-                              
-                              
-                            </Col>
-                      </div>
+                                </CardContent>
+                            </Card>
+                          </Link>        
+                    </CardActionArea>
+                    </div>    
                     ))}
                   </Row>
                   </AccordionDetails>
                 </Accordion>
                 
                 </Paper>
+                </Slide>
           </Grid>
         </Grid>
         

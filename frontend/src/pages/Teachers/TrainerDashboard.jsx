@@ -255,7 +255,7 @@ const TrainerDashboard = (props) => {
                     /* <List>{secondaryListItems}</List>
                 </Drawer>
                 {/*<Sidebar {...props} routes={ThemeRoutes}/> */}
-                <Container className={classes.cardGrid} maxWidth="md">
+                <Container className={classes.cardGrid} maxWidth="lg">
                     <Grid container spacing={4}>
                         <Grid item xs={12} sm={6} md={8}>
                             <Card className={classes.cardheader} >
