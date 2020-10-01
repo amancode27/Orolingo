@@ -25,13 +25,13 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
-        backgroundColor : "#eeeeee",
+        backgroundColor: "#eeeeee",
         // overflow: 'hidden',
         backgroundColor: theme.palette.background.paper,
     },
     gridList: {
-         //height :'400px',
-         backgroundColor : "#eeeeee",
+        //height :'400px',
+        backgroundColor: "#eeeeee",
         flexWrap: 'nowrap',
         // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
         transform: 'translateZ(0)',
@@ -54,82 +54,142 @@ const useStyles = makeStyles((theme) => ({
     cardContent: {
         flexGrow: 1,
     },
+    link :{
+        color: 'white',
+    },
 }));
 
 
 
-const LiveCourses = (props)=> {
+const LiveCourses = (props) => {
     const classes = useStyles();
-    const liveCourses = props.liveCourses
+    const liveCourses = props.liveCourses;
 
-    const [width,setWidth] = useState(1200);
-    const[cols,setCols] =useState(3);
+    const [width, setWidth] = useState(1200);
+    const [height, setHieght] = useState(450);
+    const [cols, setCols] = useState(3);
 
-    let resizeWindow = () =>{
+    let resizeWindow = () => {
         setWidth(window.innerWidth);
     }
-    useEffect(()=>{
-            resizeWindow();
-            window.addEventListener("resize", resizeWindow);
-            if(width<=763){
-                setCols(1);
-            }
-            else if(width<=1200){
-                setCols(2);
-            }
-            else{
-                setCols(3);
-            }
-            return () => window.removeEventListener("resize", resizeWindow);
-    },[width] )
-    return (
-        <div className={classes.root}>
-            <GridList className={classes.gridList} cols={cols}>
-                {liveCourses.map((e) => (
-                    <GridListTile key={e} style={{height : "450px", padding: "20px"}}>
-                    <Card className={classes.card}>
-                        <CardMedia
-                            className={classes.cardMedia}
-                            image="https://source.unsplash.com/400x400/?language"
-                            title="Image title"
-                        />
-                        <CardContent className={classes.cardContent}>
-                            <Typography gutterBottom variant="h5" component="h2">{e.name}</Typography>
-                            <Typography gutterBottom variant="h6" component="h2">
-                                Start-Date :{e.startdate}<br />End Date: {e.enddate}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Grid container spacing={1}>
-                                <Grid item xs={7} >
-                                    <Button variant="contained" color="primary">
-                                        <Link to={`/dashboard/trainercourses/uploads/${e.id}`} style={{ color: 'white' }}>
-                                            <CloudUploadOutlinedIcon />Upload Content
-                           </Link>
-                                    </Button>
+
+    useEffect(() => {
+        resizeWindow();
+        window.addEventListener("resize", resizeWindow);
+        if (width <= 763) {
+            setCols(1);
+            setHieght(520);
+        }
+        else if (width <= 1200) {
+            setCols(2);
+            setHieght(490);
+        }
+        else {
+            setCols(3);
+        }
+        return () => window.removeEventListener("resize", resizeWindow);
+    }, [width]);
+
+    if (liveCourses.length < 4) {
+        return (
+            <div>
+                <Grid container spacing={4}>
+                {liveCourses.map(e => (
+                    <Grid item key={e} xs={12} sm={6} md={4}>
+                        <Card className={classes.card}>
+                            <CardMedia
+                                className={classes.cardMedia}
+                                image="https://source.unsplash.com/400x400/?language"
+                                title="Image title"
+                            />
+                            <CardContent className={classes.cardContent}>
+                                <Typography gutterBottom variant="h5" component="h2">{e.name}</Typography>
+                                <Typography gutterBottom variant="h6" component="h2">
+                                    Start-Date :{e.startdate}<br />End Date: {e.enddate}
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Grid container spacing={1}>
+                                    <Grid item xs={6} >
+                                        <Button variant="contained" color="primary" >
+                                            <Link to={`/dashboard/trainercourses/uploads/${e.id}`} className={classes.link}>
+                                                <CloudUploadOutlinedIcon />Upload Content
+                                </Link>
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={6} >
+                                        <Button variant="contained" color="primary" className={classes.link}>
+                                <Link to={`dashboard/editcourse/${e.id}`}>
+                                        <EditOutlinedIcon />Edit
+                                </Link>
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={6} >
+                                        <Button variant="contained" color="primary" className={classes.link}>
+                                <Link to={`/dashboard/chatapp/${e.id}`}>
+                                        <ChatOutlinedIcon /> Chat App
+                                </Link>
+                                        </Button>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={5} >
-                                    <Button variant="contained" color="primary">
-                                        <Link to={`dashboard/editcourse/${e.id}`} style={{ color: 'white' }}>
-                                            <EditOutlinedIcon />Edit
-                               </Link>
-                                    </Button>
-                                </Grid>
-                                <Grid item xs={12} >
-                                    <Button variant="contained" color="primary">
-                                        <Link to={`/dashboard/chatapp/${e.id}`} style={{ color: 'white', textAlign: 'center' }}>
-                                            <ChatOutlinedIcon /> Chat App
-                               </Link>
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </CardActions>
-                    </Card>
-                    </GridListTile>
+                            </CardActions>
+                        </Card>
+                    </Grid>
                 ))}
-            </GridList>
-        </div>
-    );
+                </Grid>
+            </div>
+        )
+    }
+    else {
+        return (
+                <div className={classes.root}>
+                    <GridList className={classes.gridList} cols={cols}>
+                        {liveCourses.map((e) => (
+                            <GridListTile key={e} style={{ height: { height }, padding: "20px" }}>
+                                <Card className={classes.card}>
+                                    <CardMedia
+                                        className={classes.cardMedia}
+                                        image="https://source.unsplash.com/400x400/?language"
+                                        title="Image title"
+                                    />
+                                    <CardContent className={classes.cardContent}>
+                                        <Typography gutterBottom variant="h5" component="h2">{e.name}</Typography>
+                                        <Typography gutterBottom variant="h6" component="h2">
+                                            Start-Date :{e.startdate}<br />End Date: {e.enddate}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Grid container spacing={1}>
+                                            <Grid item xs={7} >
+                                                <Button variant="contained" color="primary">
+                                                    <Link to={`/dashboard/trainercourses/uploads/${e.id}`} className={classes.link}>
+                                                        <CloudUploadOutlinedIcon />Upload Content
+                                            </Link>
+                                                </Button>
+                                            </Grid>
+                                            <Grid item xs={5} >
+                                                <Button variant="contained" color="primary">
+                                                    <Link to={`dashboard/editcourse/${e.id}`} className={classes.link}>
+                                                        <EditOutlinedIcon />Edit
+                                            </Link>
+                                                </Button>
+                                            </Grid>
+                                            <Grid item xs={12} >
+                                                <Button variant="contained" color="primary">
+                                                    <Link to={`/dashboard/chatapp/${e.id}`} className={classes.link}>
+                                                        <ChatOutlinedIcon /> Chat App
+                                            </Link>
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </CardActions>
+                                </Card>
+                            </GridListTile>
+                        ))}
+                    </GridList>
+                </div>
+        );
+    }
 }
 
 export default LiveCourses
