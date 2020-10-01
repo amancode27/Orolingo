@@ -86,11 +86,11 @@ const LiveCourses = (props)=> {
         <div className={classes.root}>
             <GridList className={classes.gridList} cols={cols}>
                 {liveCourses.map((e) => (
-                    <GridListTile key={e} style={{height : "520px", padding: "20px"}}>
+                    <GridListTile key={e} style={{height : "450px", padding: "20px"}}>
                     <Card className={classes.card}>
                         <CardMedia
                             className={classes.cardMedia}
-                            image="https://source.unsplash.com/random"
+                            image="https://source.unsplash.com/400x400/?language"
                             title="Image title"
                         />
                         <CardContent className={classes.cardContent}>
