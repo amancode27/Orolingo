@@ -19,6 +19,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Button from '@material-ui/core/Button';
 
 import { Link } from "react-router-dom";
+import { CardActionArea } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -98,7 +99,7 @@ const UpcomingCourses = (props) => {
                             <Card className={classes.card}>
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image="https://source.unsplash.com/400x400/?future"
+                                    image= {'/' + e.language.name + '.svg' }
                                     title="Image title"
                                 />
                                 <CardContent className={classes.cardContent}>
@@ -136,18 +137,15 @@ const UpcomingCourses = (props) => {
                         </Grid>
                     ))}
                     <Grid item xs={12} sm={6} md={4}>
-                        <Card className={classes.card}>
-                            <CardContent className={classes.cardContent} >
-                                <Link to="dashboard/createcourse" >
-                                    <Button variant='outlined' color="primary">Upload Course</Button>
-                                </Link>
-                            </CardContent>
+                    <CardActionArea>
+                        <Link to="dashboard/createcourse" >
                             <CardMedia
                                 className={classes.cardMedia}
-                                image="https://source.unsplash.com/400x400/?space"
+                                image="add.webp"
                                 title="Image title"
                             />
-                        </Card>
+                        </Link>
+                        </CardActionArea>
                     </Grid>
                 </Grid>
             </div>
@@ -162,7 +160,7 @@ const UpcomingCourses = (props) => {
                             <Card className={classes.card}>
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image="https://source.unsplash.com/400x400/?future"
+                                    image= {'/' + e.language.name + '.svg' }
                                     title="Image title"
                                 />
                                 <CardContent className={classes.cardContent}>
@@ -200,18 +198,15 @@ const UpcomingCourses = (props) => {
                         </GridListTile>
                     ))}
                     <GridListTile style={{ height: { height }, padding: "20px" }}>
-                        <Card className={classes.card}>
-                            <CardContent className={classes.cardContent} >
-                                <Link to="dashboard/createcourse" >
-                                    <Button variant='outlined' color="primary">Upload Course</Button>
-                                </Link>
-                            </CardContent>
+                    <CardActionArea>
+                        <Link to="dashboard/createcourse" >
                             <CardMedia
                                 className={classes.cardMedia}
-                                image="https://source.unsplash.com/400x400/?space"
+                                image="add.webp"
                                 title="Image title"
                             />
-                        </Card>
+                        </Link>
+                        </CardActionArea>
                     </GridListTile>
                 </GridList>
             </div>

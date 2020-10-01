@@ -25,7 +25,8 @@ const useStyles = makeStyles({
     maxWidth: 345,
     },
     media: {
-    height: 140,
+    height: 200,
+
     },
     
 });
@@ -105,7 +106,7 @@ const CourseCard = (props) => {
                         <Link to={`/dashboard/courses/details/${k.id}`} style={{textDecoration : "none", color : "black"}}>
                             <CardMedia
                             className={classes.media}
-                            image="https://source.unsplash.com/200x200/?language"
+                            image= {'/'+ langName + '.svg'}
                             />
                             <CardContent>
                             <Typography gutterBottom variant="h5" component="h2" >

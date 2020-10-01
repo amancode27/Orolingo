@@ -278,7 +278,7 @@ const CourseContent = (props,user) =>{
                   <Link to={`${student_course_id}/assignments`} style={{textDecoration : "none", color: "black"}}>
                     <CardMedia
                       className={classes.media}
-                      image="https://source.unsplash.com/318x180"
+                      image="/assignments.jpg"
                       title="Contemplative Reptile"
                     />
                     <CardContent>
@@ -301,7 +301,7 @@ const CourseContent = (props,user) =>{
               <Link to={`${student_course_id}/notes`} style={{textDecoration : "none", color: "black"}}>
                     <CardMedia
                       className={classes.media}
-                      image="https://source.unsplash.com/318x180"
+                      image="/notes.jpg"
                       title="dvsdv"
                     />
                     <CardContent >
@@ -390,11 +390,18 @@ const CourseContent = (props,user) =>{
               </Col>
               <Col md={12} style= {{minHeight : "200px"}}>
               <form className={classes.discuss} style={{fontSize : "25px", color :"black"}} noValidate autoComplete="off">
-                <TextField id="standard-basic" label="Title" onChange = {changeTitle} value = {title} /> <br/>
-                <TextField  label="Description" variant="outlined" rows={5} onChange = {changeDescription} multiline value = {description} />
-                <Button variant="contained" color="primary" onClick = {discuss}>
-                  Discuss &#10148;
-                </Button>
+                <Grid container spacing = {2} style={{display : "flex", width : "100%"}}>
+                  <Grid item md={5}>
+                  <Icon style={{padding : "10px"}} path = {mdiAccountVoice} size={4} /> <br/>
+                  <TextField id="standard-basic" label="Title" onChange = {changeTitle} value = {title} style={{ width : "100%"}} /> 
+                  </Grid>
+                  <Grid item md={7}>
+                  <TextField  label="Description" variant="outlined" rows={5} onChange = {changeDescription} multiline value = {description} style={{ width : "100%"}} /> <br/>
+                    <Button variant="contained" color="primary" onClick = {discuss} style = {{marginTop: "10px",float : "right"}}>
+                     Discuss &#10148;
+                     </Button>
+                  </Grid>
+                </Grid>
               </form>
               </Col>
               </Row>

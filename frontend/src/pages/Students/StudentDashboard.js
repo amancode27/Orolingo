@@ -362,7 +362,7 @@ const StudentDashboard = props => {
   }, [props]);
   //console.log(studentName);
 
-  console.log(pastCourses);
+  console.log(liveCourses);
   return (
     <div className={classes.root}>
       <CssBaseline/>
@@ -517,12 +517,15 @@ const StudentDashboard = props => {
                           <Card className={classes.root} style={{width : "100%",padding : "10px"}}>
                               <CardMedia
                                 className={classes.cover}
-                                image="https://source.unsplash.com/200x200/?study"
+                                image= {liveCourses[e].course.language.name + '.svg' }
                                 title="Live from space album cover"
                               />
                                 <CardContent style={{width: "100%"}}>
                                   <Typography component="h4" variant="h5">
                                   {liveCourses[e].course.name}
+                                  </Typography>
+                                  <Typography component="h5" variant="h6">
+                                  {liveCourses[e].course.language.name}
                                   </Typography>
                                   <Typography variant="h6" color="textSecondary">
                                   Start-Date : {liveCourses[e].course.startdate}
@@ -562,12 +565,15 @@ const StudentDashboard = props => {
                           <Card className={classes.root} style={{width : "100%",padding : "10px"}}>
                               <CardMedia
                                 className={classes.cover}
-                                image="https://source.unsplash.com/200x200/?study"
+                                image= {pastCourses[e].course.language.name + '.svg' }
                                 title="Live from space album cover"
                               />
                                 <CardContent style={{width: "100%"}}>
                                   <Typography component="h4" variant="h5">
                                   {pastCourses[e].course.name}
+                                  </Typography>
+                                  <Typography component="h5" variant="h6">
+                                  {pastCourses[e].course.language.name}
                                   </Typography>
                                   <Typography variant="h6" color="textSecondary">
                                   Start-Date : {pastCourses[e].course.startdate}
@@ -609,7 +615,7 @@ const StudentDashboard = props => {
                           <Card className={classes.root} style={{width : "100%",padding : "10px"}}>
                               <CardMedia
                                 className={classes.cover}
-                                image="https://source.unsplash.com/200x200/?study"
+                                image= {upcomingCourses[e].course.language.name + '.svg' }
                                 title="Live from space album cover"
                               />
                                 <CardContent style={{width: "100%"}}>

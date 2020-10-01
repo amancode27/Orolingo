@@ -75,7 +75,7 @@ const CourseDetails = (props,userinfo) =>{
         });
     },[props.match.params['course_id']]);
 
-    console.log(trainerDetails);
+    console.log(courseDetails['language']);
     return(
         <div className={classes.root}>
             <React.Fragment className={classes.content}> 
@@ -99,7 +99,7 @@ const CourseDetails = (props,userinfo) =>{
                     <Card elevation = {3} style={{minHeight : "600px"}}>
                         <CardMedia
                             className={classes.media}
-                            image="https://source.unsplash.com/1000x300/?language"
+                            image= { '/' + courseDetails['language'] + '.svg'}
                             title="Course Name"
                             />
                             <CardContent>
