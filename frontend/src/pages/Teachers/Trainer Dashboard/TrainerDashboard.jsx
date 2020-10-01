@@ -6,86 +6,38 @@ import axios from "axios";
 import Sidebar from "../sidebar"
 import ThemeRoutes from '../routing';
 
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import TranslateOutlinedIcon from '@material-ui/icons/TranslateOutlined';
-import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
-import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-
-import { ListGroup, ListGroupItem } from 'reactstrap';
 import useFullPageLoader from '../../../Components/FullPageLoader/useFullPageLoader.js';
 
 import { mainListItems, secondaryListItems } from '../listItems';
-import { Link } from "react-router-dom";
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-//import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import LiveCourses from "./LiveCourses.js";
 
+// PAGES Import //
+import LiveCourses from "./LiveCourses.js";
+import UpcomingCourses from "./UpcomingCourses.js";
+import LanguagesYouTeach from "./LanguagesYouTeach";
+import Notifications from "./Notifications"
 
 const drawerWidth = 240
 const useStyles = makeStyles((theme) => ({
-    icon: {
-        marginRight: theme.spacing(2),
-    },
-    heroContent: {
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(8, 0, 6),
-    },
-    heroButtons: {
-        marginTop: theme.spacing(4),
-    },
     cardGrid: {
         paddingTop: theme.spacing(8),
         paddingBottom: theme.spacing(8),
     },
-    cardheader: {
-        fontSize :"4em",
-        textAlign :"center",
-        backgroundColor : "#757ce8",
-        color:"white",
-    },
-    card: {
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    cardMedia: {
-        paddingTop: '56.25%', // 16:9
-    },
-    cardContent: {
-        flexGrow: 1,
-    },
-    footer: {
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(6),
-    },
     root: {
         display: 'flex',
-        backgroundColor : "#eeeeee",
+        backgroundColor: "#eeeeee",
     },
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
@@ -179,7 +131,7 @@ const TrainerDashboard = (props) => {
     const [liveCourses, setLiveCourses] = useState([]);
     const [languages, setLanguages] = useState({});
     const [open, setOpen] = useState(false);
-    const [loader,showLoader,hideLoader] = useFullPageLoader();
+    const [loader, showLoader, hideLoader] = useFullPageLoader();
 
 
     const handleDrawerOpen = () => {
@@ -235,7 +187,7 @@ const TrainerDashboard = (props) => {
                 >
                     <div className={classes.toolbarIcon}>
                         <IconButton onClick={handleDrawerClose}
-                         className={clsx(classes.menuButton, (!open) &&classes.menuButtonHidden)}>
+                            className={clsx(classes.menuButton, (!open) && classes.menuButtonHidden)}>
                             <ChevronLeftIcon />
                         </IconButton>
                         <IconButton
@@ -253,120 +205,31 @@ const TrainerDashboard = (props) => {
                     <Divider />
                     /* <List>{secondaryListItems}</List>
                 </Drawer>
-                {/*<Sidebar {...props} routes={ThemeRoutes}/> */}
+
+                {/* Grid */}
                 <Container className={classes.cardGrid}>
-                    <Grid container spacing={4}>
-                        <Grid item xs={12} sm={6} md={8}>
-                            <Card className={classes.cardheader} >
-                                <Typography gutterBottom variant="h4" component="h2" >
-                                    Languages You Teach
-                                </Typography>
-                            </Card>
-                            {Object.keys(languages).map(e => (
-                            <Grid item key={e} xs={12} >
-                                <Card className={classes.card} style={{width:'100%',textAlign:'center'}}>
-                                    <CardContent className={classes.cardContent} >
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            <Link style={{ textDecoration: "none", }} to={`dashboard/trainercourses/${e}`}>
-                                                <TranslateOutlinedIcon/> {e}
-                                            </Link>
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        ))}
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                            <Card style={{backgroundColor:'#e65100'}}>
-                                <Typography gutterBottom variant="h4" component="h2" 
-                                    style={{textAlign:'center'}}>
-                                    Schedule
-                                </Typography>
-                            </Card>
-                            <Grid item xs={12} >
-                                <Card className={classes.card} style={{width:'100%'}}>
-                                    <CardContent className={classes.cardContent} >
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            <AccessTimeIcon/> Place - 2:00 P.M.
-                                        </Typography>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            <AccessTimeIcon/> Place - 2:00 P.M.
-                                        </Typography>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            <AccessTimeIcon/> Place - 2:00 P.M.
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        </Grid>
+                    <Grid container spacing={2}>
+                        <LanguagesYouTeach languages={languages}/>
+                        <Notifications />
+
+                        {/* Live Courses*/}
                         <Grid item xs={12}>
-                                <Typography gutterBottom variant="h3" component="h2">
-                                    Live Courses
+                            <Typography gutterBottom variant="h3" component="h2">
+                                Live Courses
                                 </Typography>
                         </Grid>
                         <Grid xs={12}>
-                            <LiveCourses liveCourses={liveCourses}/>    
-                        </Grid> 
+                            <LiveCourses liveCourses={liveCourses} />
+                        </Grid>
+                        
+                        {/* Upcoming Courses*/}
                         <Grid item xs={12}>
-                                <Typography gutterBottom variant="h3" component="h2">
-                                    Upcoming Courses
+                            <Typography gutterBottom variant="h3" component="h2">
+                                Upcoming Courses
                                 </Typography>
                         </Grid>
-                        {upcomingCourses.map(e => (
-                            <Grid item key={e} xs={12} sm={6} md={4}>
-                                <Card className={classes.card}>
-                                    <CardMedia
-                                        className={classes.cardMedia}
-                                        image="https://source.unsplash.com/random"
-                                        title="Image title"
-                                    />
-                                    <CardContent className={classes.cardContent}>
-                                        <Typography gutterBottom variant="h5" component="h2">{e.name}</Typography>
-                                        <Typography gutterBottom variant="h6" component="h2">
-                                            Start-Date :{e.startdate}<br />End Date: {e.enddate}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Grid container spacing={1}>
-                                            <Grid item xs={6} >
-                                                <Button variant="contained" color="primary" className="dor">
-                                                    <Link to={`/dashboard/trainercourses/uploads/${e.id}`}>
-                                                        Upload Content
-                                            </Link>
-                                                </Button>
-                                            </Grid>
-                                            <Grid item xs={6} >
-                                                <Button variant="contained" color="primary" className="dor">>
-                                            <Link to={`dashboard/editcourse/${e.id}`}>
-                                                        Chat App
-                                            </Link>
-                                                </Button>
-                                            </Grid>
-                                            <Grid item xs={6} >
-                                                <Button variant="contained" color="primary" className="dor">>
-                                            <Link to={`/dashboard/chatapp/${e.id}`}>
-                                                        Edit
-                                            </Link>
-                                                </Button>
-                                            </Grid>
-                                        </Grid>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        ))}
-                        <Grid xs={12} sm={6} md={4}>
-                            <Card className={classes.card}>
-                                <CardContent className={classes.cardContent} >
-                                    <Link to="dashboard/createcourse" >
-                                        <Button  variant='outlined' color="primary">Upload Course</Button>
-                                    </Link>
-                                </CardContent>
-                                <CardMedia
-                                    className={classes.cardMedia}
-                                    image="https://source.unsplash.com/400x400/?space"
-                                    title="Image title"
-                                />
-                            </Card>
+                        <Grid item xs={12}>
+                            <UpcomingCourses upcomingCourses={upcomingCourses} />
                         </Grid>
                     </Grid>
                 </Container>
