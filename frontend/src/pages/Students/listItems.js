@@ -12,9 +12,8 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Link } from 'react-router-dom';
 import List from '@material-ui/core/List';
 
-const mainListItems = (props) =>{ 
-  return (
-  <div>
+export const mainListItems = (
+  <div >
     <Link to="/dashboard" style={{color : "black", textDecoration: "none"}}>
     <ListItem button>
       
@@ -43,14 +42,5 @@ const mainListItems = (props) =>{
       </ListItemIcon>
       <ListItemText primary="Your Acitivity" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Free-Lancing" />
-    </ListItem>
   </div>
   );
-}
-
-export default mainListItems;

@@ -13,6 +13,7 @@ const Dashboard = (props) => {
   // }, [props]);
 
   return (
+
     <div>
       {console.log(props.user.is_student )}
       {props.user.is_student ? <StudentDashboard {...props} />:<TrainerDashboard {...props} />}

@@ -24,7 +24,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import mainListItems  from './listItems';
+import {mainListItems}  from './listItems';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -224,6 +224,7 @@ const CourseContent = (props,user) =>{
 
       axios.get(`${basename}/api/student_course/${student_course_id}`)
       .then((res) =>{
+        hideLoader();
         setCourseName(res.data.course.name);
       });
 

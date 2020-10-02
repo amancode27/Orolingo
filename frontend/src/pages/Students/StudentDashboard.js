@@ -26,7 +26,6 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Paper from '@material-ui/core/Paper';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import mainListItems  from './listItems';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -48,7 +47,7 @@ import Icon from '@mdi/react';
 import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 import { Slide } from 'react-awesome-reveal';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+import {mainListItems}  from './listItems';
 
 const StudentDashboard = props => {
   const [languagesLearnt, setLanguagesLearnt] = useState({});
@@ -388,7 +387,7 @@ const StudentDashboard = props => {
         <Divider />
           <List>{mainListItems}</List>
         <Divider />
-        
+        <mainListItems/>
       </Drawer>
       <React.Fragment className={classes.content}>
       {/* <Jumbotron>
@@ -513,7 +512,7 @@ const StudentDashboard = props => {
                     {Object.keys(liveCourses).map((e,index) => (
                       <div style={{padding : "10px"}}>
                       <CardActionArea>
-                      <Link to={`/dashboard/courses/coursecontent/${e.id}`} style={{textDecoration : "none", color : "black"}} >
+                      <Link to={`/dashboard/courses/coursecontent/${e}`} style={{textDecoration : "none", color : "black"}} >
                           <Card className={classes.root} style={{width : "100%",padding : "10px"}}>
                               <CardMedia
                                 className={classes.cover}
@@ -522,20 +521,20 @@ const StudentDashboard = props => {
                               />
                                 <CardContent style={{width: "100%"}}>
                                   <Typography component="h4" variant="h5">
-                                  {liveCourses['e'].course.name}
+                                  {liveCourses[e].course.name}
                                   </Typography>
                                   <Typography variant="h6" color="textSecondary">
-                                  Start-Date : {liveCourses['e'].course.startdate}
+                                  Start-Date : {liveCourses[e].course.startdate}
                                   <Typography variant="h6" color="textSecondary" style={{float : "right"}} >
-                                  End Date : {liveCourses['e'].course.enddate}
+                                  End Date : {liveCourses[e].course.enddate}
                                   </Typography>
                                   </Typography>
                                 <div className="">
                                   <div className="text-center">
                                     <Typography component="h5" variant="h5">
-                                    {liveCourses['e'].completed_percent}%
+                                    {liveCourses[e].completed_percent}%
                                       </Typography>
-                                     <LinearProgress variant="determinate" className="ml-2 mr-2" value={liveCourses['e'].completed_percent} /> </div>
+                                     <LinearProgress variant="determinate" className="ml-2 mr-2" value={liveCourses[e].completed_percent} /> </div>
                                 </div>
                                 </CardContent>
                             </Card>
@@ -558,7 +557,7 @@ const StudentDashboard = props => {
                     {Object.keys(pastCourses).map((e,index) => (
                       <div style={{padding : "10px"}}>
                       <CardActionArea>
-                      <Link to={`/dashboard/courses/coursecontent/${e.id}`} style={{textDecoration : "none", color : "black"}} >
+                      <Link to={`/dashboard/courses/coursecontent/${e}`} style={{textDecoration : "none", color : "black"}} >
                           <Card className={classes.root} style={{width : "100%",padding : "10px"}}>
                               <CardMedia
                                 className={classes.cover}
@@ -567,20 +566,20 @@ const StudentDashboard = props => {
                               />
                                 <CardContent style={{width: "100%"}}>
                                   <Typography component="h4" variant="h5">
-                                  {pastCourses['e'].course.name}
+                                  {pastCourses[e].course.name}
                                   </Typography>
                                   <Typography variant="h6" color="textSecondary">
-                                  Start-Date : {pastCourses['e'].course.startdate}
+                                  Start-Date : {pastCourses[e].course.startdate}
                                   <Typography variant="h6" color="textSecondary" style={{float : "right"}} >
-                                  End Date : {pastCourses['e'].course.enddate}
+                                  End Date : {pastCourses[e].course.enddate}
                                   </Typography>
                                   </Typography>
                                 <div className="">
                                   <div className="text-center">
                                     <Typography component="h5" variant="h5">
-                                    {pastCourses['e'].completed_percent}%
+                                    {pastCourses[e].completed_percent}%
                                       </Typography>
-                                     <LinearProgress variant="determinate" className="ml-2 mr-2" value={pastCourses['e'].completed_percent} /> </div>
+                                     <LinearProgress variant="determinate" className="ml-2 mr-2" value={pastCourses[e].completed_percent} /> </div>
                                 </div>
                                 </CardContent>
                             </Card>
@@ -605,7 +604,7 @@ const StudentDashboard = props => {
                     {Object.keys(upcomingCourses).map((e,index) => (
                       <div style={{padding : "10px"}}>
                       <CardActionArea>
-                      <Link to={`/dashboard/courses/coursecontent/${e.id}`} style={{textDecoration : "none", color : "black"}} >
+                      <Link to={`/dashboard/courses/coursecontent/${e}`} style={{textDecoration : "none", color : "black"}} >
                           <Card className={classes.root} style={{width : "100%",padding : "10px"}}>
                               <CardMedia
                                 className={classes.cover}
@@ -614,20 +613,20 @@ const StudentDashboard = props => {
                               />
                                 <CardContent style={{width: "100%"}}>
                                   <Typography component="h4" variant="h5">
-                                  {upcomingCourses['e'].course.name}
+                                  {upcomingCourses[e].course.name}
                                   </Typography>
                                   <Typography variant="h6" color="textSecondary">
-                                  Start-Date : {upcomingCourses['e'].course.startdate}
+                                  Start-Date : {upcomingCourses[e].course.startdate}
                                   <Typography variant="h6" color="textSecondary" style={{float : "right"}} >
-                                  End Date : {upcomingCourses['e'].course.enddate}
+                                  End Date : {upcomingCourses[e].course.enddate}
                                   </Typography>
                                   </Typography>
                                 <div className="">
                                   <div className="text-center">
                                     <Typography component="h5" variant="h5">
-                                    {upcomingCourses['e'].completed_percent}%
+                                    {upcomingCourses[e].completed_percent}%
                                       </Typography>
-                                     <LinearProgress variant="determinate" className="ml-2 mr-2" value={upcomingCourses['e'].completed_percent} /> </div>
+                                     <LinearProgress variant="determinate" className="ml-2 mr-2" value={upcomingCourses[e].completed_percent} /> </div>
                                 </div>
                                 </CardContent>
                             </Card>

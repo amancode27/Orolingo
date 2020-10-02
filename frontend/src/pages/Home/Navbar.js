@@ -81,9 +81,9 @@ function SimpleMenu(props) {
         style={{"marginTop":"30px" , "marginLeft":"5px" , "width":"300px" ,"z-index":"10000000"}}
       >
       <Link to='/login' style={{"textDecoration":"None"}}>
-          <MenuItem onClick={handleLogout} >Logout</MenuItem>
+        <MenuItem onClick={handleLogout} >Logout</MenuItem>
       </Link>
-        
+      
       </Menu>
     </div>
   );
