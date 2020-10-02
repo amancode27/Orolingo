@@ -20,6 +20,7 @@ import TrainerUpload from "../Teachers/TrainerUpload"
 import TrainerCourses from "../Teachers/TrainerCourses";
 import EditCourse from "../Teachers/EditCourse";
 import ChatApp from "../Teachers/ChatApp";
+import Feedback from '../Teachers/feedback';
 
 const Router = (props) => {
     const handleLogin = props.handleLogin;
@@ -143,6 +144,14 @@ const Router = (props) => {
                     )}
                 />
 
+                <Route
+                    exact
+                    path='/dashboard/trainercourses/feedback/:id'
+                    render = {(props) => (
+                        <Feedback {...props} {...userinfo} />
+                    )}
+                />
+                
                 <Route
                     path='/language-trainers/:languageid'
                     render={(props) => (

@@ -114,21 +114,28 @@ const LiveCourses = (props) => {
                                         <Button variant="contained" color="primary" >
                                             <Link to={`/dashboard/trainercourses/uploads/${e.id}`} className={classes.link}>
                                                 <CloudUploadOutlinedIcon />Upload Content
-                                </Link>
+                                        </Link>
                                         </Button>
                                     </Grid>
                                     <Grid item xs={6} >
                                         <Button variant="contained" color="primary" className={classes.link}>
-                                <Link to={`dashboard/editcourse/${e.id}`}>
-                                        <EditOutlinedIcon />Edit
-                                </Link>
+                                            <Link to={`dashboard/editcourse/${e.id}`}>
+                                                <EditOutlinedIcon />Edit
+                                            </Link>
                                         </Button>
                                     </Grid>
                                     <Grid item xs={6} >
                                         <Button variant="contained" color="primary" className={classes.link}>
-                                <Link to={`/dashboard/chatapp/${e.id}`}>
-                                        <ChatOutlinedIcon /> Chat App
-                                </Link>
+                                            <Link to={`/dashboard/chatapp/${e.id}`}>
+                                                <ChatOutlinedIcon /> Chat App
+                                            </Link>
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Button variant="container" className={classes.link}>
+                                            <Link to= {`dashboard/trainercourses/feedback/${e.id}`}>
+                                                <EditOutlinedIcon /> Feedbacks
+                                            </Link>
                                         </Button>
                                     </Grid>
                                 </Grid>
@@ -179,6 +186,13 @@ const LiveCourses = (props) => {
                                                     <Link to={`/dashboard/chatapp/${e.id}`} className={classes.link}>
                                                         <ChatOutlinedIcon /> Chat App
                                             </Link>
+                                                </Button>
+                                            </Grid>
+                                            <Grid item xs={6}>
+                                                <Button variant="container" className={classes.link}>
+                                                    <Link to= {`dashboard/trainercourses/feedback/${e.id}`}>
+                                                        <EditOutlinedIcon /> Feedbacks
+                                                    </Link>
                                                 </Button>
                                             </Grid>
                                         </Grid>

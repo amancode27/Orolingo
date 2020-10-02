@@ -508,8 +508,8 @@ const StudentDashboard = props => {
                   >
                   <CardTitle className="text-center" style={{fontSize:"20px"}}>Live Courses</CardTitle>
                   </AccordionSummary>
-                  <AccordionDetails style= {{maxHeight : "500px", overflowY : "scroll"}}>
-                  <CardBody>
+                  <AccordionDetails style= {{maxHeight : "500px", overflowY : "scroll"}} className="scrollbar">
+                  <CardBody className="overflow">
                     {Object.keys(liveCourses).map((e,index) => (
                       <div style={{padding : "10px"}}>
                       <CardActionArea>
@@ -556,8 +556,8 @@ const StudentDashboard = props => {
                     id="panel2a-header"
                   >
                 <CardTitle className="text-center" style={{fontSize:"20px"}}>Recorded Courses</CardTitle>                  </AccordionSummary>
-                  <AccordionDetails style= {{maxHeight : "500px", overflowY : "scroll", scrollBehavior : "smooth"}} >
-                  <CardBody>
+                  <AccordionDetails style= {{maxHeight : "500px", overflowY : "scroll", scrollBehavior : "smooth"}} className="scrollbar" >
+                  <CardBody className="overflow">
                     {Object.keys(pastCourses).map((e,index) => (
                       <div style={{padding : "10px"}}>
                       <CardActionArea>
@@ -606,8 +606,8 @@ const StudentDashboard = props => {
                   >
                     <CardTitle className="text-center" style={{fontSize:"20px"}}>Upcoming Courses</CardTitle>
                   </AccordionSummary>
-                  <AccordionDetails style= {{maxHeight : "500px", overflowY : "scroll"}}>
-                  <Row>
+                  <AccordionDetails style= {{maxHeight : "500px", overflowY : "scroll"}} className="scrollbar" >
+                  <CardBody className="overflow">
                     {Object.keys(upcomingCourses).map((e,index) => (
                       <div style={{padding : "10px"}}>
                       <CardActionArea>
@@ -641,7 +641,7 @@ const StudentDashboard = props => {
                     </CardActionArea>
                     </div>    
                     ))}
-                  </Row>
+                  </CardBody>
                   </AccordionDetails>
                 </Accordion>
                 

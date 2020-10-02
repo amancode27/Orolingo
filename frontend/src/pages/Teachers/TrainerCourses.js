@@ -15,6 +15,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 
+let language  = "";
+
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -60,7 +62,7 @@ const CourseCard = (props) => {
                             <Card className={classes.card}>
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image="https://source.unsplash.com/random"
+                                    image= { '/' + language + '.svg'}
                                     title="Image title"
                                 />
                                 <CardContent className={classes.cardContent}>
@@ -88,7 +90,6 @@ const CourseCard = (props) => {
 const TrainerCourses = (props) => {
     const classes = useStyles();
     const [courses, setCourses] = useState([]);   //contains all the courses related to chosen language
-    const [language,setLanguage] = useState("");
     const [loader,showLoader,hideLoader] = useFullPageLoader();
 
     useEffect(() => {
@@ -99,7 +100,7 @@ const TrainerCourses = (props) => {
                 const tmp = res.data.objects;
                 tmp.map(k => {
                     if (k.name == props.match.params['language']) {
-                        setLanguage(k.name);
+                        language = k.name;
                         const url = k.resource_uri;
                         axios.get(`${basename}${url}`)     //use this to fetch courses for a language(contains language name)
                             .then(res => {

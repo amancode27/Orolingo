@@ -131,6 +131,13 @@ const UpcomingCourses = (props) => {
                                 </Link>
                                             </Button>
                                         </Grid>
+                                        <Grid item xs={6}>
+                                        <Button variant="container" className={classes.link}>
+                                            <Link to= {`dashboard/trainercourses/feedback/${e.id}`}>
+                                                <EditOutlinedIcon /> Feedbacks
+                                            </Link>
+                                        </Button>
+                                    </Grid>
                                     </Grid>
                                 </CardActions>
                             </Card>
@@ -192,6 +199,13 @@ const UpcomingCourses = (props) => {
                                             </Link>
                                             </Button>
                                         </Grid>
+                                        <Grid item xs={6}>
+                                        <Button variant="container" className={classes.link}>
+                                            <Link to= {`dashboard/trainercourses/feedback/${e.id}`}>
+                                                <EditOutlinedIcon /> Feedbacks
+                                            </Link>
+                                        </Button>
+                                    </Grid>
                                     </Grid>
                                 </CardActions>
                             </Card>

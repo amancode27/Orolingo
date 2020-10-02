@@ -90,7 +90,7 @@ const CourseDetails = (props,userinfo) =>{
                             Hi! I'm {trainerDetails['name']}.
                         </Typography>
                     <hr/>
-                    <img src="https://source.unsplash.com/400x400/?teacher" alt="profilephoto" width="100%"></img>                    
+                    <img src="\trainer.jpg" alt="profilephoto" width="100%" style={{maxHeight : "400px"}} ></img>                    
                     </Card>
                     </CardActionArea>
                 </Grid>
