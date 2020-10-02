@@ -133,6 +133,7 @@ const Page = (props) => {
             return e.id!=id;
         }))
     }
+    console.log(props)
     return (
         <React.Fragment>
             <CssBaseline />
@@ -186,22 +187,19 @@ const Page = (props) => {
                                         title="Image title"
                                     />
                                     <CardContent className={classes.cardContent}>
-                                        <Typography gutterBottom variant="h5" component="h2">
+                                        <Typography gutterBottom variant="h3" component="h2">
                                             {e['topic']}
                                         </Typography>
                                         <Typography>
                                             {e['description']}
                                         </Typography>
-                                        <Typography>
-                                            {e['deadline']}
-                                        </Typography>
                                     </CardContent>
                                     <CardActions>
-                                        <Button size="small" color="primary" onClick={()=>deleteAssignment(e.id)}>
+                                        <Button size="large" variant="outlined" color="primary" onClick={()=>deleteAssignment(e.id)}>
                                             Delete
                                         </Button>
-                                        <Button size="small" color="primary">
-                                            {e['created_at']}
+                                        <Button size="large" color="primary">
+                                            Deadline : {e['deadline']}
                                         </Button>
                                     </CardActions>
                                 </Card>
