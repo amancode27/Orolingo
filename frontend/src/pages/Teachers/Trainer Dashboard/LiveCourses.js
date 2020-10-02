@@ -156,7 +156,7 @@ const LiveCourses = (props) => {
                                 <Card className={classes.card}>
                                     <CardMedia
                                         className={classes.cardMedia}
-                                        image="https://source.unsplash.com/400x400/?language"
+                                        image= { '/' + e.language.name + '.svg'}
                                         title="Image title"
                                     />
                                     <CardContent className={classes.cardContent}>
