@@ -92,6 +92,7 @@ class Assignment(models.Model):
     topic = models.CharField(max_length=500, null=True)
     description = models.TextField(null=True)
     created_at = models.DateField(auto_now_add=True,null=True)
+    deadline = models.DateField(null=True)
     pdf = models.FileField(null=True,blank=True)
     # def __str__(self):
     #     return self.course

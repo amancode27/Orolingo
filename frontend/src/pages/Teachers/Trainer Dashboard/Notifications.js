@@ -42,7 +42,7 @@ const Notifications = () => {
         <Grid item xs={12} sm={6} md={4}>
             <Card style={{ backgroundColor: '#e65100' }}>
                 <Typography gutterBottom variant="h4" component="h2"
-                    style={{ textAlign: 'center' }}>
+                    style={{ textAlign: 'center',color:'white' }}>
                     Notifications
                 </Typography>
             </Card>

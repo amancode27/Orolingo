@@ -75,7 +75,23 @@ const CourseDetails = (props,userinfo) =>{
         });
     },[props.match.params['course_id']]);
 
-    console.log(courseDetails['language']);
+    const Buy =()=>{
+        if(props.user.is_student){
+            return(
+                <Link to = {`/purchase/${id}`}>
+                                <Chip 
+                                    label = "Join Now!"
+                                    clickable
+                                    color = "primary"
+                                    style = {{fontSize : "15px", float:"right", marginRight : "20px"}}></Chip>   
+                            </Link> 
+            )
+        }
+        else{
+            return null;
+        }
+    }
+
     return(
         <div className={classes.root}>
             <React.Fragment className={classes.content}> 
@@ -116,13 +132,7 @@ const CourseDetails = (props,userinfo) =>{
                                 label={courseDetails['cost']}
                                 clickable
                                 style={{fontSize : "15px", float:"left"}}></Chip>
-                            <Link to = {`/purchase/${id}`}>
-                                <Chip 
-                                    label = "Join Now!"
-                                    clickable
-                                    color = "primary"
-                                    style = {{fontSize : "15px", float:"right", marginRight : "20px"}}></Chip>   
-                            </Link>        
+                            <Buy/>       
                             </CardContent>
                         </Card>
                     </CardActionArea>    
