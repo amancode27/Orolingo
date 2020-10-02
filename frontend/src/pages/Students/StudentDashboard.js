@@ -26,7 +26,6 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Paper from '@material-ui/core/Paper';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import mainListItems  from './listItems';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -48,7 +47,7 @@ import Icon from '@mdi/react';
 import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 import { Slide } from 'react-awesome-reveal';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+import {mainListItems}  from './listItems';
 
 const StudentDashboard = props => {
   const [languagesLearnt, setLanguagesLearnt] = useState({});
@@ -388,7 +387,7 @@ const StudentDashboard = props => {
         <Divider />
           <List>{mainListItems}</List>
         <Divider />
-        
+        <mainListItems/>
       </Drawer>
       <React.Fragment className={classes.content}>
       {/* <Jumbotron>
