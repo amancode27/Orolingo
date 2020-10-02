@@ -7,6 +7,9 @@ import basename from "../Home/basename.js";
 import { Alert } from 'reactstrap';
 import { Redirect } from 'react-router';
 
+
+
+
 const UploadModal = (props) => {
     console.log(props);
     const className = props.className;
@@ -23,7 +26,7 @@ const UploadModal = (props) => {
             return {...prev,[field]:value};
         })
     }
-
+    
 
     const submitData = () =>{
         let formdata = new FormData();
@@ -31,7 +34,9 @@ const UploadModal = (props) => {
         formdata.append('pdf',filedata.files[0],filedata.files[0].name);
         formdata.append('topic',upload['topic']);
         formdata.append('description',upload['description']);
-        console.log(formdata);
+        if(className==="assignments") {
+            formdata.append('deadline',upload['deadline']);
+        }
         axios.get(`${basename}/api/course/${course_id}`)
              .then(res=>{
                 formdata.append('course',res.data['resource_uri']);
@@ -47,7 +52,27 @@ const UploadModal = (props) => {
                       )
              });
     }
-
+    const Formg = () =>{
+        if(className==="assignments"){
+            return(
+                <FormGroup>
+                <Label for="deadline">Deadline</Label>
+                    <Input
+                    type="date"
+                    name="deadline"
+                    id="deadline"
+                    placeholder="date placeholder"
+                    size="lg"
+                    value={upload['deadline']}
+                    onChange={changeField}
+                />
+                </FormGroup>
+            )    
+        }
+        else{
+            return null;
+        }
+    }
     const styleModal = {
         height:"300px",
     };
@@ -70,8 +95,9 @@ const UploadModal = (props) => {
                         </FormGroup>
                         <FormGroup>
                             <Label for="file">File</Label>
-                            <Input type="file" name="pdf" id="file"/>
+                            <Input type="file" name="pdf" id="file" />
                         </FormGroup>
+                        <Formg />
                     </Form>   
                 </ModalBody>
                 <ModalFooter >

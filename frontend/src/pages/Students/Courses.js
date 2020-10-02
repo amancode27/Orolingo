@@ -83,7 +83,7 @@ const CourseCard = (props) => {
                     {langName}
                     </Typography>
                     <Typography variant="h5" align="center" color="textSecondary" paragraph>
-                        You can veiw all the course of {langName} language here! Try one know!
+                        You can veiw all the course of {langName} language here! Try one now!
                         </Typography>
                         <div className={classes.heroButtons}>
                         <Grid container spacing={2} justify="center">

@@ -9,7 +9,17 @@ import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader
 const CreateCourse = (props) =>{
     const [courseDetails,setCourseDetails] = useState({});
     const [redirect,setRedirect] = useState(false);
+    const [languages,setLanguages] = useState([]);
     const [loader,showLoader,hideLoader] = useFullPageLoader();
+
+    useEffect(()=>{
+        axios.get(`${basename}/api/language`)
+        .then(res =>{
+            setLanguages(res.data.objects);
+        })
+    },[props])
+    
+    console.log(languages);
 
     const changeField = (e) =>{
         const field = e.target.name;
@@ -72,8 +82,27 @@ const CreateCourse = (props) =>{
                     <Input type="text" name="name" id="courseName" placeholder="Enter a course name" bsSize="lg" onChange={changeField}/>
                 </FormGroup>
                 <FormGroup>
+                    
                     <Label for="language">Language</Label>
-                    <Input type="text" name="language" id="language" placeholder="Enter the language" size="lg" onChange={changeField}/>
+                    
+                    <Input 
+                        type="text" 
+                        name="language" 
+                        id="language" 
+                        placeholder="Enter the language" 
+                        size="lg" 
+                        list="languagename" 
+                        onChange={changeField}
+                    />
+                    {/* <select 
+                        onChange={changeField}
+                        name="language" 
+                        value="language"
+                    >
+                    {languages.map(e=>{
+                        <option value={e.name}>{e.name}</option>
+                    })}        
+                    </select>  */}
                 </FormGroup>
                 <FormGroup>
                     <Label for="startDate">Start Date</Label>

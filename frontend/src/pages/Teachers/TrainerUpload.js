@@ -79,6 +79,7 @@ const Page = (props) => {
                     tmp['description'] = k.description;
                     tmp['created_at'] = k.created_at;
                     tmp['pdf'] = k.pdf;
+                    tmp['deadline'] = k.deadline;
                     setAssignment(prev => {
                         return [...prev, tmp];
                     })
@@ -174,7 +175,7 @@ const Page = (props) => {
                                     {/* <Button variant="contained" color="primary">
                                         Upload
                                     </Button> */}
-                                    <UploadModal {...props} {...{'content':'assignments'}} buttonLabel = {"Upload Assignments"} className = {"feedback"} />
+                                    <UploadModal {...props} {...{'content':'assignments'}} buttonLabel = {"Upload Assignments"} className = {"assignments"} />
                                 </CardContent>
                             </Card>
                             {assignment.map((e) => (
@@ -190,6 +191,9 @@ const Page = (props) => {
                                         </Typography>
                                         <Typography>
                                             {e['description']}
+                                        </Typography>
+                                        <Typography>
+                                            {e['deadline']}
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
