@@ -143,7 +143,7 @@ const UpcomingCourses = (props) => {
                             </Card>
                         </Grid>
                     ))}
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={6} md={4} style={{marginTop : "80px"}}>
                     <CardActionArea>
                         <Link to="dashboard/createcourse" >
                             <CardMedia
@@ -211,7 +211,7 @@ const UpcomingCourses = (props) => {
                             </Card>
                         </GridListTile>
                     ))}
-                    <GridListTile style={{ height: { height }, padding: "20px" }}>
+                    <GridListTile style={{ height: { height }, padding: "20px" ,marginTop : "80px"}}>
                     <CardActionArea>
                         <Link to="dashboard/createcourse" >
                             <CardMedia
