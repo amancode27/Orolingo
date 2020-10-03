@@ -150,7 +150,7 @@ const LiveCourses = (props) => {
     else {
         return (
                 <div className={classes.root}>
-                    <GridList className={classes.gridList} cols={cols}>
+                    <GridList className={classes.gridList }  cols={cols}>
                         {liveCourses.map((e) => (
                             <GridListTile key={e} style={{ height: { height }, padding: "20px" }}>
                                 <Card className={classes.card}>
