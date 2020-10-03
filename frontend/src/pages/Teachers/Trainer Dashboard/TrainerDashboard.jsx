@@ -133,13 +133,13 @@ const TrainerDashboard = (props) => {
     const [open, setOpen] = useState(false);
     const [loader, showLoader, hideLoader] = useFullPageLoader();
 
-
     const handleDrawerOpen = () => {
         setOpen(true);
     };
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
     const classes = useStyles();
 
     useEffect(() => {
@@ -163,6 +163,16 @@ const TrainerDashboard = (props) => {
                         setLiveCourses(prev => {
                             return [...prev, k];
                         })
+                        // if(startdate==curdate){
+                        //     setStartCourse(prev=>{
+                        //         return{...prev, k}
+                        //     })
+                        // }
+                        // if(enddate==curdate){
+                        //     setEndCourse(prev=>{
+                        //         return{...prev, k}
+                        //     })
+                        // }
                     }
                     else if (curdate < startdate) {
                         setUpcomingCourses(prev => {
@@ -170,9 +180,26 @@ const TrainerDashboard = (props) => {
                         })
                     }
                 });
+                
             });
     }, [props]);
-
+    // liveCourses.map(e=>{
+    //     axios.get(`${basename}/api/assignments/?course=${e.id}`)
+    //     .then(res1=>{
+    //         // setAssignments(prev=>{
+    //         //     return{...prev,res}
+    //         // })
+    //         console.log(res1.data)
+    //         // const curdate = Date.now();
+    //         // const tmp =res;
+    //         // tmp.map(k=>{
+    //         //     if(Date.parse(k.deadline)===curdate){
+    //         //         
+    //         //     }
+    //         // })
+    //     })
+    // })
+    // console.log(assignments)
 
     return (
         <div className="main-wrapper">
@@ -210,7 +237,7 @@ const TrainerDashboard = (props) => {
                 <Container className={classes.cardGrid}>
                     <Grid container spacing={2}>
                         <LanguagesYouTeach languages={languages}/>
-                        <Notifications />
+                        <Notifications liveCourses={liveCourses}/>
 
                         {/* Live Courses*/}
                         <Grid item xs={12}>

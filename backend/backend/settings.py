@@ -157,7 +157,8 @@ CORS_ORIGIN_WHITELIST = (
     "https://example.com",
     "https://sub.example.com",
     "http://localhost:8080",
-    "http://127.0.0.1:8000"
+    "http://127.0.0.1:8000",
+  
  )
 
 # added manually

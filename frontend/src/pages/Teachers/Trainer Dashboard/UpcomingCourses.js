@@ -118,15 +118,15 @@ const UpcomingCourses = (props) => {
                                             </Button>
                                         </Grid>
                                         <Grid item xs={6} >
-                                            <Button variant="contained" color="primary" className={classes.link}>
-                                                <Link to={`dashboard/editcourse/${e.id}`}>
+                                            <Button variant="contained" color="primary" >
+                                                <Link to={`dashboard/editcourse/${e.id}`} className={classes.link}>
                                                     <EditOutlinedIcon />Edit
                                 </Link>
                                             </Button>
                                         </Grid>
                                         <Grid item xs={6} >
-                                            <Button variant="contained" color="primary" className={classes.link}>
-                                                <Link to={`/dashboard/chatapp/${e.id}`}>
+                                            <Button variant="contained" color="primary" >
+                                                <Link to={`/dashboard/chatapp/${e.id}`} className={classes.link}>
                                                     <ChatOutlinedIcon /> Chat App
                                 </Link>
                                             </Button>
