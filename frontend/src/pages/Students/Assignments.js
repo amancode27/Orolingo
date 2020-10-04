@@ -76,6 +76,7 @@ const Assignment = (props) =>{
                    tmpassignment['description'] = k.description;
                    tmpassignment['created_at'] = k.created_at;
                    tmpassignment['pdf'] = k.pdf;
+                   tmpassignment['deadline'] = k.deadline;
                    setAssignments(prev=>{
                        return [...prev,tmpassignment];
                    }) 
@@ -135,6 +136,9 @@ const Assignment = (props) =>{
                     </Typography>
                     <Typography>
                       {e['description']}
+                    </Typography>
+                    <Typography>
+                      Dealine : {e['deadline']}
                     </Typography>
                   </CardContent>
                   <CardActions>

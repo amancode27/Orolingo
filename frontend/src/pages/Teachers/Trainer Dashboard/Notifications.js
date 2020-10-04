@@ -5,6 +5,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import basename from "../../Home/basename.js";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,8 +37,27 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Notifications = () => {
+const Notifications = (props) => {
     const classes = useStyles();
+    const liveCourses =props.liveCourses;
+    const [assignmentsT,setAssignments] = useState([]);
+    
+    useEffect(()=>{
+        liveCourses.map(e=>{
+            axios.get(`${basename}/api/assignments/?course=${e.id}`)
+            .then(res=>{
+                const tmp = res.data.objects;
+                const curdate = Date.now();
+                tmp.map(k=>{
+                    if(Date.parse(k.deadline)===curdate){
+                        setAssignments(prev=>{
+                            return[...prev,k];
+                        })
+                    }
+                })
+            })
+        })
+    },[props])
 
     return (
         <Grid item xs={12} sm={6} md={4}>

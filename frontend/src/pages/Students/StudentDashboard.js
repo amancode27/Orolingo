@@ -316,15 +316,27 @@ const StudentDashboard = props => {
                 const startdate = Date.parse(k.course.startdate);
                 const enddate = Date.parse(k.course.enddate);
                 const curdate = Date.now();
+                k.completed_percent = parseInt(((curdate-startdate) / (enddate - startdate))*100);
+                //console.log(;
+                if(k.completed_percent >= 100){
+                  k.completed_percent = 100;
+                }
+                if (k.completed_percent <= 0){
+                  k.completed_percent = 0;
+                }
+                console.log(k.completed_percent);
                 
                 if(curdate>=startdate&&curdate<=enddate&&k.completed_percent!=100){
                   setLiveCourses(prev=>{
                     return {...prev,[k.id]:k};
                   })
                 }
-                else if(curdate>enddate&&k.completed_percent!=100){
+                else if(curdate>enddate&& k.completed_percent == 100){
                   setPastCourses(prev=>{
                     return {...prev,[k.id]:k};
+                  })
+                  setLanguagesLearnt(prev=>{
+                    return {...prev,[k.course.name]:(k.course.id)};
                   })
                 }
                 else if(curdate<startdate&&k.completed_percent!=100){
@@ -349,15 +361,15 @@ const StudentDashboard = props => {
              });
            });
       
-      axios.get(`${basename}/api/student_course/?student=${props.userId}&completed_percent=100`)
-           .then(res=>{
-             const languageslearnt = res.data.objects;
-             languageslearnt.map(k=>{
-               setLanguagesLearnt(prev=>{
-                 return {...prev,[k.course.name]:(k.course.id)};
-               })
-             })
-           })
+      // axios.get(`${basename}/api/student_course/?student=${props.userId}&completed_percent=100`)
+      //      .then(res=>{
+      //        const languageslearnt = res.data.objects;
+      //        languageslearnt.map(k=>{
+      //          setLanguagesLearnt(prev=>{
+      //            return {...prev,[k.course.name]:(k.course.id)};
+      //          })
+      //        })
+      //      })
   }, [props]);
   //console.log(studentName);
 
@@ -432,7 +444,7 @@ const StudentDashboard = props => {
                           <div>
                             <Col>
                               <Link to={`/dashboard/courses/coursecontent/${languagesLearnt[key]}`}>
-                                <Chip color="primary" style={{fontSize : "13px"}}  label={key} size="lg" clickable icon = {<Icon path = { mdiTrophyOutline} size = {2} color = "white" />}></Chip>
+                                <Chip color="primary" style={{fontSize : "13px", marginTop : "5px"}}  label={key} size="lg" clickable icon = {<Icon path = { mdiTrophyOutline} size = {2} color = "white" />}></Chip>
                               </Link>
                               
                             </Col>
