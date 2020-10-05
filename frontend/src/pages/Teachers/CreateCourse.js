@@ -9,7 +9,8 @@ import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader
 const CreateCourse = (props) =>{
     const [courseDetails,setCourseDetails] = useState({});
     const [redirect,setRedirect] = useState(false);
-    const [languages,setLanguages] = useState([]);
+    //const [languages,setLanguages] = useState();
+    let languages = ["Bengali","English","French","Tamil","English","Chinese","Japanese"];
     const [loader,showLoader,hideLoader] = useFullPageLoader();
     const [amount_err,setAmount_err] = useState(false);
     const [name_err,setName_err] = useState(false);
@@ -30,21 +31,22 @@ const CreateCourse = (props) =>{
 
     const error_string = "Only allowed character set is { a-z , A-Z , 0-9 , ! , @ , # , ( , ) , ' , - " +', " }!'; 
 
-    useEffect(()=>{
-        axios.get(`${basename}/api/language`)
-        .then(res =>{
-            setLanguages(res.data.objects);
-        })
-    },[props])
+    // useEffect(()=>{
+    //     axios.get(`${basename}/api/language`)
+    //     .then(res =>{
+    //         setLanguages(res.data.objects);
+    //     })
+    // },[props])
     
 
     const changeField = (e) =>{
         const field = e.target.name;
         const value = e.target.value;
+        console.log(value);
         setCourseDetails(prev=>{
             return {...prev,[field]:value};
         })
-
+        console.log(courseDetails);
         if(e.target.name == "name"){
             let name = e.target.value;
             if(name)
@@ -205,7 +207,7 @@ const CreateCourse = (props) =>{
                         size="lg"
                     >
                         {languages.map(e=>
-                            (<option value={e.name}>{e.name}</option>)
+                            (<option value={e}>{e}</option>)
                         )}        
                     </Input> 
                 </FormGroup>

@@ -187,10 +187,17 @@ const CourseContent = (props,user) =>{
                   "student" : props.userId
                 })
                 .then((res) => {
-                  axios.get(`${basename}/auth/api/forum?student_course=${student_course_id}`)
+                  axios.get(`${basename}/auth/api/forum/?student_course=${student_course_id}`)
                   .then((res) => {
                   setForumData(res.data); 
                 })});
+                console.log(res.data);
+                let cnt = res.data.forum_cnt;
+                cnt=cnt+1;
+                console.log(cnt);
+                axios.patch(`${basename}/api/student_course/${student_course_id}/`,{
+                  "forum_cnt":cnt,
+                });
              })
         setTitle("");
         setDescription("");
@@ -211,12 +218,22 @@ const CourseContent = (props,user) =>{
                 setForumData(res1.data); 
               });
             })
+            axios.get(`${basename}/api/student_course/${student_course_id}`)
+                 .then(res=>{
+                    let cnt = res.data.forum_cnt;
+                    if(cnt!=0){
+                      cnt=cnt-1;
+                      axios.patch(`${basename}/api/student_course/${student_course_id}/`,{
+                        "forum_cnt":cnt,
+                      });
+                    }
+                 }) 
       }
 
     useEffect(() => {
       showLoader();       
       axios.
-      get(`${basename}/auth/api/forum?student_course=${student_course_id}`)
+      get(`${basename}/auth/api/forum/?student_course=${student_course_id}`)
       .then((res) => {
         hideLoader();
         const tmp = res.data.objects;

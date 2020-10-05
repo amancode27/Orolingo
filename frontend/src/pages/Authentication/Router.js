@@ -175,7 +175,7 @@ const Router = (props) => {
                 <Route 
                 path = '/dashboard/chatapp/:id'
                 render = {(props) => (
-                    <ChatApp {...props} {...userinfo}/>
+                    <ChatApp {...props} {...userinfo} />
                 )}
                 />
                 <Route component={NotFound} />

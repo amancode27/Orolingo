@@ -11,7 +11,8 @@ import {
   
 } from "reactstrap";
 import { makeStyles } from '@material-ui/core/styles';
-
+import Badge from '@material-ui/core/Badge';
+import MailIcon from '@material-ui/icons/Mail';
 import * as timeago from 'timeago.js';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -34,20 +35,31 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const ChatApp = (props) => {
+  
+const useStyles1 = makeStyles((theme) => ({
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+}));
 
+const ChatApp = (props) => {
+    
     const classes = useStyles();
     const id = props.match.params["id"];
     let selstd;
     const [anselstd, setanselstd] = useState(""); 
-    const [students, setStudents] = useState([]);
+    const [students, setStudents] = useState({});
     const [forumData, setForumData] = useState([]);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [chat_cnt,setChat_cnt]=useState(0);
     const changeTitle = (e) => {
         setTitle(e.target.value);
         
     }
+    const [msgcnt,setMsgcnt] = useState([])
 
     const changeDescription = (e) => {
         setDescription(e.target.value);
@@ -55,14 +67,21 @@ const ChatApp = (props) => {
     const [loader,showLoader,hideLoader] = useFullPageLoader();
 
     const display = (val) => {
+        setChat_cnt(prev=>prev+1);
         selstd = val;
         setanselstd(val);
         setForumData([]);
         axios.get(`${basename}/api/student_course/?course=${id}&student=${selstd}`)
         .then((res) => {
             //console.log(res.data);
+            let cnt = res.data.forum_cnt;
+            let student_course_id = res.data.objects[0].id;
+            cnt=0;
+            axios.patch(`${basename}/api/student_course/${student_course_id}/`,{
+                "forum_cnt":cnt,
+            });
             res.data.objects.map(k => {
-                axios.get(`${basename}/auth/api/forum?student_course=${k.id}`)
+                axios.get(`${basename}/auth/api/forum/?student_course=${k.id}`)
                 .then((res1) => 
                 res1.data.map( k => {
                     setForumData(prev => {
@@ -95,7 +114,7 @@ const ChatApp = (props) => {
                     .then((res) => {
                         //console.log(res.data);
                         res.data.objects.map(k => {
-                            axios.get(`${basename}/auth/api/forum?student_course=${k.id}`)
+                            axios.get(`${basename}/auth/api/forum/?student_course=${k.id}`)
                             .then((res1) => 
                             res1.data.map( k => {
                                 setForumData(prev => {
@@ -124,7 +143,7 @@ const ChatApp = (props) => {
                     //console.log(res.data);
                     hideLoader();
                     res.data.objects.map(k => {
-                        axios.get(`${basename}/auth/api/forum?student_course=${k.id}`)
+                        axios.get(`${basename}/auth/api/forum/?student_course=${k.id}`)
                         .then((res1) => 
                         res1.data.map( k => {
                             setForumData(prev => {
@@ -146,26 +165,35 @@ const ChatApp = (props) => {
             //console.log(res.data);
             hideLoader();
             res.data.objects.map(k => {
+                console.log(k);
                 axios.get(`${basename}${k.student}`)
                 .then(res1 => {
+                    console.log(res1.data);
                     setStudents(prev => {
-                        return [...prev,res1.data];
+                        return {...prev,[res1.data.user.id]:{"student":res1.data,"cnt":k.forum_cnt}};
                     })
                 })
             })
         });
-    },[props.match.params["id"]]);
-    //console.log(students);
-    //console.log(selstd);
+    },[props.match.params['id'],chat_cnt]);
+
+    const classes1 = useStyles();
+    console.log(students);
     return (
         <div style={{padding : "20px"}}>
             <Row>
                 <Col md="4">
                 
-                    {students.map(k => (
+                    {Object.keys(students).map((k,i) => (
                         <CardActionArea>
-                        <Card className="text-center" style={{minHeight : "60px", padding : "20px"}} onClick={() => display(k.user.id)}>
-                            {k.user.fullname}
+                        <Card className="text-center" style={{minHeight : "60px", padding : "20px"}} onClick={() => display(k)}>
+                            {students[k].student.user.fullname}
+                            
+                            <div className={classes1.root}>
+                                <Badge badgeContent={students[k].cnt} color="primary">
+                                    <MailIcon />
+                                </Badge>
+                            </div>
                         </Card>
                         </CardActionArea>                      
                     ))}

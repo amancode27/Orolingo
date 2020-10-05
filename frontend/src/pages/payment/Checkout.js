@@ -4,6 +4,7 @@ import './Checkout.css';
 import axios from "axios";
 import basename from "../Home/basename.js";
 import { Alert } from 'reactstrap';
+import { Redirect } from "react-router";
 
 const CARD_OPTIONS = {
   iconStyle: 'solid',
@@ -113,6 +114,7 @@ const CheckoutForm = (props) => {
     name: '',
   });
   const [success,setSuccess] = useState(0);
+  const [redirect,setRedirect] = useState(false);
 
 // Handle real-time validation errors from the CardElement.
   const course_id = props.match.params['id'];
@@ -190,76 +192,83 @@ const handleSubmit = (event) => {
       phone: '',
       name: '',
     });
+    if(success)
+      setRedirect(true);
+    else
+      setRedirect(false);
   };
   let elem;
   if(success)
     elem = (<div className="ResultTitle" role="alert" style={{"color":"green"}} >
-    Payment successful
+    Payment was successful! Click below to go back to your Dashboard.
   </div>)
   else
     elem = (<div className="ResultTitle" role="alert" style={{"color":"red"}}>
     Payment was not successfull! Try Again!
   </div>)
-  return paymentMethod ? (
-    <div className="Result">
-      {elem}
-      <ResetButton onClick={reset} />
-    </div>
-  ) : (
-    <form className="Form" onSubmit={handleSubmit} style={{"width":"600px","margin":"auto","marginTop":"100px","padding":"40px","backgroundColor":"lightskyblue","borderRadius":"10px","paddingTop":"60px"}}>
-      <fieldset className="FormGroup">
-        <Field
-          label="Name"
-          id="name"
-          type="text"
-          placeholder="Jane Doe"
-          required
-          autoComplete="name"
-          value={billingDetails.name}
-          onChange={(e) => {
-            setBillingDetails({...billingDetails, name: e.target.value});
-          }}
-        />
-        <Field
-          label="Email"
-          id="email"
-          type="email"
-          placeholder="janedoe@gmail.com"
-          required
-          autoComplete="email"
-          value={billingDetails.email}
-          onChange={(e) => {
-            setBillingDetails({...billingDetails, email: e.target.value});
-          }}
-        />
-        <Field
-          label="Phone"
-          id="phone"
-          type="tel"
-          placeholder="(941) 555-0123"
-          required
-          autoComplete="tel"
-          value={billingDetails.phone}
-          onChange={(e) => {
-            setBillingDetails({...billingDetails, phone: e.target.value});
-          }}
-        />
-      </fieldset>
-      <fieldset className="FormGroup">
-        <CardField
-          onChange={(e) => {
-            setError(e.error);
-            setCardComplete(e.complete);
-          }}
-        />
-      </fieldset>
-      {error && <ErrorMessage>{error.message}</ErrorMessage>}
-      <SubmitButton processing={processing} error={error} disabled={!stripe} style={{"marginTop":"10px"}}>
-        Pay
-      </SubmitButton>
-    </form>
-  );
-};
+  if(redirect)
+      return (<Redirect to='/dashboard'></Redirect>)
+  else
+    return paymentMethod ? (
+      <div className="Result">
+        {elem}
+        <ResetButton onClick={reset}/>
+      </div>
+    ) : (
+      <form className="Form" onSubmit={handleSubmit} style={{"width":"600px","margin":"auto","marginTop":"100px","padding":"40px","backgroundColor":"lightskyblue","borderRadius":"10px","paddingTop":"60px"}}>
+        <fieldset className="FormGroup">
+          <Field
+            label="Name"
+            id="name"
+            type="text"
+            placeholder="Jane Doe"
+            required
+            autoComplete="name"
+            value={billingDetails.name}
+            onChange={(e) => {
+              setBillingDetails({...billingDetails, name: e.target.value});
+            }}
+          />
+          <Field
+            label="Email"
+            id="email"
+            type="email"
+            placeholder="janedoe@gmail.com"
+            required
+            autoComplete="email"
+            value={billingDetails.email}
+            onChange={(e) => {
+              setBillingDetails({...billingDetails, email: e.target.value});
+            }}
+          />
+          <Field
+            label="Phone"
+            id="phone"
+            type="tel"
+            placeholder="(941) 555-0123"
+            required
+            autoComplete="tel"
+            value={billingDetails.phone}
+            onChange={(e) => {
+              setBillingDetails({...billingDetails, phone: e.target.value});
+            }}
+          />
+        </fieldset>
+        <fieldset className="FormGroup">
+          <CardField
+            onChange={(e) => {
+              setError(e.error);
+              setCardComplete(e.complete);
+            }}
+          />
+        </fieldset>
+        {error && <ErrorMessage>{error.message}</ErrorMessage>}
+        <SubmitButton processing={processing} error={error} disabled={!stripe} style={{"marginTop":"10px"}}>
+          Pay
+        </SubmitButton>
+      </form>
+    );
+  };
 
 const ELEMENTS_OPTIONS = {
   fonts: [
