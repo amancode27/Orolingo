@@ -183,23 +183,6 @@ const TrainerDashboard = (props) => {
                 
             });
     }, [props]);
-    // liveCourses.map(e=>{
-    //     axios.get(`${basename}/api/assignments/?course=${e.id}`)
-    //     .then(res1=>{
-    //         // setAssignments(prev=>{
-    //         //     return{...prev,res}
-    //         // })
-    //         console.log(res1.data)
-    //         // const curdate = Date.now();
-    //         // const tmp =res;
-    //         // tmp.map(k=>{
-    //         //     if(Date.parse(k.deadline)===curdate){
-    //         //         
-    //         //     }
-    //         // })
-    //     })
-    // })
-    // console.log(assignments)
 
     return (
         <div className="main-wrapper">
