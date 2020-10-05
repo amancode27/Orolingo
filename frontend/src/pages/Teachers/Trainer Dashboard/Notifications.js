@@ -46,16 +46,20 @@ const Notifications = (props) => {
     const [endCourses,setEndCourses] = useState([]);
     const [startCourses,setStartCourses]=useState([]);
 
-    // const curdate;
-    
+    //     var date1 = new Date();
+    //     var mnth = ("0" + (date1.getMonth() + 1)).slice(-2);
+    //     var day = ("0" + date1.getDate()).slice(-2);
+    //     var curdate = [date1.getFullYear(), mnth, day].join("-");
+    //     // console.log(curdate)
+    //     // console.log(liveCourses[0]);
+    //     console.log(live)
     // useEffect(()=>{
     //     liveCourses.map(e=>{
     //         axios.get(`${basename}/api/assignments/?course=${e.id}`)
     //         .then(res=>{
     //             const tmp = res.data.objects;
-    //             const curdate = Date.now();
     //             tmp.map(k=>{
-    //                 if(Math.abs(Date.parse(k.deadline)-curdate)){
+    //                 if(k.deadline==curdate){
     //                     setAssignments(prev=>{
     //                         return[...prev,e];
     //                     })
@@ -64,19 +68,18 @@ const Notifications = (props) => {
     //         })
     //     })
     //     liveCourses.map(e=>{
-    //         if(e.enddate===curdate){
+    //         if(e.enddate==curdate){
     //             setEndCourses(prev=>{
-    //                 return[...prev,k];
+    //                 return[...prev,e];
     //             })
     //         }
-    //         if(e.startdate===curdate){
+    //         if(e.startdate==curdate){
     //             setEndCourses(prev=>{
-    //                 return[...prev,k];
+    //                 return[...prev,e];
     //             })
     //         }
     //     })
     // },[props])
-
     return (
         <Grid item xs={12} sm={6} md={4}>
             <Card style={{ backgroundColor: '#e65100' }}>

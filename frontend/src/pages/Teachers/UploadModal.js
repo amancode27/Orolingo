@@ -11,13 +11,13 @@ import { Redirect } from 'react-router';
 
 
 const UploadModal = (props) => {
-    console.log(props);
     const className = props.className;
     const buttonLabel = props.buttonLabel;
     const [modal, setModal] = useState(false);
     const toggle = () => {setModal(!modal);}
     const [upload,setUpload] = useState({});
     const course_id = props.match.params['id'];
+    const [error,setError] = useState(false);
 
     const changeField = (e) =>{
         const field = e.target.name;
@@ -27,30 +27,49 @@ const UploadModal = (props) => {
         })
     }
     
+    function validate_formdata(){
+        if(upload['topic']==="" || upload['description']===""){
+            return false;
+        }
+        return true;
+    }
 
     const submitData = () =>{
-        let formdata = new FormData();
-        var filedata = document.getElementById("file");
-        formdata.append('pdf',filedata.files[0],filedata.files[0].name);
-        formdata.append('topic',upload['topic']);
-        formdata.append('description',upload['description']);
-        if(className==="assignments") {
-            formdata.append('deadline',upload['deadline']);
+        if(validate_formdata){
+            let formdata = new FormData();
+            var filedata = document.getElementById("file");
+            formdata.append('pdf',filedata.files[0],filedata.files[0].name);
+            formdata.append('topic',upload['topic']);
+            formdata.append('description',upload['description']);
+            if(className==="assignments") {
+                formdata.append('deadline',upload['deadline']);
+            }
+            axios.get(`${basename}/api/course/${course_id}`)
+                .then(res=>{
+                    formdata.append('course',res.data['resource_uri']);
+                    axios({
+                        method: 'post',
+                        url: `${basename}/api/${props['content']}/`,
+                        data: formdata,
+                        header: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'multipart/form-data',
+                                },
+                        }).then(()=>{toggle();window.location.reload(false);}
+                        )
+                });
         }
-        axios.get(`${basename}/api/course/${course_id}`)
-             .then(res=>{
-                formdata.append('course',res.data['resource_uri']);
-                axios({
-                    method: 'post',
-                    url: `${basename}/api/${props['content']}/`,
-                    data: formdata,
-                    header: {
-                              'Accept': 'application/json',
-                              'Content-Type': 'multipart/form-data',
-                            },
-                      }).then(()=>{toggle();window.location.reload(false);}
-                      )
-             });
+        else{
+            setError(true);
+        }
+    }
+    const ErrorStatement = ()=>{
+        if(error){
+            return(
+            <p>Please Upload content in {className}</p>
+            )
+        }
+        else return null;
     }
     const Formg = () =>{
         if(className==="assignments"){
@@ -84,6 +103,7 @@ const UploadModal = (props) => {
             <Modal isOpen={modal} toggle={toggle} className={className} >
                 <ModalHeader toggle={toggle}>Upload Form</ModalHeader>
                 <ModalBody>
+                    <ErrorStatement/>
                     <Form style={{marginBottom:"20px",fontSize:"17px"}}>
                         <FormGroup>
                             <Label for="topic">Topic</Label>

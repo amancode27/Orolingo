@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import basename from "../../Home/basename.js";
 import axios from "axios";
 
-import Sidebar from "../sidebar"
-import ThemeRoutes from '../routing';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
@@ -108,40 +106,63 @@ const useStyles = makeStyles((theme) => ({
 const SidebarTop= () => {
     const [open, setOpen] = useState(false);
     const classes=useStyles();
+    const [drawercall,setDrawer] = useState(false);
+    const [width, setWidth] = useState(1200);
+
+    let resizeWindow = () => {
+        setWidth(window.innerWidth);
+    };
     const handleDrawerOpen = () => {
         setOpen(true);
     };
+    useEffect(() => {
+        resizeWindow();
+        window.addEventListener("resize", resizeWindow);
+        if (width <= 600) {
+            setDrawer(false);
+        }
+        else {
+            setDrawer(true);
+        }
+        return () => window.removeEventListener("resize", resizeWindow);
+    }, [width]);
+
     const handleDrawerClose = () => {
         setOpen(false);
     };
-    return (
-        <Drawer
-            variant="permanent"
-            classes={{
-                paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-            }}
-            open={open}
-        >
-            <div className={classes.toolbarIcon}>
-                <IconButton onClick={handleDrawerClose}
-                    className={clsx(classes.menuButton, (!open) && classes.menuButtonHidden)}>
-                    <ChevronLeftIcon />
-                </IconButton>
-                <IconButton
-                    edge="start"
-                    color="inherit"
-                    aria-label="open drawer"
-                    onClick={handleDrawerOpen}
-                    className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-                >
-                    <ChevronRightIcon />
-                </IconButton>
-            </div>
-            <Divider />
-            <List>{mainListItems}</List>
-            <Divider />
-                    /* <List>{secondaryListItems}</List>
-        </Drawer>
-    )
+    if(drawercall){
+        return (
+            <Drawer
+                variant="permanent"
+                classes={{
+                    paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+                }}
+                open={open}
+            >
+                <div className={classes.toolbarIcon}>
+                    <IconButton onClick={handleDrawerClose}
+                        className={clsx(classes.menuButton, (!open) && classes.menuButtonHidden)}>
+                        <ChevronLeftIcon />
+                    </IconButton>
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                    >
+                        <ChevronRightIcon />
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>{mainListItems}</List>
+                <Divider />
+                        /* <List>{secondaryListItems}</List>
+            </Drawer>
+        )
+    }
+    else{
+        return null;
+    }
 }
 export default SidebarTop
