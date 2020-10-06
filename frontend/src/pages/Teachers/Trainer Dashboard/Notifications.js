@@ -27,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        maxHeight :'300px',
+        width : '100%',
     },
     cardContent: {
         flexGrow: 1,
@@ -41,45 +43,73 @@ const Notifications = (props) => {
     console.log(props);
     const classes = useStyles();
     const liveCourses =props.liveCourses;
-    const [assignmentsT,setAssignments] = useState([]);
-    
-    useEffect(()=>{
-        liveCourses.map(e=>{
-            axios.get(`${basename}/api/assignments/?course=${e.id}`)
-            .then(res=>{
-                const tmp = res.data.objects;
-                const curdate = Date.now();
-                tmp.map(k=>{
-                    if(Date.parse(k.deadline)===curdate){
-                        setAssignments(prev=>{
-                            return[...prev,k];
-                        })
-                    }
-                })
-            })
-        })
-    },[props])
+    const [assignmentsToday,setAssignments] = useState([]);
+    const [endCourses,setEndCourses] = useState([]);
+    const [startCourses,setStartCourses]=useState([]);
 
+    //     var date1 = new Date();
+    //     var mnth = ("0" + (date1.getMonth() + 1)).slice(-2);
+    //     var day = ("0" + date1.getDate()).slice(-2);
+    //     var curdate = [date1.getFullYear(), mnth, day].join("-");
+    //     // console.log(curdate)
+    //     // console.log(liveCourses[0]);
+    //     console.log(live)
+    // useEffect(()=>{
+    //     liveCourses.map(e=>{
+    //         axios.get(`${basename}/api/assignments/?course=${e.id}`)
+    //         .then(res=>{
+    //             const tmp = res.data.objects;
+    //             tmp.map(k=>{
+    //                 if(k.deadline==curdate){
+    //                     setAssignments(prev=>{
+    //                         return[...prev,e];
+    //                     })
+    //                 }
+    //             })
+    //         })
+    //     })
+    //     liveCourses.map(e=>{
+    //         if(e.enddate==curdate){
+    //             setEndCourses(prev=>{
+    //                 return[...prev,e];
+    //             })
+    //         }
+    //         if(e.startdate==curdate){
+    //             setEndCourses(prev=>{
+    //                 return[...prev,e];
+    //             })
+    //         }
+    //     })
+    // },[props])
     return (
         <Grid item xs={12} sm={6} md={4}>
             <Card style={{ backgroundColor: '#e65100' }}>
                 <Typography gutterBottom variant="h4" component="h2"
                     style={{ textAlign: 'center',color:'white' }}>
-                    Notifications
+                    Notifications <AccessTimeIcon /> 
                 </Typography>
             </Card>
             <Grid item xs={12} >
-                <Card className={classes.card} style={{ width: '100%' }}>
+                <Card className={classes.card}>
                     <CardContent className={classes.cardContent} >
-                        <Typography gutterBottom variant="h5" component="h2">
-                            <AccessTimeIcon /> Place - 2:00 P.M.
-                                        </Typography>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            <AccessTimeIcon /> Place - 2:00 P.M.
-                                        </Typography>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            <AccessTimeIcon /> Place - 2:00 P.M.
-                                        </Typography>
+                        {assignmentsToday.map(e=>(
+                            <Typography gutterBottom variant="h5" component="h2">
+                                Assignment deadline today of Course-{e.name} 
+                                <Link to={`/dashboard/trainercourses/uploads/${e.id}`}>
+                                    Go
+                                </Link>
+                            </Typography>
+                        ))}
+                        {startCourses.map(e=>(
+                            <Typography gutterBottom variant="h5" component="h2">
+                                Congratulations on starting your new course-{e.name} 
+                            </Typography>
+                        ))}
+                        {endCourses.map(e=>(
+                            <Typography gutterBottom variant="h5" component="h2">
+                                Congratulations on Course Completion of {e.name} 
+                            </Typography>
+                        ))}
                     </CardContent>
                 </Card>
             </Grid>
