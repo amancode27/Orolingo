@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Notifications = (props) => {
+    console.log(props);
     const classes = useStyles();
     const liveCourses =props.liveCourses;
     const [assignmentsT,setAssignments] = useState([]);

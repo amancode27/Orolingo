@@ -237,7 +237,7 @@ const TrainerDashboard = (props) => {
                 <Container className={classes.cardGrid}>
                     <Grid container spacing={2}>
                         <LanguagesYouTeach languages={languages}/>
-                        <Notifications liveCourses={liveCourses}/>
+                        <Notifications {...props} liveCourses={liveCourses}/>
 
                         {/* Live Courses*/}
                         <Grid item xs={12}>
