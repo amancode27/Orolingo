@@ -32,8 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
 const TrainerDashboard = (props) => {
     const [trainerName, setTrainerName] = useState("")
-    const [upcomingCourses, setUpcomingCourses] = useState([]);
-    const [liveCourses, setLiveCourses] = useState([]);
+    const [upcomingCourses, setUpcomingCourses] = useState({});
+    const [liveCourses, setLiveCourses] = useState({});
     const [languages, setLanguages] = useState({});
     const [open, setOpen] = useState(false);
     const [loader, showLoader, hideLoader] = useFullPageLoader();
@@ -49,7 +49,6 @@ const TrainerDashboard = (props) => {
                 hideLoader();
                 //console.log(res.data.objects);
                 const tmp = res.data.objects;
-                setLiveCourses([]); setUpcomingCourses([]);
                 tmp.map(k => {
                     const startdate = Date.parse(k.startdate);
                     const enddate = Date.parse(k.enddate);
@@ -60,19 +59,19 @@ const TrainerDashboard = (props) => {
                     })
                     if (curdate >= startdate && curdate <= enddate) {
                         setLiveCourses(prev => {
-                            return [...prev, k];
+                            return {...prev, [k.id]:k};
                         })
                     }
                     else if (curdate < startdate) {
                         setUpcomingCourses(prev => {
-                            return [...prev, k];
+                            return {...prev, [k.id]:k};
                         })
                     }
                 });
                 
             });
     }, [props]);
-
+    console.log(liveCourses);
     return (
         <div className="main-wrapper">
             <div className={classes.root}>

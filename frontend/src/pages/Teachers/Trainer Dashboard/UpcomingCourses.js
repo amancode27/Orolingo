@@ -90,50 +90,50 @@ const UpcomingCourses = (props) => {
         return () => window.removeEventListener("resize", resizeWindow);
     }, [width]);
 
-    if (upcomingCourses.length < 3) {
+    if (Object.keys(upcomingCourses).length < 3) {
         return (
             <div>
                 <Grid container spacing={4}>
-                    {upcomingCourses.map(e => (
-                        <Grid item key={e} xs={12} sm={6} md={4}>
+                    {Object.keys(upcomingCourses).map((e,id) => (
+                        <Grid item key={upcomingCourses[e]} xs={12} sm={6} md={4}>
                             <Card className={classes.card}>
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image= {'/' + e.language.name + '.svg' }
+                                    image= {'/' + upcomingCourses[e].language.name + '.svg' }
                                     title="Image title"
                                 />
                                 <CardContent className={classes.cardContent}>
-                                    <Typography gutterBottom variant="h5" component="h2">{e.name}</Typography>
+                                    <Typography gutterBottom variant="h5" component="h2">{upcomingCourses[e].name}</Typography>
                                     <Typography gutterBottom variant="h6" component="h2">
-                                        Start-Date :{e.startdate}<br />End Date: {e.enddate}
+                                        Start-Date :{upcomingCourses[e].startdate}<br />End Date: {upcomingCourses[e].enddate}
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
                                     <Grid container spacing={1}>
                                         <Grid item xs={6} >
                                             <Button variant="contained" color="primary" >
-                                                <Link to={`/dashboard/trainercourses/uploads/${e.id}`} className={classes.link}>
+                                                <Link to={`/dashboard/trainercourses/uploads/${e}`} className={classes.link}>
                                                     <CloudUploadOutlinedIcon />Upload Content
                                 </Link>
                                             </Button>
                                         </Grid>
                                         <Grid item xs={6} >
                                             <Button variant="contained" color="primary" >
-                                                <Link to={`dashboard/editcourse/${e.id}`} className={classes.link}>
+                                                <Link to={`dashboard/editcourse/${e}`} className={classes.link}>
                                                     <EditOutlinedIcon />Edit
                                 </Link>
                                             </Button>
                                         </Grid>
                                         <Grid item xs={6} >
                                             <Button variant="contained" color="primary" >
-                                                <Link to={`/dashboard/chatapp/${e.id}`} className={classes.link}>
+                                                <Link to={`/dashboard/chatapp/${e}`} className={classes.link}>
                                                     <ChatOutlinedIcon /> Chat App
                                 </Link>
                                             </Button>
                                         </Grid>
                                         <Grid item xs={6}>
                                         <Button variant="container" className={classes.link}>
-                                            <Link to= {`dashboard/trainercourses/feedback/${e.id}`}>
+                                            <Link to= {`dashboard/trainercourses/feedback/${e}`}>
                                                 <EditOutlinedIcon /> Feedbacks
                                             </Link>
                                         </Button>
@@ -162,46 +162,46 @@ const UpcomingCourses = (props) => {
         return (
             <div className={classes.root}>
                 <GridList className={classes.gridList} cols={cols}>
-                    {upcomingCourses.map((e) => (
-                        <GridListTile key={e} style={{ height: { height }, padding: "20px" }}>
+                    {Object.keys(upcomingCourses).map((e,id) => (
+                        <GridListTile key={upcomingCourses[e]} style={{ height: { height }, padding: "20px" }}>
                             <Card className={classes.card}>
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image= {'/' + e.language.name + '.svg' }
+                                    image= {'/' + upcomingCourses[e].language.name + '.svg' }
                                     title="Image title"
                                 />
                                 <CardContent className={classes.cardContent}>
-                                    <Typography gutterBottom variant="h5" component="h2">{e.name}</Typography>
+                                    <Typography gutterBottom variant="h5" component="h2">{upcomingCourses[e].name}</Typography>
                                     <Typography gutterBottom variant="h6" component="h2">
-                                        Start-Date :{e.startdate}<br />End Date: {e.enddate}
+                                        Start-Date :{upcomingCourses[e].startdate}<br />End Date: {upcomingCourses[e].enddate}
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
                                     <Grid container spacing={1}>
                                         <Grid item xs={7} >
                                             <Button variant="contained" color="primary">
-                                                <Link to={`/dashboard/trainercourses/uploads/${e.id}`} className={classes.link}>
+                                                <Link to={`/dashboard/trainercourses/uploads/${e}`} className={classes.link}>
                                                     <CloudUploadOutlinedIcon />Upload Content
                                             </Link>
                                             </Button>
                                         </Grid>
                                         <Grid item xs={5} >
                                             <Button variant="contained" color="primary">
-                                                <Link to={`dashboard/editcourse/${e.id}`} className={classes.link}>
+                                                <Link to={`dashboard/editcourse/${e}`} className={classes.link}>
                                                     <EditOutlinedIcon />Edit
                                             </Link>
                                             </Button>
                                         </Grid>
                                         <Grid item xs={12} >
                                             <Button variant="contained" color="primary">
-                                                <Link to={`/dashboard/chatapp/${e.id}`} className={classes.link}>
+                                                <Link to={`/dashboard/chatapp/${e}`} className={classes.link}>
                                                     <ChatOutlinedIcon /> Chat App
                                             </Link>
                                             </Button>
                                         </Grid>
                                         <Grid item xs={6}>
                                         <Button variant="container" className={classes.link}>
-                                            <Link to= {`dashboard/trainercourses/feedback/${e.id}`}>
+                                            <Link to= {`dashboard/trainercourses/feedback/${e}`}>
                                                 <EditOutlinedIcon /> Feedbacks
                                             </Link>
                                         </Button>
