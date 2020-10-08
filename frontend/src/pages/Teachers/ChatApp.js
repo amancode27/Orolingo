@@ -25,6 +25,11 @@ import { mdiAccountVoice, mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
 import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 import { Slide } from "@material-ui/core";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,7 +50,16 @@ const useStyles1 = makeStyles((theme) => ({
 }));
 
 const ChatApp = (props) => {
-    
+    const [openDel, setOpenDel] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpenDel(true);
+  };
+
+  const handleClose = () => {
+    setOpenDel(false);
+  };
+
     const classes = useStyles();
     const id = props.match.params["id"];
     let selstd;
@@ -142,6 +156,7 @@ const ChatApp = (props) => {
                 .then((res) => {
                     //console.log(res.data);
                     hideLoader();
+                    handleClose();
                     res.data.objects.map(k => {
                         axios.get(`${basename}/auth/api/forum/?student_course=${k.id}`)
                         .then((res1) => 
@@ -182,7 +197,7 @@ const ChatApp = (props) => {
     return (
         <div style={{padding : "20px"}}>
             <Row>
-                <Col md="4">
+                <Col md="4" className="overflow">
                 
                     {Object.keys(students).map((k,i) => (
                         <CardActionArea>
@@ -203,19 +218,19 @@ const ChatApp = (props) => {
                 <Card>
                     <CardTitle className="text-center mt-3" style={{fontSize:"20px"}}>Discussion Forum </CardTitle>
                     <Row>
-                    <Col md="4" style={{fontSize:"30px"}}>
+                    <Col md="4" style={{fontSize:"30px"}} >
                         
                         <form className={classes.discuss} style={{fontSize : "35px" ,color :"black", padding : "10px"}} noValidate autoComplete="off">
-                            <TextField id="standard-basic" label="Title" onChange = {changeTitle} value = {title} style={{marginBottom : "10px",width : "100%"}}/> <br/>
-                            <TextField id="outlined-basic" label="Description" rows={5} variant="outlined" onChange = {changeDescription} multiline value = {description} style={{width : "100%"}}/> <br/>
-                            <Button variant="contained" color="primary" onClick = {discuss}>
+                            <TextField id="standard-basic" label="Title" onChange = {changeTitle} value = {title} style={{marginBottom : "10px",width : "110%"}}/> <br/>
+                            <TextField id="outlined-basic" margin="none" label="Description" rows={5} variant="outlined" onChange = {changeDescription} multiline value = {description} style={{width : "100%"}} /> <br/>
+                            <Button variant="contained" color="primary" onClick = {discuss} style={{marginTop : "10px"}}>
                             Discuss &#10148;
                             </Button>
                         </form>
                        
                     </Col>
-                    <Col md="8">
-                    
+                    <Col md="8" className="scrollbar">
+                            <div className="overflow">
                             {forumData.map(k => (
                                 
                             <Card variant="outlined" elevation={3}>
@@ -228,7 +243,7 @@ const ChatApp = (props) => {
                                 <CardContent>
                                 <Typography gutterBottom variant="h4" component="h2">
                                 { k.creator } 
-                                <Icon style = {{padding : "10px", display : "flex", float : "right"}} path = { mdiDelete } size = {3} onClick= { () => deleteF(k) } />
+                                <Icon style = {{padding : "10px", display : "flex", float : "right"}} path = { mdiDelete } size = {3} onClick= { handleClickOpen } />
                                 </Typography>
                                 <Typography gutterBottom variant="h5" component="h2">
                                 { k.title } 
@@ -239,13 +254,35 @@ const ChatApp = (props) => {
                                 <Typography variant="body1"  component="p" style={{float : "right"}}>
                                 {timeago.format(k.created_at)}
                                 </Typography>
+                                <Dialog
+                                    open={openDel}
+                                    onClose={handleClose}
+                                    aria-labelledby="alert-dialog-title"
+                                    aria-describedby="alert-dialog-description"
+                                >
+                                    <DialogTitle id="alert-dialog-title">{"Are you sure?"}</DialogTitle>
+                                    <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                        If you delete the message the student will not be able to see your message again.
+                                    </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                    <Button onClick={() => deleteF(k)   } color="secondary" autoFocus>
+                                        Yes, I am sure
+                                    </Button>
+                                    <Button onClick={handleClose} color="primary">
+                                        No
+                                    </Button>
+                                    </DialogActions>
+                                </Dialog>
                                 </CardContent>
                                 </Col>
                                 </Row>
                                 </CardActionArea>
                                 </Card>
                             
-                            ))} 
+                            ))}
+                        </div> 
                     </Col>
                     </Row>
                     </Card>
