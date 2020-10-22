@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import datetime
 from decouple import config
+import jwt
+from http import client
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,6 +31,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ZOOM_API_KEY = 'Fdom-FrxT0mzIcbeV8mcwg'
+
+ZOOM_API_SECRET_KEY = 'Df5kPfqJGfEyJhgw1u8YdfE87NeVMP2zkngz' 
 
 # Application definition
 INSTALLED_APPS = [
@@ -223,3 +229,19 @@ STRIPE_SECRET_KEY = config('STRIPE_TEST_SECRET_KEY')
 
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
 MEDIA_URL= "/media/"
+
+#Zoom integration
+
+payload = {'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=30),
+           'iss': ZOOM_API_KEY    
+          }     
+token = jwt.encode(payload, ZOOM_API_SECRET_KEY).decode("utf-8")
+
+conn = client.HTTPSConnection("api.zoom.us")
+
+headers = {
+        'authorization': "Bearer " + token,
+        'content-type': "application/json"
+        }
+
+#https://api.zoom.us/v2/

@@ -106,7 +106,7 @@ const CourseDetails = (props,userinfo) =>{
                             Hi! I'm {trainerDetails['name']}.
                         </Typography>
                     <hr/>
-                    <img src="\trainer.jpg" alt="profilephoto" width="100%" style={{maxHeight : "400px"}} ></img>                    
+                    <img src="\static\trainer.jpg" alt="profilephoto" width="100%" style={{maxHeight : "400px"}} ></img>                    
                     </Card>
                     </CardActionArea>
                 </Grid>
@@ -115,7 +115,7 @@ const CourseDetails = (props,userinfo) =>{
                     <Card elevation = {3} style={{minHeight : "600px"}}>
                         <CardMedia
                             className={classes.media}
-                            image= { '/' + courseDetails['language'] + '.svg'}
+                            image= { '/static/' + courseDetails['language'] + '.svg'}
                             title="Course Name"
                             />
                             <CardContent>
