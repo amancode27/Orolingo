@@ -1,0 +1,61 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30rem;
+
+  &--label,
+  &--input {
+    margin-bottom: 1rem;
+  }
+
+  &--label {
+    font-size: 2rem;
+  }
+
+  &--input {
+    width: 100%;
+    padding: 0.5rem 0.7rem;
+    font-size: 1rem;
+
+    border: 1.5px solid #aaa;
+  }
+
+  &--checkbox-input {
+    display: none;
+  }
+
+  &--checkbox-input + &--label {
+    cursor: pointer;
+  }
+
+  &--checkbox-label {
+    width: 3rem;
+    height: 3rem;
+    margin: 0.5rem auto;
+    border: 1.5px solid #aaa;
+    transition: all .2s;
+  }
+
+  &--checkbox-input:checked 
+    + &--label
+    > &--checkbox-label {
+    background-color: rgb(3, 62, 80);
+    &::before {
+      content: "";
+      display: block;
+      width: 70%;
+      height: 40%;
+      border-left: 3px solid white;
+      border-bottom: 3px solid white;
+      transform: translate(20%, 50%) rotate(-50deg);
+    }
+  }
+}
+
+.login-icons {
+  display: flex;
+  justify-content: space-evenly;
+  align-self: stretch;
+  margin: 1rem 0;
+}

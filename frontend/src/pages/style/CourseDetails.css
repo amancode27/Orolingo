@@ -1,0 +1,58 @@
+. {
+    box-sizing: border-box;
+}
+#container {
+    display:flex;
+    align-items: stretch;
+    /* background-color: gainsboro; */
+    width: 100%;
+    min-height: 600px;
+    font-size: 20px;
+    font-family: sans-serif;
+    flex-wrap: wrap;
+}
+#profile{
+    flex-grow: 1;
+    background-color: #f5f5f5d3;
+    flex-direction: column;
+    padding-top: 40px;
+}
+#profilephoto{
+    display: block;
+    margin: auto;
+    padding: 10px;
+    width: 250px;
+    height: 250px;
+}
+
+#profile-description{
+    max-width: 200px;
+    margin-top: 20px;
+    margin: auto;
+    width: inherit;
+    word-wrap: break-word;
+    padding: 20px;
+    text-align: center;
+}
+#main{
+    flex-grow:10;
+}
+
+#course-details{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;    
+    min-height: 580px;
+}
+#course-desc{
+    background-color: wheat;
+    flex-grow:2;
+    position: relative;
+}
+#course-video{
+    flex-grow:1.5;
+}
+#about{
+    margin-left: 50px;
+    padding-top: 40px;
+}

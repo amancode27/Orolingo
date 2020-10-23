@@ -1,32 +1,51 @@
-.App {
-  text-align: center;
+.fp-container {
+    position : fixed;
+    width:  100%;
+    height: 100%;
+    top : 0;
+    left : 0;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.fp-container .fp-loader {
+    top : 30%;
+    left : 48%;
+    z-index: 1000;
+    position: absolute;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.scrollbar::-webkit-scrollbar {
+    background-color:#fff;
+    width:16px
 }
 
-.App-link {
-  color: #61dafb;
+/* background of the scrollbar except button or resizer */
+.scrollbar::-webkit-scrollbar-track {
+    background-color:#fff
+}
+.scrollbar::-webkit-scrollbar-track:hover {
+    background-color:#f4f4f4
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* scrollbar itself */
+.scrollbar::-webkit-scrollbar-thumb {
+    background-color:#babac0;
+    border-radius:16px;
+    border:5px solid #fff
 }
+.scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color:#a0a0a5;
+    border:4px solid #f4f4f4
+}
+
+/* set button(top and bottom of the scrollbar) */
+.scrollbar::-webkit-scrollbar-button {display:none}
+
+/* div box */
+body
+.scrollbar {
+    height: 75vh;
+    width: 100%;
+    min-width: 150px;
+    background: #fff;
+    overflow-y: scroll}
+.overflow{min-height: 30vh}

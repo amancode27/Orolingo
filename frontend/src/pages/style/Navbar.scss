@@ -1,0 +1,35 @@
+.navbar {
+  background :#3f50b5 ;  
+  display: flex;
+  justify-content: flex-end;
+  align-items: left;
+  padding: 1rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+  &--link,
+  &--link:link,
+  &--link:visited {
+    text-decoration: none;
+    margin: 0 2.5rem;
+    
+    font-size: 1.6rem;
+    font-weight: 00;
+    color: white;
+  }
+
+  &--link:hover {
+    text-decoration: none;
+  }
+
+  &--btn,
+  &--btn:link,
+  &--btn:visited {
+    color: white;
+    background-color: rgb(39, 236, 236);
+    border-radius: 10rem;
+    padding: 0.5rem 2.5rem;
+    display: flex;
+    align-items: center;
+    margin-top: -5px;
+  }
+}
