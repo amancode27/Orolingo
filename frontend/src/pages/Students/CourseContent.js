@@ -45,13 +45,15 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import ReactPlayer from 'react-player';
 
 
 const CourseContent = (props,user) =>{
-    
+
+      const [videos,setVideos] = useState([]);
       const student_course_id = props.match.params['id'];
+      const [course, setCourse] = useState("");
       const preventDefault = (event) => event.preventDefault();
-      //console.log(props.match.params["course"]);
       const [language, setLanguage] = useState("");
       const [loader, showLoader, hideLoader] = useFullPageLoader();
       const [courseName, setCourseName] = useState("");
@@ -263,11 +265,15 @@ const CourseContent = (props,user) =>{
         hideLoader();
         setLanguage(res.data.course.language.name);
         setCourseName(res.data.course.name);
+        axios.get(`${basename}/api/videos/?course=${res.data.course.id}`)
+        .then((res1) => {
+        setVideos(res1.data.objects);
+      })
       });
-
+      //console.log(course);
     },[props] );
 
-    //console.log(forumData);
+    console.log(videos);
     return (
         
         <div className={classes.root}>
@@ -368,9 +374,18 @@ const CourseContent = (props,user) =>{
               <Grid item xs={12}>
                 <Zoom>
               <Card className={classes.paper}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                      Live video lectures, Recorded videos, etc here.
-                  </Typography>
+                {Object.keys(videos).map((e,index) => (
+                  <div>
+                    <ReactPlayer
+                      className='react-player'
+                      url= { basename +  videos[e].video} 
+                      width='50%'
+                      height='50%'
+                      controls
+                    />
+                  </div>
+                ))}
+              
                   <FeedbackModal {...props} buttonLabel = {"Give Feedback"} className = {"feedback"} />
               </Card>
               </Zoom>

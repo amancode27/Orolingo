@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'social_django',
     'core',
-    
+    #'video_content',
   ]
 
 
