@@ -7,7 +7,7 @@ import { Redirect } from "react-router";
 import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
 
 const CreateCourse = (props) =>{
-    const [courseDetails,setCourseDetails] = useState({});
+    const [courseDetails,setCourseDetails] = useState({"language":"Bengali"});
     const [redirect,setRedirect] = useState(false);
     //const [languages,setLanguages] = useState();
     let languages = ["Bengali","English","French","Tamil","English","Chinese","Japanese"];
@@ -16,6 +16,8 @@ const CreateCourse = (props) =>{
     const [name_err,setName_err] = useState(false);
     const [date_err,setDate_err] = useState(false);
     const [description_err,setDescription_err] = useState(false)
+
+
     const character_set ={
         '!':1,
         '@':1,

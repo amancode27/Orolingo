@@ -74,7 +74,7 @@ class Course(models.Model):
     cost = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class StudentCourse(models.Model):

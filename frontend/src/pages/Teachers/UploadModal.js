@@ -6,7 +6,22 @@ import axios from 'axios';
 import basename from "../Home/basename.js";
 import { Alert } from 'reactstrap';
 import { Redirect } from 'react-router';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
 
+function Alert1(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+  
+const useStyles = makeStyles((theme) => ({
+    root: {
+      width: '100%',
+      '& > * + *': {
+        marginTop: theme.spacing(2),
+      },
+    },
+  }));
 
 
 
@@ -18,6 +33,25 @@ const UploadModal = (props) => {
     const [upload,setUpload] = useState({});
     const course_id = props.match.params['id'];
     const [error,setError] = useState(false);
+
+
+
+
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+  
+    const handleClick = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
+
 
     const changeField = (e) =>{
         const field = e.target.name;
@@ -58,6 +92,7 @@ const UploadModal = (props) => {
                         }).then(()=>{toggle();window.location.reload(false);}
                         )
                 });
+                handleClick();
         }
         else{
             setError(true);
@@ -98,6 +133,11 @@ const UploadModal = (props) => {
     console.log(upload);
     return (
         <div>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert1 onClose={handleClose} severity="success" style={{"fontSize":"13px"}}>
+                {className} is uploaded successfully!
+            </Alert1>
+        </Snackbar>
         <div style={{marginTop:"10px"}}>
             <Button color="danger" onClick={toggle} size="lg" style = {props.buttonStyle}>{buttonLabel}</Button>
             <Modal isOpen={modal} toggle={toggle} className={className} >

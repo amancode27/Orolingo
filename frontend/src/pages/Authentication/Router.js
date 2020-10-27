@@ -21,6 +21,8 @@ import TrainerCourses from "../Teachers/TrainerCourses";
 import EditCourse from "../Teachers/EditCourse";
 import ChatApp from "../Teachers/ChatApp";
 import Feedback from '../Teachers/feedback';
+import PasswordReset from "./PasswordResetConfirm";
+import EmailRequest from "./EmailRequest";
 
 const Router = (props) => {
     const handleLogin = props.handleLogin;
@@ -50,6 +52,16 @@ const Router = (props) => {
                             handleLogout={handleLogout}
                         />
                     )}
+                />
+                <Route
+                    exact
+                    path = '/password-reset-confirm'
+                    component = {PasswordReset}
+                />
+                <Route
+                    exact
+                    path = '/password-reset'
+                    component = {EmailRequest}
                 />
                 <Route
                     path='/login'
@@ -178,6 +190,7 @@ const Router = (props) => {
                     <ChatApp {...props} {...userinfo} />
                 )}
                 />
+
                 <Route component={NotFound} />
             </Switch>
             <Footer />

@@ -199,7 +199,7 @@ const LoginForm = (props) =>{
             </div>
             <Grid container>
               <Grid item xs style={{marginTop:"10px"}}>
-                <Link href="#" variant="body1">
+                <Link href="http://localhost:3000/password-reset/" variant="body1">
                   Forgot password?
                 </Link>
               </Grid>
