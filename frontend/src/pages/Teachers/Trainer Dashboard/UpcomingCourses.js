@@ -99,7 +99,7 @@ const UpcomingCourses = (props) => {
                             <Card className={classes.card}>
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image= {'/' + upcomingCourses[e].language.name + '.svg' }
+                                    image= {'/static/' + upcomingCourses[e].language.name + '.svg' }
                                     title="Image title"
                                 />
                                 <CardContent className={classes.cardContent}>
@@ -148,7 +148,7 @@ const UpcomingCourses = (props) => {
                         <Link to="dashboard/createcourse" >
                             <CardMedia
                                 className={classes.cardMedia}
-                                image="add.webp"
+                                image="/static/add.webp"
                                 title="Image title"
                             />
                         </Link>
@@ -167,7 +167,7 @@ const UpcomingCourses = (props) => {
                             <Card className={classes.card}>
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image= {'/' + upcomingCourses[e].language.name + '.svg' }
+                                    image= {'/static' + upcomingCourses[e].language.name + '.svg' }
                                     title="Image title"
                                 />
                                 <CardContent className={classes.cardContent}>
@@ -216,7 +216,7 @@ const UpcomingCourses = (props) => {
                         <Link to="dashboard/createcourse" >
                             <CardMedia
                                 className={classes.cardMedia}
-                                image="add.webp"
+                                image="/static/add.webp"
                                 title="Image title"
                             />
                         </Link>

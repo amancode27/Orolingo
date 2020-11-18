@@ -106,7 +106,7 @@ const CourseCard = (props) => {
                         <Link to={`/dashboard/courses/details/${k.id}`} style={{textDecoration : "none", color : "black"}}>
                             <CardMedia
                             className={classes.media}
-                            image= {'/'+ langName + '.svg'}
+                            image= {'/static/' + langName + '.svg'}
                             />
                             <CardContent>
                             <Typography gutterBottom variant="h5" component="h2" >

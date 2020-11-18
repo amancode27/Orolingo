@@ -21,6 +21,7 @@ student_course_resource = StudentCourseResource()
 language_resource = LanguageResource()
 feedback = FeedbackResource()
 # language_trainer = LanguageTrainerResource()
+video = VideosResource()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,6 +38,7 @@ urlpatterns = [
     path('api/', include(user_resource.urls)),
     path('api/', include(language_resource.urls)),
     path('api/', include(feedback.urls)),
+    path('api/',include(video.urls)),
 #     path('api/', include(language_trainer.urls)),
     # path('api/auth/oauth/', include('rest_framework_social_oauth2.urls')),
     path('reset_password/',

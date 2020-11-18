@@ -85,4 +85,8 @@ class ForumSerializer(serializers.ModelSerializer):
         model = Forum
         fields = '__all__'
 
+class VideosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Videos
+        fields = '__all__'
 
