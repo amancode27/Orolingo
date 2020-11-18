@@ -7,6 +7,7 @@ import SignupForm from "./pages/Authentication/SignupForm";
 import Router from "./pages/Authentication/Router";
 import "./App.css";
 
+
 const App = (props) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);

@@ -21,7 +21,7 @@ class User(AbstractUser):
 
     
     def __str__(self):
-        return self.fullname
+        return str(self.fullname)
 
 
 
@@ -41,7 +41,7 @@ class Language(models.Model):
     #     Trainer, related_name='languages',through='LanguageTrainer')
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 # class LanguageTrainer(models.Model):
 #     trainers = models.ForeignKey(Trainer, on_delete=models.CASCADE)
@@ -51,7 +51,8 @@ class Language(models.Model):
 ############### Student # Course # StudentCourse ###############
 
 class Student(models.Model):
-    user = models.OneToOneField(
+    user = models.
+    OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
     languages_learnt = models.ManyToManyField(
         Language, related_name="knowing_students", blank=True)
@@ -74,7 +75,7 @@ class Course(models.Model):
     cost = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class StudentCourse(models.Model):
@@ -133,7 +134,7 @@ class Note(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE,null=True)
     pdf = models.FileField(null=True,blank =True)
     def __str__(self):
-        return self.topic
+        return str(self.topic)
 
 
 class Zoom(models.Model):
@@ -154,5 +155,5 @@ class Forum(models.Model):
     #last_activity = models.CharField(max_length = 50, null=True)
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
