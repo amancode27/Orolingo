@@ -12,14 +12,13 @@ const EmailRequest = (props) =>{
         setEmail(e.target.value);
     }
 
-    const submitForm = (props) =>{
+    const submitForm = (e) =>{
+        e.preventDefault();
         axios.post(`${basename}/auth/api/request-reset-email/`,{
             'email':email
         }).then(res=>{
-            console.log(res.data);
             setSuccess(true);
         }).catch(err=>{
-            console.log(err.response.data);
             setError(true);
         })
     }

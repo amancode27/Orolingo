@@ -88,7 +88,6 @@ class SocialLoginView(generics.GenericAPIView):
 
         try:
             authenticated_user = backend.do_auth(access_token, user=user)
-
         except HTTPError as error:
             return Response({
                 "error": "invalid token",
@@ -122,6 +121,7 @@ class SocialLoginView(generics.GenericAPIView):
                 "is_student": authenticated_user.is_student,
                 "is_trainer": authenticated_user.is_trainer
             }
+            
             return Response(status=status.HTTP_200_OK, data=response)
 
 
@@ -139,8 +139,7 @@ class UserList(APIView):
 
 
 class StudentView(viewsets.ModelViewSet):
-    http_method_names = ['get','head','put','patch']
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = [AllowAny]
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 

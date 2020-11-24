@@ -31,7 +31,7 @@ class UserSerializerWithToken(serializers.ModelSerializer): # added this for sig
     token = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
 
-    def get_token(self, obj):        #added this beacuse User class doesnt have get_token by deafult
+    def get_token(self, obj):        #added this beacuse User class doesnt have get_token by default
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 

@@ -22,8 +22,8 @@ const PasswordReset = (props) => {
         }
     }
 
-    const submitForm = () =>{
-        console.log(password,userid,token);
+    const submitForm = (e) =>{
+        e.preventDefault();
         axios.patch(`${basename}/auth/api/password-reset-complete/`,{
             "password":password,
             "token":token,
@@ -31,7 +31,6 @@ const PasswordReset = (props) => {
         }).then(res=>{
             setSuccess(true);
         }).catch(err=>{
-            console.log(err.response);
             setError(true); 
         })
     }

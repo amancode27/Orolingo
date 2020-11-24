@@ -664,7 +664,7 @@ const StudentDashboard = props => {
         </Container>
 
         </React.Fragment>
-          {loader}
+          {/* {loader} */}
       </div>
   )
 }

@@ -37,7 +37,7 @@ class StudentResource(ModelResource):
     languages_to_learn = fields.ToManyField(LanguageResource, 'languages_to_learn')
 
     class Meta:
-        allowed_methods = ['get' , 'put' ,'patch']
+        allowed_methods = ['get' , 'put' ,'patch' , 'post']
         queryset = Student.objects.all()
         authorization = Authorization()
 
