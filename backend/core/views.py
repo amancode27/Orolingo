@@ -2,7 +2,7 @@
 # todo/views.py
 
 from django.http import HttpResponseRedirect,HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import generics, views, viewsets, permissions, status          # add this
 from .serializers import *      # add this
 from .models import *
@@ -300,6 +300,18 @@ def save_stripe_info(request):
 
     return Response({"message": "Invalid data received"}, status=HTTP_400_BAD_REQUEST)
 
+class VideosView(viewsets.ViewSet):
+    def list(self, request):
+        queryset = Videos.objects.all()
+        serializer = VideosSerializer(queryset, many = True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = VideosSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 import jwt
 import base64

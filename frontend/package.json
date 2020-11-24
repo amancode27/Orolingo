@@ -31,6 +31,7 @@
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.1.21",
     "react-perfect-scrollbar": "^1.5.8",
+    "react-player": "^2.6.2",
     "react-rating-stars-component": "^2.2.0",
     "react-responsive-carousel": "^3.2.9",
     "react-reveal": "^1.2.2",

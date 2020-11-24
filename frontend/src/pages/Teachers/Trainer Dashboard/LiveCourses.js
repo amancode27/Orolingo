@@ -99,7 +99,7 @@ const LiveCourses = (props) => {
                         <Card className={classes.card}>
                             <CardMedia
                                 className={classes.cardMedia}
-                                image= { '/' + liveCourses[e].language.name + '.svg'}
+                                image= { '/static/' + liveCourses[e].language.name + '.svg'}
                                 title="Image title"
                             />
                             <CardContent className={classes.cardContent}>
@@ -156,7 +156,7 @@ const LiveCourses = (props) => {
                                 <Card className={classes.card}>
                                     <CardMedia
                                         className={classes.cardMedia}
-                                        image= { '/' + liveCourses[e].language.name + '.svg'}
+                                        image= { '/static/' + liveCourses[e].language.name + '.svg'}
                                         title="Image title"
                                     />
                                     <CardContent className={classes.cardContent}>

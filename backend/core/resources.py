@@ -136,3 +136,13 @@ class FeedbackResource(ModelResource):
 #         filtering = {
 #             'trainer': ALL
 #         }
+class VideosResource(MultipartResource,ModelResource):
+    course = fields.ForeignKey(CourseResource, 'course')
+    class Meta:
+        allowed_methods = ['get' , 'put' ,'patch' ,'delete' ,'post']
+        queryset = Videos.objects.all()
+        resource_name = 'videos'
+        authorization = Authorization()
+        filtering = {
+            "course":ALL
+        }

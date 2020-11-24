@@ -31,7 +31,7 @@ const CreateCourse = (props) =>{
     const error_string = "Only allowed character set is { a-z , A-Z , 0-9 , ! , @ , # , ( , ) , ' , - " +', " }!'; 
 
     useEffect(()=>{
-        axios.get(`${basename}/api/language`)
+        axios.get(`${basename}/api/language/`)
         .then(res =>{
             setLanguages(res.data.objects);
         })

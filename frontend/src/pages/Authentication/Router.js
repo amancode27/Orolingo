@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+
 import NavBar from "./../Home/Navbar";
 import Login from "./Login";
 import Signup from "./Signup";
@@ -123,7 +124,7 @@ const Router = (props) => {
                 <Route
                     path='/account-choice'
                     render={(props) => (
-                        <AccountChoice
+         -               <AccountChoice
                             {...props}
                             handleSocialTrainerStudent={
                                 handleSocialTrainerStudent
