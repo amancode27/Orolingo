@@ -29,6 +29,8 @@ const Router = (props) => {
     const handleLogout = props.handleLogout;
     const handleSocialLogin = props.handleSocialLogin;
     const getUserDetail = props.getUserDetail;
+    const error=props.errors;
+    const error1=props.error1;
     const userinfo = {
         username: props.username,
         loggedIn: props.loggedIn,
@@ -58,6 +60,7 @@ const Router = (props) => {
                         <Login
                             {...props}
                             {...userinfo}
+                            error={error}
                             handleLogin={handleLogin}
                             handleSocialLogin={handleSocialLogin}
                         />
@@ -67,6 +70,7 @@ const Router = (props) => {
                     path='/signup'
                     render={(props) => (
                         <Signup
+                            error1={error1}
                             {...props}
                             {...userinfo}
                             handleSignup={handleSignup}
