@@ -8,7 +8,7 @@ djangorestframework = "==3.11.0"
 djangorestframework-jwt = "==1.11.0"
 django-cors-headers = "==3.4.0"
 django-rest-framework-social-oauth2 = "==1.1.0"
-mysqlclient = "*"
+mysqlclient = "==2.0.1"
 django-tastypie = "==0.14.3"
 appdirs = "==1.4.4"
 asgiref = "==3.2.10"
@@ -37,6 +37,7 @@ urllib3 = "==1.25.10"
 Django = "==3.0.8"
 PyJWT = "==1.7.1"
 stripe = "*"
+python-decouple = "*"
 
 [dev-packages]
 

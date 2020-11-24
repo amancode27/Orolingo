@@ -51,8 +51,7 @@ class Language(models.Model):
 ############### Student # Course # StudentCourse ###############
 
 class Student(models.Model):
-    user = models.
-    OneToOneField(
+    user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
     languages_learnt = models.ManyToManyField(
         Language, related_name="knowing_students", blank=True)
