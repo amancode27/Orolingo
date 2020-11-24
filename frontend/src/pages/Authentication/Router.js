@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import NavBar from "./../Home/Navbar";
 import Login from "./Login";
 import Signup from "./Signup";
-import Landing from "../Home/Landing";
+import Landing from "../Home/Landing/Landing";
 import NotFound from "./NotFound";
 import Footer from "./../Home/Footer";
 import Dashboard from "../Students/Dashboard";
@@ -22,6 +22,8 @@ import TrainerCourses from "../Teachers/TrainerCourses";
 import EditCourse from "../Teachers/EditCourse";
 import ChatApp from "../Teachers/ChatApp";
 import Feedback from '../Teachers/feedback';
+import PasswordReset from "./PasswordResetConfirm";
+import EmailRequest from "./EmailRequest";
 
 const Router = (props) => {
     const handleLogin = props.handleLogin;
@@ -53,6 +55,16 @@ const Router = (props) => {
                             handleLogout={handleLogout}
                         />
                     )}
+                />
+                <Route
+                    exact
+                    path = '/password-reset-confirm'
+                    component = {PasswordReset}
+                />
+                <Route
+                    exact
+                    path = '/password-reset'
+                    component = {EmailRequest}
                 />
                 <Route
                     path='/login'
@@ -183,6 +195,7 @@ const Router = (props) => {
                     <ChatApp {...props} {...userinfo} />
                 )}
                 />
+
                 <Route component={NotFound} />
             </Switch>
             <Footer />

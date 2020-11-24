@@ -149,6 +149,7 @@ const App = (props) => {
             provider: provider,
             access_token: accessToken,
         };
+        
         fetch("http://localhost:8000/auth/oauth/login/", {
             method: "POST",
             headers: {
@@ -178,6 +179,38 @@ const App = (props) => {
             is_student: type === "Student",
             is_trainer: type === "Trainer",
         };
+        if(type == "Student"){                
+            axios({
+                method: 'get',
+                url: `http://localhost:8000/auth/users/${userData.userId}/`,
+                headers: {
+                    Authorization: `JWT ${userData.token}`,
+                    "Content-Type": "application/json",
+                },
+            })
+            .then(res =>{
+                axios.post(`${basename}/api/student/`,{
+                    'user':res.data,
+                    'languages_learnt':[],
+                    'languages_to_learn':[]
+                })
+            })
+        }
+        else{
+            axios({
+                method: 'get',
+                url: `http://localhost:8000/auth/users/${userData.userId}/`,
+                headers: {
+                    Authorization: `JWT ${userData.token}`,
+                    "Content-Type": "application/json",
+                },
+            })
+            .then(res=>{
+                axios.post(`${basename}/api/trainer/`,{
+                    'user':res.data
+                })
+            })
+        }
         fetch(`http://localhost:8000/auth/users/${userData.userId}/`, {
             method: "PATCH",
             headers: {
@@ -194,6 +227,7 @@ const App = (props) => {
                 setUserId(json.id);
                 setUser(json);
                 console.log(json);
+                
                 redirect("/dashboard");
             });
     };

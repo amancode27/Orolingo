@@ -20,14 +20,19 @@ from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
 import json
 from django.core import serializers
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import stripe
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
+# Email imports
+from .utils import Util
+from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import smart_str,force_str,smart_bytes,DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
+from django.urls import reverse
 
 class UserView(viewsets.ModelViewSet):       # add this
     # authentication_classes=[TokenAuthentication] #added this
@@ -83,7 +88,6 @@ class SocialLoginView(generics.GenericAPIView):
 
         try:
             authenticated_user = backend.do_auth(access_token, user=user)
-
         except HTTPError as error:
             return Response({
                 "error": "invalid token",
@@ -117,6 +121,7 @@ class SocialLoginView(generics.GenericAPIView):
                 "is_student": authenticated_user.is_student,
                 "is_trainer": authenticated_user.is_trainer
             }
+            
             return Response(status=status.HTTP_200_OK, data=response)
 
 
@@ -134,8 +139,7 @@ class UserList(APIView):
 
 
 class StudentView(viewsets.ModelViewSet):
-    http_method_names = ['get','head','put','patch']
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = [AllowAny]
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
@@ -379,3 +383,54 @@ def ZoomMeetingSignature(request):
     print(f"Meeting No: {request.GET.get('meeting_number')}")
     return JsonResponse({'signature': signature.rstrip("=")})
 
+# Password Reset
+
+class RequestPasswordResetEmail(generics.GenericAPIView):
+
+    serializer_class = RequestPasswordResetEmailSerializer
+    permission_classes = (permissions.AllowAny,)
+    def post(self,request):
+        serializer = self.serializer_class(data = request.data)
+        email = request.data['email']
+        if User.objects.filter(email = email).exists():
+            user = User.objects.get(email = email)
+            uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
+            token = PasswordResetTokenGenerator().make_token(user)
+            current_site = get_current_site(request = request).domain
+            relativeLink = reverse('password-reset-confirm' , kwargs = {'uidb64':uidb64 ,'token':token })
+            # absurl = 'http://' + current_site + relativeLink
+            absurl = 'localhost:3000/password-reset-confirm/'
+            email_body = 'Hello, \n Please use the below link to reset your password. Enter the one-time token and ID for password reset. Thank you!\n' + 'http://'+absurl
+            email_body += '\nID: ' + str(uidb64) + '\nToken: ' + str(token)
+            email_body+= '\n\nRegards,\nTeam Orolingo'
+            data = {'email_body':email_body , 'to_email': user.email , 
+                'email_subject':'Reset your password'
+            }
+            Util.send_email(data)
+            return Response({'success':'We have sent you a link to reset your password'}, status = status.HTTP_200_OK)
+        else:
+            return Response({'Falure':'User does not have a account'}, status = status.HTTP_400_BAD_REQUEST)
+
+class PasswordTokenCheckAPI(generics.GenericAPIView):
+    permission_classes = (permissions.AllowAny,)
+    def get(self,request,uidb64,token):
+        try:
+            id = smart_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id = id)
+
+            if not PasswordResetTokenGenerator().check_token(user,token):
+                return Response({'error':'Token is not valid anymore, please request a new one'},status = status.HTTP_400_BAD_REQUEST)
+            return Response({'success': True , 'message': 'Credentials Valid' , 'uidb64': uidb64, 'token': token} , status = status.HTTP_200_OK)
+
+        except DjangoUnicodeDecodeError as identifier:
+            return Response({'error':'Token is not valid anymore, please request a new one'},status = status.HTTP_400_BAD_REQUEST)
+
+
+class SetNewPasswordAPIView(generics.GenericAPIView):
+    serializer_class =  SetNewPasswordSerializer
+    permission_classes = (permissions.AllowAny,)
+    def patch(self,request):
+        serializer = self.serializer_class(data = request.data)
+
+        serializer.is_valid(raise_exception = True)
+        return Response({'success':True , 'message':'Password reset success'}, status = status.HTTP_200_OK)
