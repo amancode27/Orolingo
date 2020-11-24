@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'social_django',
     'core',
+  
     
   ]
 
@@ -156,6 +157,7 @@ REST_FRAMEWORK = { #added this
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+  
 }
 # we whitelist localhost:3000 because that's where frontend will be served
 CORS_ORIGIN_WHITELIST = (
@@ -211,25 +213,35 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
 )
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 #SMTP Configuration #forgot password
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
 
 #Stripe
 
-STRIPE_PUBLIC_KEY = config('STRIPE_TEST_PUBLIC_KEY') 
-STRIPE_SECRET_KEY = config('STRIPE_TEST_SECRET_KEY')
+STRIPE_PUBLIC_KEY ='pk_test_51HPYCmEIFPCEHoD2IMgEmOaX06T2UyqNeciajMsPeWvsIR5vFDa0cdwAtz9uX5Pirpz62Hm6yPEnVK5D96jdUmYn00LWR0LkhW'
+STRIPE_SECRET_KEY ='sk_test_51HPYCmEIFPCEHoD2FXA72ACv36HxfH03SCenKGVuEXK7YQXQY7gF5ZxPurYWqILsnQGWv4W5LszhwnAj1OWocHoT00gkFTx5Ak'
 # Media config
 
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
 MEDIA_URL= "/media/"
 
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+# EMAIL_HOST_USER = os.environ.get(EMAIL_HOST_USER)
+# EMAIL_HOST_PASSWORD = os.environ.get(EMAIL_HOST_PASSWORD)
+EMAIL_HOST_USER = 'orolingo01@gmail.com'
+EMAIL_HOST_PASSWORD = 'orolingo123456789'
 #Zoom integration
 
 payload = {'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=30),

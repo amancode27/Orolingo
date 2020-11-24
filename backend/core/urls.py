@@ -7,6 +7,7 @@ router.register(r'students', StudentView, 'core')
 router.register(r'courses',CourseView, 'core')
 router.register(r'assignments', AssignmentView, 'core')
 router.register(r'feedback', FeedbackView, 'core')
+router.register(r'videos',VideosView,'core')
 
 urlpatterns = [
     path('current_user/', current_user),
@@ -19,7 +20,10 @@ urlpatterns = [
     path('api/forum/<int:id>/', ForumDetailAPIView.as_view(), name='forum-detail'),
     path('api/forum/<int:id>/edit/', ForumUpdateAPIView.as_view(), name='forum-update'),
     path('api/forum/<int:id>/delete/', ForumDeleteAPIView.as_view(), name='forum-delete'),
-    path('api/payment/save-stripe-info/', save_stripe_info, name = 'stripe-info')
+    path('api/payment/save-stripe-info/', save_stripe_info, name = 'stripe-info'),
+    path('api/password-reset/<uidb64>/<token>/',PasswordTokenCheckAPI.as_view() , name = 'password-reset-confirm'),
+    path('api/request-reset-email/',RequestPasswordResetEmail.as_view(),name = 'request-reset-email'),
+    path('api/password-reset-complete/', SetNewPasswordAPIView.as_view() , name = 'password-reset-complete'),
 ]
   
 # '''

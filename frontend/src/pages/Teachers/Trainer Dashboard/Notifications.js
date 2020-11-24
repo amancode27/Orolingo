@@ -65,9 +65,10 @@ const Notifications = (props) => {
                         cnt =cnt +1;
                     }
                 })
-                setAssignments(prev=>{
-                    return {...prev,[e]:{"course_name":liveCourses[e].name,"cnt":cnt}};
-                })
+                if(cnt>0)
+                    setAssignments(prev=>{
+                        return {...prev,[e]:{"course_name":liveCourses[e].name,"cnt":cnt}};
+                    })
             })
         })
         Object.keys(liveCourses).map((e,id)=>{
@@ -97,7 +98,7 @@ const Notifications = (props) => {
                     <CardContent className={classes.cardContent} >
                         {Object.keys(assignmentsToday).map((e,id)=>(
                             <Typography gutterBottom variant="h5" component="h2">
-                                {assignmentsToday[e].cnt} sssignments have deadline today of Course-{assignmentsToday[e].course_name} 
+                                {assignmentsToday[e].cnt} assignments have deadline today of Course-{assignmentsToday[e].course_name} 
                                 <Link to={`/dashboard/trainercourses/uploads/${e}`}>
                                     Go
                                 </Link>

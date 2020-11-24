@@ -37,7 +37,7 @@ class StudentResource(ModelResource):
     languages_to_learn = fields.ToManyField(LanguageResource, 'languages_to_learn')
 
     class Meta:
-        allowed_methods = ['get' , 'put' ,'patch']
+        allowed_methods = ['get' , 'put' ,'patch' , 'post']
         queryset = Student.objects.all()
         authorization = Authorization()
 
@@ -136,3 +136,13 @@ class FeedbackResource(ModelResource):
 #         filtering = {
 #             'trainer': ALL
 #         }
+class VideosResource(MultipartResource,ModelResource):
+    course = fields.ForeignKey(CourseResource, 'course')
+    class Meta:
+        allowed_methods = ['get' , 'put' ,'patch' ,'delete' ,'post']
+        queryset = Videos.objects.all()
+        resource_name = 'videos'
+        authorization = Authorization()
+        filtering = {
+            "course":ALL
+        }
