@@ -6,6 +6,7 @@ import basename from "./pages/Home/basename.js";
 import SignupForm from "./pages/Authentication/SignupForm";
 import Router from "./pages/Authentication/Router";
 import "./App.css";
+import { Typography } from "@material-ui/core";
 
 
 const App = (props) => {
@@ -175,6 +176,7 @@ const App = (props) => {
     };
 
     const handleSocialTrainerStudent = (userData, type, redirect) => {
+        console.log(type)
         const data = {
             is_student: type === "Student",
             is_trainer: type === "Trainer",
