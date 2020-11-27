@@ -23,8 +23,6 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-
-
 const UploadModal = (props) => {
     const className = props.className;
     const buttonLabel = props.buttonLabel;
@@ -33,9 +31,6 @@ const UploadModal = (props) => {
     const [upload,setUpload] = useState({});
     const course_id = props.match.params['id'];
     const [error,setError] = useState(false);
-
-
-
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);

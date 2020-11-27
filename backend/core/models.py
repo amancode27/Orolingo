@@ -157,10 +157,12 @@ class Forum(models.Model):
         return str(self.title)
 
 class Videos(models.Model):
-    title = models.CharField(max_length=100)
-    video = models.FileField(upload_to='videos/')
+    topic = models.CharField(max_length=200)
+    description = models.TextField(null=True)
+    pdf = models.FileField(upload_to='videos/') #pdf name is used for using the same upload modal
     course = models.ForeignKey(Course, on_delete=models.CASCADE,null=True)
-     
+    created_at = models.DateField(auto_now_add=True,null=True)
+
     class Meta:
         verbose_name = 'video'
         verbose_name_plural = 'videos'
