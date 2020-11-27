@@ -24,6 +24,7 @@ import ChatApp from "../Teachers/ChatApp";
 import Feedback from "../Teachers/feedback";
 import PasswordReset from "./PasswordResetConfirm";
 import EmailRequest from "./EmailRequest";
+import Videos from "../Students/Videos";
 
 const Router = (props) => {
   const handleLogin = props.handleLogin;
@@ -98,6 +99,11 @@ const Router = (props) => {
           exact
           path="/dashboard/courses/coursecontent/:id/notes"
           render={(props) => <Notes {...props} />}
+        />
+        <Route
+          exact
+          path="/dashboard/courses/coursecontent/:id/videos"
+          render={(props) => <Videos {...props} />}
         />
         <Route
           exact

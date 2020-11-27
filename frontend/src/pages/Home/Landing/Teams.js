@@ -28,7 +28,7 @@ const items =[
   {
     src:"",
     title:"Aryan Lohani",
-    text:"Trash Designer 3",
+    text:"Infinitely Trash Designer",
   },
 ]
 

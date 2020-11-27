@@ -22,6 +22,13 @@ import Fab from '@material-ui/core/Fab';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import WifiTetheringIcon from '@material-ui/icons/WifiTethering';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import ReactPlayer from 'react-player';
+
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -77,7 +84,15 @@ const Page = (props) => {
     let course_id;
     const student_course_id = props.match.params['id'];
     const [loader,showLoader,hideLoader] = useFullPageLoader();
+    const [open, setOpen] = React.useState(false);
 
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
 
     useEffect(() => {
         showLoader();
@@ -232,7 +247,7 @@ const Page = (props) => {
                                         title="Image title"
                                     />
                                     <CardContent className={classes.cardContent}>
-                                        <Typography gutterBottom variant="h3" component="h2">
+                                        <Typography gutterBottom variant="h4" component="h2">
                                             {e['topic']}
                                         </Typography>
                                         <Typography>
@@ -240,12 +255,39 @@ const Page = (props) => {
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
+                                    <Button size="large" variant="outlined" color="primary">
+                                        <a href={`http://localhost:8000${e['pdf']}`} target='blank'>
+                                        Download
+                                        </a>
+                                    </Button>
                                         <Button size="large" variant="outlined" color="primary" onClick={()=>deleteAssignment(e.id)}>
                                             Delete
                                         </Button>
                                         <Button size="large" color="primary">
                                             Deadline : {e['deadline']}
                                         </Button>
+                                        <Dialog
+                                            open={open}
+                                            onClose={handleClose}
+                                            aria-labelledby="alert-dialog-title"
+                                            aria-describedby="alert-dialog-description"
+                                        >
+                                            <DialogTitle id="alert-dialog-title">{"Are you sure? "}</DialogTitle>
+                                            <DialogContent>
+                                            <DialogContentText id="alert-dialog-description">
+                                                If once this assignment is deleted it will not be visible to the student.
+                                            </DialogContentText>
+                                            </DialogContent>
+                                            <DialogActions>
+                                            <Button onClick={handleClose} color="secondary">
+                                                Yes, I am Sure
+                                            </Button>
+                                            <Button onClick={handleClose} color="primary" autoFocus>
+                                                No
+                                            </Button>
+                                            </DialogActions>
+                                        </Dialog>
+
                                     </CardActions>
                                 </Card>
                             ))}
@@ -263,13 +305,15 @@ const Page = (props) => {
                                 </CardContent>
                                 {videos.map((e) => (
                                 <Card className={classes.card}>
-                                    <CardMedia
-                                        className={classes.cardMedia}
-                                        image="https://source.unsplash.com/random?book"
-                                        title="Image title"
+                                    <ReactPlayer
+                                        className='react-player'
+                                        url= {`http://localhost:8000${e['pdf']}`}
+                                        width='100%'
+                                        height='100%'
+                                        controls
                                     />
                                     <CardContent className={classes.cardContent}>
-                                        <Typography gutterBottom variant="h5" component="h2">
+                                        <Typography gutterBottom variant="h4" component="h2">
                                             {e['topic']}
                                         </Typography>
                                         <Typography>
@@ -277,11 +321,16 @@ const Page = (props) => {
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
-                                        <Button size="small" color="primary" onClick={()=>deleteVideo(e.id)}>
+                                    <Button size="large" variant="outlined" color="primary">
+                                        <a href={`http://localhost:8000${e['pdf']}`} target='blank'>
+                                        Download
+                                        </a>
+                                    </Button>
+                                        <Button size="large" variant="outlined" color="primary" onClick={()=>deleteVideo(e.id)}>
                                             Delete
                                         </Button>
-                                        <Button size="small" color="primary">
-                                            {e['created_at']}
+                                        <Button size="large"  color="primary">
+                                            Created At : {e['created_at']}
                                         </Button>
                                     </CardActions>
                                 </Card>
@@ -309,7 +358,7 @@ const Page = (props) => {
                                         title="Image title"
                                     />
                                     <CardContent className={classes.cardContent}>
-                                        <Typography gutterBottom variant="h5" component="h2">
+                                        <Typography gutterBottom variant="h4" component="h2">
                                             {e['topic']}
                                         </Typography>
                                         <Typography>
@@ -317,11 +366,16 @@ const Page = (props) => {
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
-                                        <Button size="small" color="primary" onClick={()=>deleteNote(e.id)}>
+                                        <Button size="large" variant="outlined" color="primary">
+                                            <a href={`http://localhost:8000${e['pdf']}`} target='blank'>
+                                            Download
+                                            </a>
+                                        </Button>
+                                        <Button size="large" variant="outlined" color="primary" onClick={()=>deleteNote(e.id)}>
                                             Delete
                                         </Button>
-                                        <Button size="small" color="primary">
-                                            {e['created_at']}
+                                        <Button size="large"  color="primary">
+                                            Created At : {e['created_at']}
                                         </Button>
                                     </CardActions>
                                 </Card>
