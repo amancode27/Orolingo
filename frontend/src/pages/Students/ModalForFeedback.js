@@ -6,6 +6,7 @@ import axios from 'axios';
 import basename from "../Home/basename.js";
 import { Alert } from 'reactstrap';
 import Button from '@material-ui/core/Button';
+import CommentIcon from '@material-ui/icons/Comment';
 
 
 const FeedbackModal = (props) => {
@@ -73,14 +74,14 @@ const FeedbackModal = (props) => {
         element = <div></div>;
     return (
         <div>
-            <Button color="primary" variant="outlined" onClick={toggle} size="lg" style = {{float : "right"}}>{buttonLabel}</Button>
+            <div onClick={toggle} size="lg" style = {{float : "right"}}> <CommentIcon style={{ fontSize: 35 }} /> </div>
             {/* <Button color="danger" onClick={toggle} size="lg" style = {props.buttonStyle}>{buttonLabel}</Button> */}
             <Modal isOpen={modal} toggle={toggle} className={className} >
                 <ModalHeader toggle={toggle}>Feedback Form</ModalHeader>
                 <ModalBody>
                     <Form style={{marginBottom:"20px"}}>
                         <div>
-                            <label style={{fontSize:"20px"}}>Course Quality</label>
+                            <label style={{fontSize:"20px"}}>Course Quality </label>
                             <ReactStars  count={5} onChange={(x)=>{ratingChanged(x,"courseQuality")}} size={24} activeColor="#ffd700"/>
                         </div>
                         <Input style={{fontSize:"20px"}} type="textarea" placeholder="Write your thoughts about the course" rows={5} onChange = {commentChanged}/>

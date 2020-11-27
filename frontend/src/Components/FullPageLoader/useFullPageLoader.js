@@ -11,4 +11,4 @@ const useFullPageLoader = () => {
     ]
 }
 
-export default useFullPageLoader
+export default useFullPageLoader;
