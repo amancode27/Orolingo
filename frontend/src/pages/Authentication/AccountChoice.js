@@ -5,7 +5,7 @@ const AccountChoice = (props) => {
     <div>
 
       <button onClick={() => props.handleSocialTrainerStudent(props.location.state.json, 'Student', props.history.push)}>Student</button>
-      <button onClick={() => props.handleSocialTrainerStudent(props.location.state.json, 'Teacher', props.history.push)}>Teacher</button>
+      <button onClick={() => props.handleSocialTrainerStudent(props.location.state.json, 'Trainer', props.history.push)}>Teacher</button>
     </div>
   )
 }

@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import datetime
-from decouple import config
-import jwt
+# from decouple import config
+# import jwt
 from http import client
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -242,18 +242,18 @@ EMAIL_PORT = 587
 # EMAIL_HOST_PASSWORD = os.environ.get(EMAIL_HOST_PASSWORD)
 EMAIL_HOST_USER = 'orolingo01@gmail.com'
 EMAIL_HOST_PASSWORD = 'orolingo123456789'
-#Zoom integration
+# #Zoom integration
 
-payload = {'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=30),
-           'iss': ZOOM_API_KEY    
-          }     
-token = jwt.encode(payload, ZOOM_API_SECRET_KEY).decode("utf-8")
+# payload = {'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=30),
+#            'iss': ZOOM_API_KEY    
+#           }     
+# # token = jwt.encode(payload, ZOOM_API_SECRET_KEY).decode("utf-8")
 
-conn = client.HTTPSConnection("api.zoom.us")
+# conn = client.HTTPSConnection("api.zoom.us")
 
-headers = {
-        'authorization': "Bearer " + token,
-        'content-type': "application/json"
-        }
+# headers = {
+#         'authorization': "Bearer " + token,
+#         'content-type': "application/json"
+#         }
 
 #https://api.zoom.us/v2/

@@ -1,54 +1,52 @@
 import React,{ useState, useEffect } from 'react'
-import basename from "../Home/basename.js";
 import axios from "axios";
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 
 const items =[
   {
     src:"",
-    title:"",
-    text:"",
+    title:"Aman Agarwal",
+    text:"Team Lead",
   },
   {
     src:"",
-    title:"",
-    text:"",
+    title:"Anindya Sikdar",
+    text:"Team Lead Part 2",
   },
   {
     src:"",
-    title:"",
-    text:"",
+    title:"Awais Akhtar",
+    text:"Trash Designer 1",
+  },
+  {
+    src:"",
+    title:"Shivam Nayak",
+    text:"Trash Designer 2",
+  },
+  {
+    src:"",
+    title:"Aryan Lohani",
+    text:"Trash Designer 3",
   },
 ]
 
 const Teams = (props) =>{
     return (
-        <div id="team" className="text-center">
-          <Container>
-            <Grid container spacing={4} xs={12}>
-              <h2>Meet the Team</h2>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed
-                dapibus leonec.
-              </p>
+      <div>
+          <Typography align ="center" variant="h2">Meet the Team</Typography>
+          <Typography align="center" variant="h3">Lorem ipsum</Typography>
+          <Container maxWidth="xl">
+            <Grid container spacing={4} justify="center" xs={12}>
+              {items.map(e=>(
+                <Grid item xs={4}>
+                  <img src={e.src}></img>
+                  <Typography align ="center" variant="h5">{e.title}</Typography>
+                  <Typography align="center" variant="h6">{e.text}</Typography>
+                </Grid>
+              ))}
             </Grid>
-            <div id="row">
-              {this.props.data
-                ? this.props.data.map((d, i) => (
-                    <div  key={`${d.name}-${i}`} className="col-md-3 col-sm-6 team">
-                      <div className="thumbnail">
-                        {" "}
-                        <img src={d.img} alt="..." className="team-img" />
-                        <div className="caption">
-                          <h4>{d.name}</h4>
-                          <p>{d.job}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                : "loading"}
-            </div>
           </Container>
         </div>
       );
