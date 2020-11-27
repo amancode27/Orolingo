@@ -37,6 +37,24 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
   },
+  navParent: {
+    
+  },
+  navbar: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "inherit",
+    justifyContent:"center",
+    alignItems:"center",
+    
+  
+  },
+  simpleMenu: {
+    outline: "none",
+  },
+  textCol: {
+    color: "black",
+  }
 }));
 
 function LetterAvatars() {
@@ -68,7 +86,7 @@ function SimpleMenu(props) {
   }
 
   return (
-    <div style={{"margin":"0px !important"}} style={{"z-index":"1000000000000000"}}>
+    <div style={{margin:"0px !important",zIndex:"1000000000000000"}}>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} style={{"margin":"0px"}}>
         <LetterAvatars/>
       </Button>
@@ -90,24 +108,15 @@ function SimpleMenu(props) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
 const NavBar = (props) => {
+  const classes = useStyles();
   const [isOpen, setIsOpen] = React.useState(false);
   console.log("This is props");
   console.log(props);
   const toggle = () => setIsOpen(!isOpen);
   let e;
   if(props.loggedIn){
-    e=(<SimpleMenu {...props}/>)
+    e=(<SimpleMenu {...props} className={classes.simpleMenu}/>)
   }
   else{
     e=(<NavItem>
@@ -115,26 +124,27 @@ const NavBar = (props) => {
     </NavItem>)
   }
   return (
-    <nav className="navbar" style={{"position":"sticky","top":"0px" , "z-index":"100000"}}>
-      <Navbar dark expand="md">
-      <NavbarBrand className="mr-auto" >{''}</NavbarBrand>
+    <nav className="navbar" style={{"position":"sticky","top":"0px" , "z-index":"100000",backgroundColor:"rgba(0,0,50,.3)"}}>
+      <Navbar dark expand="md" style={{padding: "0"}} className={classes.navParent}>
+      <NavbarBrand className="mr-auto">{''}</NavbarBrand>
       <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav navbar style={{marginBottom: "-10px" }}>
+          <Nav navbar className={classes.navbar} style={{backgroundColor: "lightsteelblue",}}>
             <NavItem>
-              <Navlink link="/" linktext="Home" /> 
+              <Navlink link="/" linktext="Home" className={classes.textCol}/> 
             </NavItem>
             <NavItem>
-              <Navlink link="/services" linktext="Services" />
+              <Navlink link="/services" linktext="Services" className={classes.textCol}/>
             </NavItem>
             <NavItem>
-              <Navlink link="/courses" linktext="Courses" />
+              <Navlink link="/courses" linktext="Courses" className={classes.textCol}/>
             </NavItem>
             <NavItem>
-              <Navlink link="/about" linktext="About us" />
+              <Navlink link="/about" linktext="About us" className={classes.textCol}/>
             </NavItem>
-            
-            {e}
+            <NavItem>
+              {e}
+            </NavItem>
           </Nav>
         </Collapse>
         </Navbar>
