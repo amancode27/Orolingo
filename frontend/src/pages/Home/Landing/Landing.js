@@ -4,15 +4,13 @@ import Teams from './Teams.js';
 import Aboutus from './Aboutus.js';
 import { Container, Grid ,makeStyles,Typography} from '@material-ui/core';
 import WhyLearn from './whylearn.js';
+import Header from './Header.js';
 
 
 const useStyles = makeStyles((theme) => ({
   main:{
     backgroundColor:"white",
     width:"100%",
-  },
-  pad:{
-    PaddingBottom:theme.spacing(10),
   },
   container:{
     width:"100%",
@@ -25,10 +23,13 @@ const Landing = props => {
     <div className={classes.main}>
       <Container>
         <Grid container padding={5}>
-          <Grid item  xs={12}>
-            <Aboutus className={classes.pad}/>
+        <Grid item xs={12}>
+            <Header />
           </Grid>
-          <Grid item className={classes.pad} xs={12}>
+          <Grid item xs={12}>
+            <Aboutus />
+          </Grid>
+          <Grid item xs={12}>
             <WhyLearn/>
           </Grid>
         </Grid>

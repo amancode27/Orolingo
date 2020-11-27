@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
         marginTop:theme.spacing(10),
     },
     container:{
-        padding:theme.spacing(2),
         width:"100%"
     },
     img:{
@@ -62,17 +61,17 @@ const Aboutus = (props) => {
                         <Typography variant="h2" className={classes.pad}>Why Chose us?</Typography>
                         <Grid container spacing={2} xs={8}>
                             <Grid item xs={6} >
-                                <Typography variant="h5"><CheckIcon/> WE are better</Typography>
-                                <Typography variant="h5"><CheckIcon/> WE are better</Typography>
-                                <Typography variant="h5"><CheckIcon/> WE are better</Typography>
-                                <Typography variant="h5"><CheckIcon/> WE are better</Typography>
+                                <Typography variant="h5"><CheckIcon/> We Are Better</Typography>
+                                <Typography variant="h5"><CheckIcon/> We Are Better</Typography>
+                                <Typography variant="h5"><CheckIcon/> We Are Better</Typography>
+                                <Typography variant="h5"><CheckIcon/> We Are Better</Typography>
                                 
                             </Grid>
                             <Grid item xs={6}>
-                                <Typography variant="h5"><CheckIcon/> WE are better</Typography>
-                                <Typography variant="h5"><CheckIcon/> WE are better</Typography>
-                                <Typography variant="h5"><CheckIcon/> WE are better</Typography>
-                                <Typography variant="h5"><CheckIcon/> WE are better</Typography>
+                                <Typography variant="h5"><CheckIcon/> We Are Better</Typography>
+                                <Typography variant="h5"><CheckIcon/> We Are Better</Typography>
+                                <Typography variant="h5"><CheckIcon/> We Are Better</Typography>
+                                <Typography variant="h5"><CheckIcon/> We Are Better</Typography>
                             </Grid>
                         </Grid>
                     </Grid>
