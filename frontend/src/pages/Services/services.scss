@@ -11,10 +11,14 @@
 
 :root {
   // Colors
-  --color-brand-primary-h: 251; 
-  --color-brand-primary-s: 43%; 
-  --color-brand-primary-l: 43%;
+  --color-brand-primary-h: 50; 
+  --color-brand-primary-s: 74%; 
+  --color-brand-primary-l: 50%;
   --color-brand-primary: hsl(var(--color-brand-primary-h), var(--color-brand-primary-s), var(--color-brand-primary-l));
+  --color-brand-secondary-h: 251; 
+  --color-brand-secondary-s: 43%; 
+  --color-brand-secondary-l: 43%;
+  --color-brand-secondary: hsl(var(--color-brand-secondary-h), var(--color-brand-secondary-s), var(--color-brand-secondary-l));
   --color-brand-accent-h: 16; 
   --color-brand-accent-s: 96%; 
   --color-brand-accent-l: 61%;
@@ -227,7 +231,7 @@ ul {
       font-size: var(--s1);
       line-height: 1.2;
       letter-spacing: -.04em;
-      color: var(--color-brand-primary);
+      color: var(--color-brand-secondary);
     }
     &::after {
       @include pseudo-starter();
@@ -249,7 +253,7 @@ ul {
       margin-top: var(--s-1);
       margin-bottom: var(--s-1);
       font-weight: 400;
-      color: var(--color-brand-primary);
+      color: var(--color-brand-secondary);
       opacity: .65;
     };
     &:hover {
