@@ -17,6 +17,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import Alert from '@material-ui/lab/Alert';
 
 function Copyright() {
   return (
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     height: '93vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: 'url(https://source.unsplash.com/random?register)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -70,10 +71,10 @@ const LoginForm = (props) =>{
   const [formdata, setFormdata] = useState({
     username: "",
     password: "",
-    passwordValid: false,
-    usernameValid: false,
-    formErrors: { password: '', username: ''},
-    formValid: false
+    // passwordValid: false,
+    // usernameValid: false,
+    // formErrors: { password: '', username: ''},
+    // formValid: false
   });
 
   const [checked, setChecked] = useState(false);
@@ -88,33 +89,33 @@ const LoginForm = (props) =>{
     setFormdata((prev) => {
       return { ...prev, [name]: value };
     });
-    validateField(name, value)
+    // validateField(name, value)
   };
-  function validateField(fieldName, value) {
+  // function validateField(fieldName, value) {
 
 
-    switch (fieldName) {
+  //   switch (fieldName) {
 
-      case 'username':
-        formdata.usernameValid = value.length>0;
-        formdata.formErrors.username = formdata.usernameValid ? '' : ' is required';
-        break;
+  //     case 'username':
+  //       formdata.usernameValid = value.length>0;
+  //       formdata.formErrors.username = formdata.usernameValid ? '' : ' is required';
+  //       break;
 
-      case 'password':
-        formdata.passwordValid = value.length > 0;
-        formdata.formErrors.password = formdata.passwordValid ? '' : ' is required';
-        break;
-      default:
-        break;
-    }
-    formdata.formValid = formdata.passwordValid && formdata.usernameValid;
+  //     case 'password':
+  //       formdata.passwordValid = value.length > 0;
+  //       formdata.formErrors.password = formdata.passwordValid ? '' : ' is required';
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  //   formdata.formValid = formdata.passwordValid && formdata.usernameValid;
 
 
-  }
-  function errorClass(error) {
-    return(error.length === 0 ? '' : 'has-error');
-  }
-
+  // }
+  // function errorClass(error) {
+  //   return(error.length === 0 ? '' : 'has-error');
+  // }
+  console.log(props.error)
 
 
   return (
@@ -132,9 +133,12 @@ const LoginForm = (props) =>{
             Sign in
           </Typography>
             <form className={classes.form} onSubmit={(e) => props.handleLogin(e, formdata, props.history.push)}>
-            <div id="login-form-error"></div>
-            <FormErrors formErrors={formdata.formErrors} />
-            <div className={`form-group ${errorClass(formdata.formErrors.username)}`}>
+            {/* <div id="login-form-error"></div> */}
+
+            {props.error=="Incorrect Credentials" ?
+        <Alert severity="info" id="login-form-error"></Alert>:null}
+            {/* <FormErrors formErrors={formdata.formErrors} /> */}
+            <div >
             <TextField
               variant="outlined"
               margin="normal"
@@ -149,7 +153,7 @@ const LoginForm = (props) =>{
               autoFocus
             />
             </div>
-            <div className={`form-group ${errorClass(formdata.formErrors.password)}`}>
+            <div >
             <TextField
               variant="outlined"
               margin="normal"
@@ -170,7 +174,7 @@ const LoginForm = (props) =>{
               onClick={handleCheckbox}
             />
             <Button
-              disabled={!formdata.formValid}
+              // disabled={!formdata.formValid}
               type="submit"
               fullWidth
               variant="contained"

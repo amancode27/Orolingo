@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
+import ReactPlayer from 'react-player';
 
 
   const useStyles = makeStyles((theme) => ({
@@ -48,43 +49,47 @@ import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader
   }));
   const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const NotesCard = (props) => {
+const VideosCard = (props) => {
   const classes = useStyles();
 
-  const notes = props.notes;
+  const Videos = props.Videos;
   return (
     <div style={{marginLeft:"30px",flex: "0 0 25%"}}>
       <Card className={classes.card}>
-        <CardMedia
-          className={classes.cardMedia}
-          image="https://source.unsplash.com/random?book"
-          title="Image title"
+          <div style={{minHeight : "200px"}}>
+        <ReactPlayer
+            className='react-player'
+            url= {`http://localhost:8000${Videos['pdf']}`}
+            width='100%'
+            height='100%'
+            controls
         />
+        </div>
         <CardContent className={classes.cardContent}>
             <Typography gutterBottom variant="h5" component="h2">
-            {notes['topic']}
+            {Videos['topic']}
             </Typography>
             <Typography>
-            {notes['description']}
+            {Videos['description']}
             </Typography>
           </CardContent>
           <CardActions>
-            <a href={`http://localhost:8000${notes['pdf']}`} target='blank'>
+            <a href={`http://localhost:8000${Videos['pdf']}`} target='blank'>
             <Button size="small" color="primary">
               Download
             </Button>
             </a>
             <Button size="small" color="primary">
-            Date added-{notes['created_at']}
+            Date added-{Videos['created_at']}
             </Button>
           </CardActions>
       </Card>
     </div>
   );
 };
-const Notes = (props) =>{
+const Videos = (props) =>{
       const classes = useStyles();
-      const [notes,setNotes] = useState([]);
+      const [Videos,setVideos] = useState([]);
       let course_id;
       const student_course_id = props.match.params['id'];
       const [loader,showLoader,hideLoader] = useFullPageLoader();
@@ -96,23 +101,23 @@ const Notes = (props) =>{
                hideLoader();
                 course_id=res.data.course['id'];
              }).then(()=>{
-              axios.get(`${basename}/api/note/?course=${course_id}`)
+              axios.get(`${basename}/api/videos/?course=${course_id}`)
               .then(res=>{
                  const tmp = res.data.objects;
                  tmp.map(k=>{
-                     const tmpnotes = {};
-                     tmpnotes['topic'] = k.topic;
-                     tmpnotes['description'] = k.description;
-                     tmpnotes['created_at'] = k.created_at;
-                     tmpnotes['pdf'] = k.pdf;
-                     setNotes(prev=>{
-                         return [...prev,tmpnotes];
+                     const tmpVideos = {};
+                     tmpVideos['topic'] = k.topic;
+                     tmpVideos['description'] = k.description;
+                     tmpVideos['created_at'] = k.created_at;
+                     tmpVideos['pdf'] = k.pdf;
+                     setVideos(prev=>{
+                         return [...prev,tmpVideos];
                      }) 
                  });
               });
              })
       },[props.match.params['id']]);
-
+      console.log(Videos);
     return(
       <React.Fragment>
         <CssBaseline />
@@ -120,31 +125,17 @@ const Notes = (props) =>{
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              Notes
+              Videos
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              The Notes related to the course have been posted here. Please go throught them before the next class.
+              The Videos related to the course have been posted here. Please go throught them before the next class.
             </Typography>
-            <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                  <Button variant="contained" color="primary">
-                    Latest
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Search
-                  </Button>
-                </Grid>
-              </Grid>
-            </div>
             </Container>
           </div>
-            <Container className={classes.cardGrid} maxWidth="lg">
+            <Container className={classes.cardGrid} maxWidth="md">
             <Grid container spacing={4}>
-                {notes.map((k,index)=>(
-                <NotesCard notes={k} index={index}/>
+                {Videos.map((k,index)=>(
+                <VideosCard Videos={k} index={index}/>
                   ))};
               </Grid>
             </Container>
@@ -153,4 +144,4 @@ const Notes = (props) =>{
         </React.Fragment>  
     );
 };
-export default Notes;
+export default Videos;

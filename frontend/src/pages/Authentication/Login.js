@@ -2,9 +2,10 @@ import React from 'react';
 import LoginForm from './LoginForm';
 
 const Login = props => {
+  const error=props.error;
   return (
     <div>
-      <LoginForm {...props} />
+      <LoginForm {...props} error = {error} />
     </div>
   )
 }

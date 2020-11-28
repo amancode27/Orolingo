@@ -45,7 +45,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import ReactPlayer from 'react-player';
+import Tooltip from '@material-ui/core/Tooltip';
+import Fab from '@material-ui/core/Fab';
 
 
 const CourseContent = (props,user) =>{
@@ -178,6 +179,14 @@ const CourseContent = (props,user) =>{
             width: '25ch',
           },
         },
+        fab: {
+          margin: theme.spacing(2),
+        },
+        absolute: {
+          position: 'absolute',
+          bottom: theme.spacing(2),
+          right: theme.spacing(3),
+        },
       }));
 
       const classes = useStyles();
@@ -273,7 +282,7 @@ const CourseContent = (props,user) =>{
       //console.log(course);
     },[props] );
 
-    console.log(videos);
+    console.log(basename);
     return (
         
         <div className={classes.root}>
@@ -305,25 +314,46 @@ const CourseContent = (props,user) =>{
           <React.Fragment className={classes.content}>
           
           <Container maxWidth="md" className = "mt-5">
-          <Grid container spacing = {3}>
-              <Grid item md={12} >
-              <Card style={{fontSize : "13px", height : "250px"}}>
-                <CardMedia
-                  className={classes.media}
-                  image="/welcome.jpg"
-                  component="img"
-                />
-                <CardContent >
-                  <Typography gutterBottom variant="h3" >
-                  {courseName}
-                  </Typography>
-                  <Typography variant="h5" color="textSecondary" >
-                  {language}
-                  </Typography>
-                </CardContent>
-                </Card>    
-              </Grid>
-          </Grid>
+              <Typography gutterBottom variant="h3" >
+              {courseName}
+              </Typography>
+              <Typography variant="h5" color="textSecondary" >
+              {language}
+              </Typography>
+              <Grid container spacing = {3}>
+              <Grid item xs={12}>
+                <Zoom>
+
+                <CardActionArea>
+                  <Card className={classes.paper} style={{fontSize : "13px"}}>
+                  <Link to={`${student_course_id}/videos`} style={{textDecoration : "none", color: "black"}}>
+                        <CardMedia
+                          className={classes.media}
+                          image="/static/videos.jpg"
+                        />
+                        <CardContent >
+                          <Typography gutterBottom variant="h5" component="h2">
+                            Uploaded Videos
+                          </Typography>
+                          <Typography variant="body1" color="textSecondary" component="p">
+                            Uploaded Videos are available here !
+                          </Typography>
+                        </CardContent>
+                      </Link>               
+                    </Card>
+                  </CardActionArea>
+                    
+
+                  {/* <Card className={classes.paper}>
+                    {Object.keys(videos).map((e,index) => (
+                      <div>
+                        
+                      </div>
+                    ))}   
+                  </Card> */}
+                  </Zoom>
+                  </Grid>
+                </Grid>   
             <Grid container spacing = {3}>
               <Grid item xs={12} md={6} lg={6}>
                 <Slide>
@@ -370,31 +400,15 @@ const CourseContent = (props,user) =>{
                 </Slide>
               </Grid>
             </Grid>
-            <Grid container spacing = {3}>
-              <Grid item xs={12}>
-                <Zoom>
-              <Card className={classes.paper}>
-                {Object.keys(videos).map((e,index) => (
-                  <div>
-                    <ReactPlayer
-                      className='react-player'
-                      url= { basename +  videos[e].video} 
-                      width='50%'
-                      height='50%'
-                      controls
-                    />
-                  </div>
-                ))}
-              
-                  <FeedbackModal {...props} buttonLabel = {"Give Feedback"} className = {"feedback"} />
-              </Card>
-              </Zoom>
-              </Grid>
-            </Grid>
-
+            <Tooltip title="Feedback" style={{fontSize: 30}} aria-label="feed">
+                  <Fab color="primary"  className={classes.absolute}>
+                       <FeedbackModal {...props}  className = {"feedback"} />
+                  </Fab>
+                </Tooltip>
+          
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Slide direction="up">
+              <Zoom>
               <Paper>
                 <Accordion>
                 <AccordionSummary
@@ -489,7 +503,7 @@ const CourseContent = (props,user) =>{
               </AccordionDetails>
           </Accordion>
               </Paper>
-              </Slide>
+              </Zoom>
             </Grid>
           </Grid>
         </Container>
