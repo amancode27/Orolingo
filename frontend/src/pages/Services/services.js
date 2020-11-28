@@ -3,12 +3,12 @@ import './services.scss';
 import { lorem } from 'faker';
 
 const services = [
-  { header: '1. Responsive Web Design', body: lorem.words(20) },
-  { header: '2. UX Auditing', body: lorem.words(30) },
-  { header: '3. Front End Development', body: lorem.words(40) },
-  { header: '4. UX Consultation', body: lorem.words(20) },
-  { header: '5. Mobile App Design', body: lorem.words(25) },
-  { header: '6. UX Research', body: lorem.words(30) }
+  { header: '1. Best of Trainers', body: lorem.words(20) },
+  { header: '2. Affordable', body: lorem.words(30) },
+  { header: '3. Live Interactive Classes', body: lorem.words(40) },
+  { header: '4. Structured Courses Meeting the International Standards', body: lorem.words(20) },
+  { header: '5. Anytime-Anywhere Access', body: lorem.words(25) },
+  { header: '6. Financial Aid Available', body: lorem.words(30) }
 ];
 
 function Service() {
