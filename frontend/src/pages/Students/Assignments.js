@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
+import { CardActionArea } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -110,6 +111,7 @@ const Assignment = (props) =>{
             {assignments.map((e) => (
               <Grid item key={e} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
+                <CardActionArea> 
                   <CardMedia
                     className={classes.cardMedia}
                     image="https://source.unsplash.com/random?book"
@@ -126,16 +128,15 @@ const Assignment = (props) =>{
                       Dealine : {e['deadline']}
                     </Typography>
                   </CardContent>
-                  <CardActions>
                   <Button size="small" color="primary">
-                    <a href={`http://localhost:8000${e['pdf']}`} target='blank'>
+                    <a href={`${basename}${e['pdf']}`} target='blank'>
                     Download
                     </a>
                     </Button>
                     <Button size="small" color="primary">
                       {e['created_at']}
                     </Button>
-                  </CardActions>
+                    </CardActionArea>
                 </Card>
               </Grid>
             ))}
