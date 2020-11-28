@@ -85,15 +85,47 @@ const Page = (props) => {
     let course_id;
     const student_course_id = props.match.params['id'];
     const [loader,showLoader,hideLoader] = useFullPageLoader();
-    const [open, setOpen] = React.useState(false);
+    const [openAssignment,setOpenAssignment] = useState({});
+    const [openNotes,setOpenNotes] = useState({});
+    const [openVideos,setOpenVideos] = useState({});
 
-    const handleClickOpen = () => {
-      setOpen(true);
+    const handleClickOpenAssignment = (ID) =>{
+        setOpenAssignment(prev =>{
+            return {...prev,[ID]:true};
+        })
+    }
+
+    const handleClickCloseAssignment = (ID) => {
+        setOpenAssignment(prev =>{
+            return {...prev,[ID]:false};
+        })
     };
-  
-    const handleClose = () => {
-      setOpen(false);
+
+    const handleClickOpenNotes = (ID) =>{
+        setOpenNotes(prev =>{
+            return {...prev,[ID]:true};
+        })
+    }
+
+    const handleClickCloseNotes = (ID) => {
+        setOpenNotes(prev =>{
+            return {...prev,[ID]:false};
+        })
     };
+
+    const handleClickOpenVideos = (ID) =>{
+        setOpenVideos(prev =>{
+            return {...prev,[ID]:true};
+        })
+    }
+
+    const handleClickCloseVideos = (ID) => {
+        setOpenVideos(prev =>{
+            return {...prev,[ID]:false};
+        })
+    };
+
+
 
     useEffect(() => {
         showLoader();
@@ -118,6 +150,9 @@ const Page = (props) => {
                     setAssignment(prev => {
                         return [...prev, tmp];
                     })
+                    setOpenAssignment(prev=>{
+                        return {...prev,[k.id]:false};
+                    })
                 });
             })
         axios.get(`${basename}/api/note/?course=${course_id}`)
@@ -132,6 +167,9 @@ const Page = (props) => {
                     tmp['pdf'] = k.pdf;
                     setNotes(prev => {
                         return [...prev, tmp];
+                    })
+                    setOpenNotes(prev=>{
+                        return {...prev,[k.id]:false};
                     })
                 });
             })
@@ -148,6 +186,9 @@ const Page = (props) => {
                     tmp['pdf'] = k.pdf;
                     setVideos(prev => {
                         return [...prev, tmp];
+                    })
+                    setOpenVideos(prev=>{
+                        return {...prev,[k.id]:false};
                     })
                 });
             })
@@ -172,35 +213,35 @@ const Page = (props) => {
             })
     }, [props.match.params['id']])
 
-    const deleteAssignment = (id) =>{
+    const deleteAssignment = (event,id) =>{
         showLoader();
         axios.delete(`${basename}/api/assignments/${id}/`);
         setAssignment(prev=>prev.filter(e=>{
             return e.id!=id;
         }))
         hideLoader();
-        handleClose();
+        handleClickCloseAssignment(id);
         
     }
     
     const deleteNote = (id) =>{
         showLoader();
         axios.delete(`${basename}/api/note/${id}/`);
-        hideLoader();
-        handleClose();
         setNotes(prev=>prev.filter(e=>{
             return e.id!=id;
         }))
+        hideLoader();
+        handleClickCloseNotes(id);
     }
 
     const deleteVideo = (id) =>{
         showLoader();
         axios.delete(`${basename}/api/videos/${id}/`);
-        hideLoader();
-        handleClose();
         setVideos(prev=>prev.filter(e=>{
             return e.id!=id;
         }))
+        hideLoader();
+        handleClickCloseVideos(id);
     }    
 
 
@@ -271,29 +312,29 @@ const Page = (props) => {
                                         Download
                                         </a>
                                     </Button>
-                                        <Button size="large" variant="outlined" color="primary" onClick={handleClickOpen}>
+                                        <Button size="large" variant="outlined" color="primary" onClick={() =>handleClickOpenAssignment(e['id'])}>
                                             Delete
                                         </Button>
                                         <Button size="large" color="primary">
                                             Deadline : {e['deadline']}
                                         </Button>
                                         <Dialog
-                                            open={open}
-                                            onClose={handleClose}
+                                            open={openAssignment[e['id']]}
+                                            onClose={() =>handleClickCloseAssignment(e['id'])}
                                             aria-labelledby="alert-dialog-title"
                                             aria-describedby="alert-dialog-description"
                                         >
                                             <DialogTitle id="alert-dialog-title">{"Are you sure? "}</DialogTitle>
                                             <DialogContent>
                                             <DialogContentText id="alert-dialog-description">
-                                                If once this assignment is deleted it will not be visible to the student.
+                                                Once this assignment is deleted it will not be visible to the student.
                                             </DialogContentText>
                                             </DialogContent>
                                             <DialogActions>
-                                            <Button onClick={()=>deleteAssignment(e.id)} color="secondary">
+                                            <Button onClick={(event)=>deleteAssignment(event,e['id'])} color="secondary">
                                                 Yes, I am Sure
                                             </Button>
-                                            <Button onClick={handleClose} color="primary" autoFocus>
+                                            <Button onClick={() =>handleClickCloseAssignment(e['id'])} color="primary" autoFocus>
                                                 No
                                             </Button>
                                             </DialogActions>
@@ -337,29 +378,29 @@ const Page = (props) => {
                                         Download
                                         </a>
                                     </Button>
-                                        <Button size="large" variant="outlined" color="primary" onClick={handleClickOpen}>
+                                        <Button size="large" variant="outlined" color="primary" onClick={()=>handleClickOpenVideos(e['id'])}>
                                             Delete
                                         </Button>
                                         <Button size="large"  color="primary">
                                             Created At : {e['created_at']}
                                         </Button>
                                         <Dialog
-                                            open={open}
-                                            onClose={handleClose}
+                                            open={openVideos[e['id']]}
+                                            onClose={()=>handleClickCloseVideos(e['id'])}
                                             aria-labelledby="alert-dialog-title"
                                             aria-describedby="alert-dialog-description"
                                         >
                                             <DialogTitle id="alert-dialog-title">{"Are you sure? "}</DialogTitle>
                                             <DialogContent>
                                             <DialogContentText id="alert-dialog-description">
-                                                If once this video is deleted it will not be visible to the student.
+                                                Once this video is deleted it will not be visible to the student.
                                             </DialogContentText>
                                             </DialogContent>
                                             <DialogActions>
                                             <Button onClick={()=>deleteVideo(e.id)} color="secondary">
                                                 Yes, I am Sure
                                             </Button>
-                                            <Button onClick={handleClose} color="primary" autoFocus>
+                                            <Button onClick={()=>handleClickCloseVideos(e.id)} color="primary" autoFocus>
                                                 No
                                             </Button>
                                             </DialogActions>
@@ -404,29 +445,29 @@ const Page = (props) => {
                                             Download
                                             </a>
                                         </Button>
-                                        <Button size="large" variant="outlined" color="primary" onClick={handleClickOpen}>
+                                        <Button size="large" variant="outlined" color="primary" onClick={()=>handleClickOpenNotes(e['id'])}>
                                             Delete
                                         </Button>
                                         <Button size="large"  color="primary">
                                             Created At : {e['created_at']}
                                         </Button>
                                         <Dialog
-                                            open={open}
-                                            onClose={handleClose}
+                                            open={openNotes[e['id']]}
+                                            onClose={()=>handleClickCloseNotes(e['id'])}
                                             aria-labelledby="alert-dialog-title"
                                             aria-describedby="alert-dialog-description"
                                         >
                                             <DialogTitle id="alert-dialog-title">{"Are you sure? "}</DialogTitle>
                                             <DialogContent>
                                             <DialogContentText id="alert-dialog-description">
-                                                If once this note is deleted it will not be visible to the student.
+                                                Once this note is deleted it will not be visible to the student.
                                             </DialogContentText>
                                             </DialogContent>
                                             <DialogActions>
                                             <Button onClick={()=>deleteNote(e.id)} color="secondary">
                                                 Yes, I am Sure
                                             </Button>
-                                            <Button onClick={handleClose} color="primary" autoFocus>
+                                            <Button onClick={()=>handleClickCloseNotes(e['id'])} color="primary" autoFocus>
                                                 No
                                             </Button>
                                             </DialogActions>
