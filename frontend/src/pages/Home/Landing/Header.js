@@ -36,7 +36,7 @@ const Header = (props) =>{
             <Container>
                 <Grid container>
                     <Grid item className={classes.header}>
-                        <Typography variant="h1" color="primary">Orolingo</Typography>
+                        <Typography variant="h1" style={{color:'rgba(179, 255, 0, 0.918)'}} >Orolingo</Typography>
                         <Typography variant="h2">Where languages meet.</Typography>
                     </Grid>
                 </Grid>

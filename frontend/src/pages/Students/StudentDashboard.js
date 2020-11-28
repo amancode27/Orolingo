@@ -374,6 +374,9 @@ const StudentDashboard = props => {
   //console.log(studentName);
 
   console.log(liveCourses);
+  const setClasses = makeStyles({
+    
+  })
   return (
     <div className={classes.root}>
       <CssBaseline/>
@@ -433,7 +436,7 @@ const StudentDashboard = props => {
                       size={3}
                       horizontal
                       vertical
-                      rotate={-180}
+                      rotate={180}
                       color="green"
                       />
                      </CardTitle>

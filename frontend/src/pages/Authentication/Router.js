@@ -26,6 +26,7 @@ import PasswordReset from "./PasswordResetConfirm";
 import EmailRequest from "./EmailRequest";
 import Videos from "../Students/Videos";
 import TellUs from '../Home/TellUs';
+import Services from "../Services/services"
 
 const Router = (props) => {
   const handleLogin = props.handleLogin;
@@ -174,6 +175,11 @@ const Router = (props) => {
           path="/tellus"
           render = {(props) => <TellUs {...props} /> }
         />
+        <Route
+          path="/services"
+          render={(props) => <Services {...props} />}
+        />
+
         <Route component={NotFound} />
       </Switch>
       <Footer />
