@@ -146,3 +146,10 @@ class VideosResource(MultipartResource,ModelResource):
         filtering = {
             "course":ALL
         }
+
+class TellUsResource(ModelResource):
+    class Meta:
+        allowed_methods = ['get' , 'put' ,'patch' ,'delete' ,'post']
+        queryset = TellUs.objects.all()
+        resource_name = 'tellus'
+        authorization = Authorization()

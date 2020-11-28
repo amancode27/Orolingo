@@ -140,7 +140,7 @@ const NavBar = (props) => {
               <Navlink link="/courses" linktext="Courses" className={classes.textCol}/>
             </NavItem>
             <NavItem>
-              <Navlink link="/about" linktext="About us" className={classes.textCol}/>
+              <Navlink link="/tellus" linktext="Tell us" className={classes.textCol}/>
             </NavItem>
             <NavItem>
               {e}

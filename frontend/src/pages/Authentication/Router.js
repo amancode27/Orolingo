@@ -25,6 +25,7 @@ import Feedback from "../Teachers/feedback";
 import PasswordReset from "./PasswordResetConfirm";
 import EmailRequest from "./EmailRequest";
 import Videos from "../Students/Videos";
+import TellUs from '../Home/TellUs';
 
 const Router = (props) => {
   const handleLogin = props.handleLogin;
@@ -169,7 +170,10 @@ const Router = (props) => {
           path="/dashboard/chatapp/:id"
           render={(props) => <ChatApp {...props} {...userinfo} />}
         />
-
+        <Route
+          path="/tellus"
+          render = {(props) => <TellUs {...props} /> }
+        />
         <Route component={NotFound} />
       </Switch>
       <Footer />
