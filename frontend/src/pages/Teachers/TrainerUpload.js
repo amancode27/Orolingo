@@ -30,6 +30,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import ReactPlayer from 'react-player';
 
 
+
 const useStyles = makeStyles((theme) => ({
     icon: {
         marginRight: theme.spacing(2),
@@ -172,21 +173,31 @@ const Page = (props) => {
     }, [props.match.params['id']])
 
     const deleteAssignment = (id) =>{
+        showLoader();
         axios.delete(`${basename}/api/assignments/${id}/`);
         setAssignment(prev=>prev.filter(e=>{
             return e.id!=id;
         }))
+        hideLoader();
+        handleClose();
+        
     }
     
     const deleteNote = (id) =>{
+        showLoader();
         axios.delete(`${basename}/api/note/${id}/`);
+        hideLoader();
+        handleClose();
         setNotes(prev=>prev.filter(e=>{
             return e.id!=id;
         }))
     }
 
     const deleteVideo = (id) =>{
+        showLoader();
         axios.delete(`${basename}/api/videos/${id}/`);
+        hideLoader();
+        handleClose();
         setVideos(prev=>prev.filter(e=>{
             return e.id!=id;
         }))
@@ -236,7 +247,7 @@ const Page = (props) => {
                                     {/* <Button variant="contained" color="primary">
                                         Upload
                                     </Button> */}
-                                    <UploadModal {...props} {...{'content':'assignments'}} buttonLabel = {"Upload Assignments"} className = {"assignments"} />
+                                    <UploadModal {...props} {...{'content':'assignments'}} buttonLabel = {"Upload Assignments"} className = {"Assignment"} />
                                 </CardContent>
                             </Card>
                             {assignment.map((e) => (
@@ -256,11 +267,11 @@ const Page = (props) => {
                                     </CardContent>
                                     <CardActions>
                                     <Button size="large" variant="outlined" color="primary">
-                                        <a href={`http://localhost:8000${e['pdf']}`} target='blank'>
+                                        <a href={`${basename}${e['pdf']}`} target='blank'>
                                         Download
                                         </a>
                                     </Button>
-                                        <Button size="large" variant="outlined" color="primary" onClick={()=>deleteAssignment(e.id)}>
+                                        <Button size="large" variant="outlined" color="primary" onClick={handleClickOpen}>
                                             Delete
                                         </Button>
                                         <Button size="large" color="primary">
@@ -279,7 +290,7 @@ const Page = (props) => {
                                             </DialogContentText>
                                             </DialogContent>
                                             <DialogActions>
-                                            <Button onClick={handleClose} color="secondary">
+                                            <Button onClick={()=>deleteAssignment(e.id)} color="secondary">
                                                 Yes, I am Sure
                                             </Button>
                                             <Button onClick={handleClose} color="primary" autoFocus>
@@ -301,13 +312,13 @@ const Page = (props) => {
                                     {/* <Button variant="contained" color="primary">
                                         Upload
                                     </Button> */}
-                                    <UploadModal {...props} {...{'content':'videos'}} buttonLabel = {"Upload Videos"} className = {"feedback"} />
+                                    <UploadModal {...props} {...{'content':'videos'}} buttonLabel = {"Upload Videos"} className = {"Video"} />
                                 </CardContent>
                                 {videos.map((e) => (
                                 <Card className={classes.card}>
                                     <ReactPlayer
                                         className='react-player'
-                                        url= {`http://localhost:8000${e['pdf']}`}
+                                        url= {`${basename}${e['pdf']}`}
                                         width='100%'
                                         height='100%'
                                         controls
@@ -322,16 +333,38 @@ const Page = (props) => {
                                     </CardContent>
                                     <CardActions>
                                     <Button size="large" variant="outlined" color="primary">
-                                        <a href={`http://localhost:8000${e['pdf']}`} target='blank'>
+                                        <a href={`${basename}${e['pdf']}`} target='blank'>
                                         Download
                                         </a>
                                     </Button>
-                                        <Button size="large" variant="outlined" color="primary" onClick={()=>deleteVideo(e.id)}>
+                                        <Button size="large" variant="outlined" color="primary" onClick={handleClickOpen}>
                                             Delete
                                         </Button>
                                         <Button size="large"  color="primary">
                                             Created At : {e['created_at']}
                                         </Button>
+                                        <Dialog
+                                            open={open}
+                                            onClose={handleClose}
+                                            aria-labelledby="alert-dialog-title"
+                                            aria-describedby="alert-dialog-description"
+                                        >
+                                            <DialogTitle id="alert-dialog-title">{"Are you sure? "}</DialogTitle>
+                                            <DialogContent>
+                                            <DialogContentText id="alert-dialog-description">
+                                                If once this video is deleted it will not be visible to the student.
+                                            </DialogContentText>
+                                            </DialogContent>
+                                            <DialogActions>
+                                            <Button onClick={()=>deleteVideo(e.id)} color="secondary">
+                                                Yes, I am Sure
+                                            </Button>
+                                            <Button onClick={handleClose} color="primary" autoFocus>
+                                                No
+                                            </Button>
+                                            </DialogActions>
+                                        </Dialog>
+
                                     </CardActions>
                                 </Card>
                             ))}
@@ -347,7 +380,7 @@ const Page = (props) => {
                                     {/* <Button variant="contained" color="primary">
                                         Upload
                                     </Button> */}
-                                    <UploadModal {...props} {...{'content':'note'}} buttonLabel = {"Upload Notes"} className = {"feedback"} />
+                                    <UploadModal {...props} {...{'content':'note'}} buttonLabel = {"Upload Notes"} className = {"Note"} />
                                 </CardContent>
                             </Card>
                             {notes.map((e) => (
@@ -367,16 +400,37 @@ const Page = (props) => {
                                     </CardContent>
                                     <CardActions>
                                         <Button size="large" variant="outlined" color="primary">
-                                            <a href={`http://localhost:8000${e['pdf']}`} target='blank'>
+                                            <a href={`${basename}${e['pdf']}`} target='blank'>
                                             Download
                                             </a>
                                         </Button>
-                                        <Button size="large" variant="outlined" color="primary" onClick={()=>deleteNote(e.id)}>
+                                        <Button size="large" variant="outlined" color="primary" onClick={handleClickOpen}>
                                             Delete
                                         </Button>
                                         <Button size="large"  color="primary">
                                             Created At : {e['created_at']}
                                         </Button>
+                                        <Dialog
+                                            open={open}
+                                            onClose={handleClose}
+                                            aria-labelledby="alert-dialog-title"
+                                            aria-describedby="alert-dialog-description"
+                                        >
+                                            <DialogTitle id="alert-dialog-title">{"Are you sure? "}</DialogTitle>
+                                            <DialogContent>
+                                            <DialogContentText id="alert-dialog-description">
+                                                If once this note is deleted it will not be visible to the student.
+                                            </DialogContentText>
+                                            </DialogContent>
+                                            <DialogActions>
+                                            <Button onClick={()=>deleteNote(e.id)} color="secondary">
+                                                Yes, I am Sure
+                                            </Button>
+                                            <Button onClick={handleClose} color="primary" autoFocus>
+                                                No
+                                            </Button>
+                                            </DialogActions>
+                                        </Dialog>
                                     </CardActions>
                                 </Card>
                             ))}
@@ -387,9 +441,11 @@ const Page = (props) => {
                     </Grid>
                 </Container>
                 <Tooltip title="Go Live" aria-label="add">
+                    <a href = "https://zoom.us/" target="_blank">
                     <Fab color="primary" className={classes.absolute}>
                         <WifiTetheringIcon style = {{ fontSize : 40 }}/>
                     </Fab>
+                    </a>
                 </Tooltip>
             </main>
             {/* Footer */}
