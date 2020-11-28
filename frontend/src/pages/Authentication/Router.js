@@ -124,7 +124,7 @@ const Router = (props) => {
                 <Route
                     path='/account-choice'
                     render={(props) => (
-         -               <AccountChoice
+                        <AccountChoice
                             {...props}
                             handleSocialTrainerStudent={
                                 handleSocialTrainerStudent
