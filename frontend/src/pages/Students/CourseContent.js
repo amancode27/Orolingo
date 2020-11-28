@@ -45,7 +45,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import ReactPlayer from 'react-player';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 
@@ -283,7 +282,7 @@ const CourseContent = (props,user) =>{
       //console.log(course);
     },[props] );
 
-    console.log(videos);
+    console.log(basename);
     return (
         
         <div className={classes.root}>
@@ -324,19 +323,34 @@ const CourseContent = (props,user) =>{
               <Grid container spacing = {3}>
               <Grid item xs={12}>
                 <Zoom>
-                  <Card className={classes.paper}>
+
+                <CardActionArea>
+                  <Card className={classes.paper} style={{fontSize : "13px"}}>
+                  <Link to={`${student_course_id}/videos`} style={{textDecoration : "none", color: "black"}}>
+                        <CardMedia
+                          className={classes.media}
+                          image="/static/videos.jpg"
+                        />
+                        <CardContent >
+                          <Typography gutterBottom variant="h5" component="h2">
+                            Uploaded Videos
+                          </Typography>
+                          <Typography variant="body1" color="textSecondary" component="p">
+                            Uploaded Videos are available here !
+                          </Typography>
+                        </CardContent>
+                      </Link>               
+                    </Card>
+                  </CardActionArea>
+                    
+
+                  {/* <Card className={classes.paper}>
                     {Object.keys(videos).map((e,index) => (
                       <div>
-                        <ReactPlayer
-                          className='react-player'
-                          url= { basename +  videos[e].video} 
-                          width='50%'
-                          height='50%'
-                          controls
-                        />
+                        
                       </div>
                     ))}   
-                  </Card>
+                  </Card> */}
                   </Zoom>
                   </Grid>
                 </Grid>   
@@ -394,7 +408,7 @@ const CourseContent = (props,user) =>{
           
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Slide direction="up">
+              <Zoom>
               <Paper>
                 <Accordion>
                 <AccordionSummary
@@ -489,7 +503,7 @@ const CourseContent = (props,user) =>{
               </AccordionDetails>
           </Accordion>
               </Paper>
-              </Slide>
+              </Zoom>
             </Grid>
           </Grid>
         </Container>

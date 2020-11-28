@@ -100,35 +100,19 @@ const Assignment = (props) =>{
               Assignments
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Something short and leading about the collection below—its contents, the creator, etc.
-              Make it short and sweet, but not too short so folks don&apos;t simply skip over it
-              entirely.
+            The Assignments related to the course have been posted here. Please go throught them before the next class.
             </Typography>
-            <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                  <Button variant="contained" color="primary">
-                    Show Completed
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Search
-                  </Button>
-                </Grid>
-              </Grid>
-            </div>
           </Container>
         </div>
         <Container className={classes.cardGrid} >
           {/* End hero unit */}
-          <Grid container spacing={4}>
+          <Grid container spacing={4} maxWidth="lg">
             {assignments.map((e) => (
               <Grid item key={e} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
+                    image="https://source.unsplash.com/random?book"
                     title="Image title"
                   />
                   <CardContent className={classes.cardContent}>

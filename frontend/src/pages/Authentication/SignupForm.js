@@ -6,7 +6,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
@@ -16,14 +15,18 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import LoginForm from "./LoginForm";
-import { Radio } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="/">
         OrOlingo
       </Link>{" "}
       {new Date().getFullYear()}
@@ -374,28 +377,31 @@ const SignupForm = (props) => {
                     {formdataerrors.is_student}
                   </Alert>
                 ) : null}
-              <input
-                className="form--input"
-                id="type-student"
-                type="radio"
-                name="type"
-                value="student"
-                onChange={handleChange}
-              />
-              <label className="form--label" htmlFor="type-student">
-                Student
-              </label>
-              <input
-                className="form--input"
-                id="type-trainer"
-                type="radio"
-                name="type"
-                value="trainer"
-                onChange={handleChange}
-              />
-              <label className="form--label" htmlFor="type-trainer">
-                Trainer
-              </label>
+                <RadioGroup row defaultValue="top">
+                  <FormControlLabel
+                    className="form--input"
+                    id="type-student"
+                    name="type"
+                    value="student"
+                    onChange={handleChange}
+                    control={<Radio color="primary" />}
+                    label="Student"
+                    labelPlacement="bottom"
+                    htmlFor="type-student"
+                  />
+                  <FormControlLabel
+                    className="form--input"
+                    id="type-trainer"
+                    name="type"
+                    value="trainer"
+                    onChange={handleChange}
+                    control={<Radio color="primary" />}
+                    label="Trainer"
+                    labelPlacement="bottom"
+                    htmlFor="type-trainer"
+                  />
+
+                </RadioGroup>
               <Button
                 // disabled={!formdata.formValid}
                 type="submit"
