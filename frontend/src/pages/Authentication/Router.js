@@ -25,6 +25,7 @@ import Feedback from "../Teachers/feedback";
 import PasswordReset from "./PasswordResetConfirm";
 import EmailRequest from "./EmailRequest";
 import Videos from "../Students/Videos";
+import Services from "../Services/services"
 
 const Router = (props) => {
   const handleLogin = props.handleLogin;
@@ -168,6 +169,10 @@ const Router = (props) => {
         <Route
           path="/dashboard/chatapp/:id"
           render={(props) => <ChatApp {...props} {...userinfo} />}
+        />
+        <Route
+          path="/services"
+          render={(props) => <Services {...props} />}
         />
 
         <Route component={NotFound} />
