@@ -43,18 +43,13 @@ const useStyles = makeStyles((theme) => ({
   navbar: {
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "inherit",
     justifyContent:"center",
     alignItems:"center",
-    
   
   },
   simpleMenu: {
     outline: "none",
   },
-  textCol: {
-    color: "black",
-  }
 }));
 
 function LetterAvatars() {
@@ -131,16 +126,16 @@ const NavBar = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav navbar className={classes.navbar} style={{backgroundColor: "lightsteelblue",}}>
             <NavItem>
-              <Navlink link="/" linktext="Home" className={classes.textCol}/> 
+              <Navlink link="/" linktext="Home"/> 
             </NavItem>
             <NavItem>
-              <Navlink link="/services" linktext="Services" className={classes.textCol}/>
+              <Navlink link="/services" linktext="Services"/>
             </NavItem>
             <NavItem>
-              <Navlink link="/courses" linktext="Courses" className={classes.textCol}/>
+              <Navlink link="/courses" linktext="Courses"/>
             </NavItem>
             <NavItem>
-              <Navlink link="/about" linktext="About us" className={classes.textCol}/>
+              <Navlink link="/about" linktext="About us"/>
             </NavItem>
             <NavItem>
               {e}

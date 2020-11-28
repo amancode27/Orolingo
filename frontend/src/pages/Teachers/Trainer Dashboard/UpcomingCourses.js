@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import Button from '@material-ui/core/Button';
 
 import { Link } from "react-router-dom";
@@ -58,6 +58,11 @@ const useStyles = makeStyles((theme) => ({
     link: {
         color: 'white',
     },
+    addCourse: {
+        height:"40px",
+        width: "40px",
+        
+    }
 }));
 
 
@@ -144,13 +149,9 @@ const UpcomingCourses = (props) => {
                         </Grid>
                     ))}
                     <Grid item xs={12} sm={6} md={4} style={{marginTop : "80px"}}>
-                    <CardActionArea>
-                        <Link to="dashboard/createcourse" >
-                            <CardMedia
-                                className={classes.cardMedia}
-                                image="/static/add.webp"
-                                title="Image title"
-                            />
+                    <CardActionArea disableRipple disableTouchRipple >
+                        <Link to="dashboard/createcourse">
+                            <NoteAddIcon className={classes.addCourse}/>
                         </Link>
                         </CardActionArea>
                     </Grid>
