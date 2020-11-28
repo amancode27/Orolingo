@@ -69,7 +69,7 @@ const NotesCard = (props) => {
             </Typography>
           </CardContent>
           <CardActions>
-            <a href={`http://localhost:8000${notes['pdf']}`} target='blank'>
+            <a href={`${basename}${notes['pdf']}`} target='blank'>
             <Button size="small" color="primary">
               Download
             </Button>

@@ -14,16 +14,18 @@ const useStyles = makeStyles((theme) => ({
     width:"100%",
   },
   container:{
+    display:"flex",
     width:"100%",
+    padding:"0",
   }
 }));
 
 const Landing = props => {
   const classes = useStyles();
   return (
-    <div className={classes.main}>
-      <Container>
-        <Grid container padding={5}>
+    <section className={classes.main}>
+      <Container className={classes.container} maxWidth="100%">
+        <Grid container>
         <Grid item xs={12}>
             <Header />
           </Grid>
@@ -36,7 +38,7 @@ const Landing = props => {
         </Grid>
       </Container>
       <button onClick={props.handleLogout}>Logout</button>
-    </div>
+    </section>
   )
 }
 

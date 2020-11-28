@@ -20,11 +20,14 @@ const useStyles = makeStyles((theme) => ({
     },
     img:{
         width:"100%",
-        height:"60vh",
+        height:"80vh",
     },
     pad:{
       paddingTop:theme.spacing(2),  
       PaddingBottom:theme.spacing(2),
+    },
+    text:{
+        marginTop:"10%",
     },
     plaintext:{
         fontSize:"1em",
@@ -40,13 +43,13 @@ const Aboutus = (props) => {
     return (
         <div className={classes.main}>
             <Container className={classes.container}>
-                <Grid container spacing={5}>
+                <Grid container spacing={5} justify="space-around">
                     <Grid item xs={12} md={6}>
                         <img src={img_src} className={classes.img}></img>
                     </Grid>
 
-                    <Grid item xs={12} md={6}>
-                        <Typography variant="h1">About Us</Typography>
+                    <Grid item xs={12} md={6} >
+                        <Typography variant="h1" className={classes.text}>About Us</Typography>
                         <LinearProgress variant="determinate" value={100}/>
 
                         <Typography  className={`${classes.plaintext}  ${classes.pad}`}>
