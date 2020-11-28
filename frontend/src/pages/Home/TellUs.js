@@ -91,7 +91,7 @@ const TellUs = (props) => {
 				</div>
                 <div class="form-row">
 					<label for="full-name">Purpose for learning a new language:</label>
-					<input type="text" name="purpose" id="full_name" class="input-text" onChange={handleChange} required placeholder=" " />
+					<input type="text" name="purpose" id="full_name" class="input-text" onChange={handleChange} required placeholder="ex: Travel, jobs" />
 				</div>
                 <div class="form-row">
 					<label for="full-name">Languages You already know:</label>
@@ -99,10 +99,11 @@ const TellUs = (props) => {
 				</div> 
                 <div class="form-row">
 					<label for="full-name">Preferences:</label>
-					<input type="text" name="preference"  class="input-text" onChange={handleChange} required placeholder=" " />
+					<input type="text" name="preference"  class="input-text" onChange={handleChange} required placeholder="ex: Mr. X " />
 				</div>
+                    <div className="radio">
 					<label for="full-name">Profile:</label>
-                    <FormControl component="fieldset">
+                    <FormControl component="fieldset" >
                     <RadioGroup row aria-label="profile" >
                         <FormControlLabel
                         className="input-text"
@@ -129,6 +130,7 @@ const TellUs = (props) => {
 
                 </RadioGroup>
                 </FormControl>
+                </div>
 				<div class="form-row-last">
 					<input type="submit" name="register" class="register" value="Register" onClick={ handleSubmit }/>
 				</div>
