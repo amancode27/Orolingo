@@ -27,6 +27,7 @@ import EmailRequest from "./EmailRequest";
 import Videos from "../Students/Videos";
 import TellUs from '../Home/TellUs';
 import Services from "../Services/services"
+import Languages from "../Home/Languages/Languages";
 
 const Router = (props) => {
   const handleLogin = props.handleLogin;
@@ -53,6 +54,13 @@ const Router = (props) => {
           path="/"
           render={(props) => (
             <Landing {...props} {...userinfo} handleLogout={handleLogout} />
+          )}
+        />    
+        <Route
+          exact 
+          path="/languages"
+          render={(props)=>(
+            <Languages {...props} {...userinfo} handleLogout={handleLogout} />
           )}
         />
         <Route exact path="/password-reset-confirm" component={PasswordReset} />
