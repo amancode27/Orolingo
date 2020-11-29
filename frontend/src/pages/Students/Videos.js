@@ -59,7 +59,7 @@ const VideosCard = (props) => {
           <div style={{minHeight : "200px"}}>
         <ReactPlayer
             className='react-player'
-            url= {`http://localhost:8000${Videos['pdf']}`}
+            url= {`${basename}${Videos['pdf']}`}
             width='100%'
             height='100%'
             controls
@@ -74,7 +74,7 @@ const VideosCard = (props) => {
             </Typography>
           </CardContent>
           <CardActions>
-            <a href={`http://localhost:8000${Videos['pdf']}`} target='blank'>
+            <a href={`${basename}${Videos['pdf']}`} target='blank'>
             <Button size="small" color="primary">
               Download
             </Button>

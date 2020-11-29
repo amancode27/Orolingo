@@ -93,6 +93,11 @@ class VideosSerializer(serializers.ModelSerializer):
         model = Videos
         fields = '__all__'
 
+class TellUsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TellUs
+        fields = '__all__'
+
 # password
 
 class RequestPasswordResetEmailSerializer(serializers.Serializer):

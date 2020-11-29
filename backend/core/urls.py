@@ -8,6 +8,7 @@ router.register(r'courses',CourseView, 'core')
 router.register(r'assignments', AssignmentView, 'core')
 router.register(r'feedback', FeedbackView, 'core')
 router.register(r'videos',VideosView,'core')
+router.register(r'tellus',TellUsView,'core')
 
 urlpatterns = [
     path('current_user/', current_user),

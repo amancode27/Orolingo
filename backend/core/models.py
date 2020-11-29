@@ -169,3 +169,15 @@ class Videos(models.Model):
          
     def __str__(self):
         return self.title
+
+class TellUs(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    lang_to_learn = models.CharField(max_length=100)
+    purpose = models.CharField(max_length=100)
+    lang_already = models.CharField(max_length=100)
+    preference = models.CharField(max_length=100)
+    profile = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
