@@ -111,7 +111,7 @@ const LiveCourses = (props) => {
                             <CardActions>
                                 <Grid container spacing={1}>
                                     <Grid item xs={6} >
-                                        <Button variant="contained" color="primary" >
+                                        <Button variant="contained" color="primary" style={{color:'white'}}>
                                             <Link to={`/dashboard/trainercourses/uploads/${e}`} className={classes.link}>
                                                 <CloudUploadOutlinedIcon />Upload Content
                                         </Link>
@@ -119,20 +119,20 @@ const LiveCourses = (props) => {
                                     </Grid>
                                     <Grid item xs={6} >
                                         <Button variant="contained" color="primary" className={classes.link}>
-                                            <Link to={`dashboard/editcourse/${e}`}>
+                                            <Link to={`dashboard/editcourse/${e}`} style={{color:'white'}}>
                                                 <EditOutlinedIcon />Edit
                                             </Link>
                                         </Button>
                                     </Grid>
                                     <Grid item xs={6} >
-                                        <Button variant="contained" color="primary" className={classes.link}>
-                                            <Link to={`/dashboard/chatapp/${e}`}>
+                                        <Button variant="contained" color="primary" className={classes.link} style={{color:'white'}}>
+                                            <Link to={`/dashboard/chatapp/${e}`} style={{color:'white'}}>
                                                 <ChatOutlinedIcon /> Chat App
                                             </Link>
                                         </Button>
                                     </Grid>
                                     <Grid item xs={6}>
-                                        <Button variant="container" className={classes.link}>
+                                        <Button variant="container" className={classes.link} style={{color:'white'}}>
                                             <Link to= {`dashboard/trainercourses/feedback/${e}`}>
                                                 <EditOutlinedIcon /> Feedbacks
                                             </Link>
@@ -168,14 +168,14 @@ const LiveCourses = (props) => {
                                     <CardActions>
                                         <Grid container spacing={1}>
                                             <Grid item xs={7} >
-                                                <Button variant="contained" color="primary">
+                                                <Button variant="contained" color="primary" style={{color:'white'}}>
                                                     <Link to={`/dashboard/trainercourses/uploads/${e}`} className={classes.link}>
                                                         <CloudUploadOutlinedIcon />Upload Content
                                             </Link>
                                                 </Button>
                                             </Grid>
                                             <Grid item xs={5} >
-                                                <Button variant="contained" color="primary">
+                                                <Button variant="contained" color="primary" style={{color:'white'}}>
                                                     <Link to={`dashboard/editcourse/${e}`} className={classes.link}>
                                                         <EditOutlinedIcon />Edit
                                             </Link>
@@ -183,7 +183,7 @@ const LiveCourses = (props) => {
                                             </Grid>
                                             <Grid item xs={12} >
                                                 <Button variant="contained" color="primary">
-                                                    <Link to={`/dashboard/chatapp/${e}`} className={classes.link}>
+                                                    <Link to={`/dashboard/chatapp/${e}`} className={classes.link} style={{color:'white'}}>
                                                         <ChatOutlinedIcon /> Chat App
                                             </Link>
                                                 </Button>

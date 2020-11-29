@@ -1,4 +1,5 @@
-import React,{ useState, useEffect } from 'react'
+import React,{ useState, useEffect } from 'react';
+import Button from '@material-ui/core/Button';
 import axios from "axios";
 import './style.css';
 import './roboto-font.css';
@@ -6,9 +7,24 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import basename from "./../Home/basename.js";
-import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
+import basename from "../basename.js";
+import useFullPageLoader from '../../../Components/FullPageLoader/useFullPageLoader.js';
+import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+  
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      width: '100%',
+      '& > * + *': {
+        marginTop: theme.spacing(2),
+      },
+    },
+  }));
 
 const TellUs = (props) => {
 
@@ -23,6 +39,34 @@ const TellUs = (props) => {
         preference : "",
         profile : "",
     });
+    const [open, setOpen] = React.useState(false);
+    const [openWarn, setOpenWarn] = React.useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+        return;
+        }
+
+        setOpen(false);
+    };
+
+    const handleClickWarn = () => {
+        setOpenWarn(true);
+    };
+
+    const handleCloseWarn = (event, reason) => {
+        if (reason === 'clickaway') {
+        return;
+        }
+
+        setOpenWarn(false);
+    };
+
+
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -34,33 +78,33 @@ const TellUs = (props) => {
 
     const handleSubmit = (e) => {
         showLoader();
-        axios.post(`${basename}/api/tellus/`,{
-            "name":formData['name'],
-            "email": formData['email'],
-            "lang_already": formData['lang_already'],
-            "lang_to_learn": formData['lang_to_learn'],
-            "preference": formData['preference'],
-            "profile": formData['profile'],
-            "purpose": formData['purpose'],
-        })
-        .then((res) => {
-            setFormData({
-                name:"",
-                email:"",
-                lang_to_learn:"",
-                purpose : "",
-                lang_already : "",
-                preference : "",
-                profile : "",
-            })
-        });
-
+        if(formData['name']!="" && formData['email']!="" && formData['preference']!="" && formData['profile']!="" && formData['purpose']!="" && formData['lang_already']!="" && formData['lang_to_learn']!=""){
+            axios.post(`${basename}/api/tellus/`,formData)
+            .then((res) => {
+                handleClick();
+            });
+        }
+        else {
+            handleClickWarn();
+        }
     }
-    
+    const classes = useStyles();
     console.log(formData);
 
     return(
         <div>
+            <div className={classes.root}>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} >
+                <Alert onClose={handleClose} severity="success" >
+                <div style={{"fontSize":"15px"}}>Your Responses have been recorded! Thank You! </div>
+                </Alert>
+            </Snackbar>
+            <Snackbar open={openWarn} autoHideDuration={6000} onClose={handleCloseWarn} >
+                <Alert onClose={handleCloseWarn} severity="warning" >
+                <div style={{"fontSize":"15px"}}>Failed to upload responses! Please Try again </div>
+                </Alert>
+            </Snackbar>
+            </div>
             <body class="form-v2">
             <div class="page-content">
             <div class="form-v2-content">
@@ -132,7 +176,7 @@ const TellUs = (props) => {
                 </FormControl>
                 </div>
 				<div class="form-row-last">
-					<input type="submit" name="register" class="register" value="Register" onClick={ handleSubmit }/>
+					<input type="submit" class="register" onClick={ handleSubmit }/>
 				</div>
 			</form>
             </div>

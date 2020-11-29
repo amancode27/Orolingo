@@ -25,7 +25,7 @@ import Feedback from "../Teachers/feedback";
 import PasswordReset from "./PasswordResetConfirm";
 import EmailRequest from "./EmailRequest";
 import Videos from "../Students/Videos";
-import TellUs from '../Home/TellUs';
+import TellUs from '../Home/TellUs/TellUs';
 import Services from "../Services/services"
 
 const Router = (props) => {

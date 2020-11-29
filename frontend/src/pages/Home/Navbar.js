@@ -93,6 +93,12 @@ function SimpleMenu(props) {
         onClose={handleClose}
         style={{"marginTop":"30px" , "marginLeft":"5px" , "width":"300px" ,"z-index":"10000000"}}
       >
+        <Link to='/' style={{"textDecoration":"None", "color":"black"}}>
+          <MenuItem >Home </MenuItem>
+      </Link>
+        <Link to='/dashboard' style={{"textDecoration":"None", "color":"black"}}>
+          <MenuItem >Dashboard </MenuItem>
+      </Link>
       <Link to='/login' style={{"textDecoration":"None"}}>
         <MenuItem onClick={handleLogout} >Logout</MenuItem>
       </Link>

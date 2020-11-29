@@ -1,10 +1,12 @@
-import React from 'react'
+import { Link } from '@material-ui/core';
+import React from 'react';
+import './NotFound.css';
 
 const NotFound = props => {
   return (
-    <div>
-      <h1>404 Error</h1>
-    </div>
+    <div style={{textAlign:"center"}}>
+      <h1 >404 Error </h1>
+  </div>
   )
 }
 
