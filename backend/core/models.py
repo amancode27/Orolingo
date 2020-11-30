@@ -168,7 +168,7 @@ class Videos(models.Model):
         verbose_name_plural = 'videos'
          
     def __str__(self):
-        return self.title
+        return str(self.topic)
 
 class TellUs(models.Model):
     name = models.CharField(max_length=100)
