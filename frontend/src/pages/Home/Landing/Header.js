@@ -4,11 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import LinearProgress from '@material-ui/core/LinearProgress';
 
-
-const img_src = "https://source.unsplash.com/1200x800/?landscape"
+const img_src = "/static/header.jfif"
 const useStyles = makeStyles((theme) => ({
     main:{
         backgroundColor:"#36454f",
@@ -36,7 +33,7 @@ const Header = (props) =>{
             <Container>
                 <Grid container>
                     <Grid item className={classes.header}>
-                        <Typography variant="h1" style={{color:'rgba(179, 255, 0, 0.918)'}} >Orolingo</Typography>
+                        <Typography variant="h1" style={{color:'rgba(179, 255, 0, 0.918)'}} >OrOlingo</Typography>
                         <Typography variant="h2">Where languages meet.</Typography>
                     </Grid>
                 </Grid>

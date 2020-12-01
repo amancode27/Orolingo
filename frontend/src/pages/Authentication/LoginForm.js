@@ -22,12 +22,14 @@ import Alert from '@material-ui/lab/Alert';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      <div style={{fontSize:'15px'}}>
+      Copyright ©
       <Link color="inherit" href="/">
         OrOlingo
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
+      </div>
     </Typography>
   );
 }
@@ -37,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     height: '93vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random?register)',
+    backgroundImage: 'url(/static/login.webp)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -203,13 +205,13 @@ const LoginForm = (props) =>{
             </div>
             <Grid container>
               <Grid item xs style={{marginTop:"10px"}}>
-                <Link href="http://localhost:3000/password-reset/" variant="body1">
-                  Forgot password?
+                <Link href="/password-reset/" variant="body1" style={{'textDecoration':'None'}}>
+                <div style={{fontSize:'15px'}}> Forgot password? </div>
                 </Link>
               </Grid>
               <Grid item style={{marginTop:"10px"}}>
-                <Link href="/signup" variant="body1">
-                  {"Don't have an account? Sign Up"}
+                <Link href="/signup" variant="body1" style={{'textDecoration':'None'}}>
+                  <div style={{fontSize:'15px'}}> Don't have an account? Sign Up </div>
                 </Link>
               </Grid>
             </Grid>

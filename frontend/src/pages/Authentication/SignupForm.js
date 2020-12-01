@@ -19,18 +19,22 @@ import Alert from "@material-ui/lab/Alert";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+
+
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
+      <div style={{fontSize:'15px'}}>
       {"Copyright © "}
       <Link color="inherit" href="/">
         OrOlingo
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
+      </div>
     </Typography>
   );
 }
@@ -40,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
   },
   image: {
-    backgroundImage: "url(https://source.unsplash.com/random?register)",
+    backgroundImage: "url(/static/signup.jpg)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -70,6 +74,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SignupForm = (props) => {
   const classes = useStyles();
+  const [profileVar, setProfileVar] = useState('');
+
   const [formdata, setFormdata] = useState({
     username: "",
     password: "",
@@ -89,6 +95,18 @@ const SignupForm = (props) => {
     is_trainer: false,
   });
 
+  const profileEvent = (eve, newProfile) => {
+    setProfileVar(newProfile);
+    if (newProfile === "student") {
+      setFormdata((prev) => {
+        return { ...prev, ['is_student']: true , ['is_trainer']:false };
+    });
+    } else {
+      setFormdata((prev) => {
+        return { ...prev, ['is_trainer']: true, ['is_student']: false };
+    });
+    }
+}
   const handleChange = (e) => {
     let name = e.target.name;
     let value = e.target.value;
@@ -262,6 +280,8 @@ const SignupForm = (props) => {
   // function errorClass(error) {
   //     return error.length === 0 ? "" : "has-error";
   // }
+  console.log(formdata);
+
   return (
     <Fade right>
       <Grid container component="main" className={classes.root}>
@@ -330,7 +350,7 @@ const SignupForm = (props) => {
                   fullWidth
                   name="confirm_password"
                   label="Confirm Password"
-                  type="confirm_password"
+                  type="password"
                   id="confirm_password"
                   autoComplete="confirm_password"
                   value={formdata.confirm_password}
@@ -377,31 +397,14 @@ const SignupForm = (props) => {
                     {formdataerrors.is_student}
                   </Alert>
                 ) : null}
-                <RadioGroup row defaultValue="top">
-                  <FormControlLabel
-                    className="form--input"
-                    id="type-student"
-                    name="type"
-                    value="student"
-                    onChange={handleChange}
-                    control={<Radio color="primary" />}
-                    label="Student"
-                    labelPlacement="bottom"
-                    htmlFor="type-student"
-                  />
-                  <FormControlLabel
-                    className="form--input"
-                    id="type-trainer"
-                    name="type"
-                    value="trainer"
-                    onChange={handleChange}
-                    control={<Radio color="primary" />}
-                    label="Trainer"
-                    labelPlacement="bottom"
-                    htmlFor="type-trainer"
-                  />
-
-                </RadioGroup>
+                <ToggleButtonGroup size="medium"  value={profileVar} exclusive onChange={ profileEvent }>
+                        <ToggleButton  value="student">
+                            <div style={{fontSize : '15px'}}>Student </div>
+                        </ToggleButton>
+                        <ToggleButton value="trainer">
+                            <div style={{fontSize : '15px'}}>Trainer </div>
+                        </ToggleButton> 
+                    </ToggleButtonGroup>
               <Button
                 // disabled={!formdata.formValid}
                 type="submit"
@@ -415,8 +418,10 @@ const SignupForm = (props) => {
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link href="/login" variant="body1">
-                    {"Sign In"}
+                  <Link href="/login" variant="body1" style={{ textDecoration:'None'}}>
+                  <div style={{fontSize:'15px'}}>
+                  {"Sign In"}
+                  </div>
                   </Link>
                 </Grid>
               </Grid>

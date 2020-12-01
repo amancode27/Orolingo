@@ -101,8 +101,9 @@ const UploadModal = (props) => {
         }
         else return null;
     }
+    console.log(className);
     const Formg = () =>{
-        if(className==="assignments"){
+        if(className==="assignment"){
             return(
                 <FormGroup>
                 <Label for="deadline">Deadline</Label>
@@ -135,8 +136,8 @@ const UploadModal = (props) => {
         </Snackbar>
         <div style={{marginTop:"10px"}}>
             <Button color="danger" onClick={toggle} size="lg" style = {props.buttonStyle}>{buttonLabel}</Button>
-            <Modal isOpen={modal} toggle={toggle} className={className} >
-                <ModalHeader toggle={toggle}>Upload Form</ModalHeader>
+            <Modal isOpen={modal} toggle={toggle} className={className} style={{'top': '10%'}}>
+                <ModalHeader toggle={toggle} style={{textAlign:'center'}}><div style={{fontSize:'20px'}}>Upload Form</div> </ModalHeader>
                 <ModalBody>
                     <ErrorStatement/>
                     <Form style={{marginBottom:"20px",fontSize:"17px"}}>

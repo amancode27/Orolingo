@@ -288,14 +288,14 @@ const Page = (props) => {
                                     {/* <Button variant="contained" color="primary">
                                         Upload
                                     </Button> */}
-                                    <UploadModal {...props} {...{'content':'assignments'}} buttonLabel = {"Upload Assignments"} className = {"Assignment"} />
+                                    <UploadModal {...props} {...{'content':'assignments'}} buttonLabel = {"Upload Assignments"} className = {"assignment"} />
                                 </CardContent>
                             </Card>
                             {assignment.map((e) => (
                                 <Card className={classes.card}>
                                     <CardMedia
                                         className={classes.cardMedia}
-                                        image="https://source.unsplash.com/random?book"
+                                        image="/static/assignment.png"
                                         title="Image title"
                                     />
                                     <CardContent className={classes.cardContent}>
@@ -428,7 +428,7 @@ const Page = (props) => {
                                 <Card className={classes.card}>
                                     <CardMedia
                                         className={classes.cardMedia}
-                                        image="https://source.unsplash.com/random?book"
+                                        image="/static/notebook.jpg"
                                         title="Image title"
                                     />
                                     <CardContent className={classes.cardContent}>
