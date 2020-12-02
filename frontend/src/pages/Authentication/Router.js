@@ -5,7 +5,6 @@ import NavBar from "./../Home/Navbar";
 import Login from "./Login";
 import Signup from "./Signup";
 import Landing from "../Home/Landing/Landing";
-import NotFound from "./NotFound";
 import Footer from "./../Home/Footer";
 import Dashboard from "../Students/Dashboard";
 import AccountChoice from "./AccountChoice";
@@ -28,6 +27,7 @@ import Videos from "../Students/Videos";
 import TellUs from '../Home/TellUs/TellUs';
 import Services from "../Services/services"
 import Languages from "../Home/Languages/Languages";
+import NotFound from "../NotFound/NotFound";
 
 const Router = (props) => {
   const handleLogin = props.handleLogin;

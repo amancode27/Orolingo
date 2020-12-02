@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:wght@100&display=swap');
+body{
+    background-color: white;
+}
+.header__text{
+    margin-top: 10vh;
+    font-family: 'Roboto', sans-serif;
+    font-size: 5em;
+    font-weight: lighter;
+}
+.sub__text{
+    font-family: 'Open Sans', sans-serif;
+    margin-top: 5vh;
+    font-size: 1.8em;
+    margin-bottom: 2vh;
+}
+.list__item{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.3em;
+}
