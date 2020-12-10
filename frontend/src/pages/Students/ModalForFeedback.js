@@ -76,7 +76,7 @@ const FeedbackModal = (props) => {
         <div>
             <div onClick={toggle} size="lg" style = {{float : "right"}}> <CommentIcon style={{ fontSize: 35 }} /> </div>
             {/* <Button color="danger" onClick={toggle} size="lg" style = {props.buttonStyle}>{buttonLabel}</Button> */}
-            <Modal isOpen={modal} toggle={toggle} className={className} >
+            <Modal isOpen={modal} toggle={toggle} className={className} style={{ "marginTop" : "100px" }} >
                 <ModalHeader toggle={toggle}>Feedback Form</ModalHeader>
                 <ModalBody>
                     <Form style={{marginBottom:"20px"}}>

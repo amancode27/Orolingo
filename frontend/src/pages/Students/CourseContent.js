@@ -47,10 +47,16 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 
 const CourseContent = (props,user) =>{
-
+      const [openS, setOpenS] = useState(true);
       const [videos,setVideos] = useState([]);
       const student_course_id = props.match.params['id'];
       const [course, setCourse] = useState("");
@@ -78,6 +84,9 @@ const CourseContent = (props,user) =>{
   const handleClose = () => {
     setOpenDel(false);
   };
+  const handleCloseSnack = () => {
+    setOpenS(false);
+  }
 
   const drawerWidth = 150;
 
@@ -183,7 +192,7 @@ const CourseContent = (props,user) =>{
           margin: theme.spacing(2),
         },
         absolute: {
-          position: 'absolute',
+          position: 'fixed',
           bottom: theme.spacing(2),
           right: theme.spacing(3),
         },
@@ -312,14 +321,20 @@ const CourseContent = (props,user) =>{
             <Divider />
           </Drawer>
           <React.Fragment className={classes.content}>
+          <Snackbar
+            anchorOrigin={{ vertical : 'bottom', horizontal: 'left' }}
+            open={openS}
+            autoHideDuration={6000}
+            color="success"
+            onClose={handleCloseSnack}
+            key={'bottom' + 'left'}
+          >
+            <Alert onClose={handleCloseSnack} severity="success">
+             <div style={{"fontSize" : "15px"}}>Welcome to {courseName}, {language}</div>
+            </Alert>
+          </Snackbar>
           
-          <Container maxWidth="md" className = "mt-5">
-              <Typography gutterBottom variant="h3" >
-              {courseName}
-              </Typography>
-              <Typography variant="h5" color="textSecondary" >
-              {language}
-              </Typography>
+          <Container maxWidth="lg" className = "mt-5">
               <Grid container spacing = {3}>
               <Grid item xs={12}>
                 <Zoom>

@@ -73,57 +73,76 @@ const CourseCard = (props) => {
         courses.map( k => (setLangName( k.language ) ))
     },[props]);
 
-    console.log(courses);
+    const checkEmpty = () => {
+        if(langName == "") 
+        return true;
+        else
+        return false;
+    }
+    
+    console.log(langName)
+    // console.log(courses);
     return (
         <div>
             <CssBaseline/>
-            <div className={moreclasses.heroContent}>
-                <Container maxWidth="sm">
-                    <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                    {langName}
+            {checkEmpty() ? 
+                <div style={{marginTop:"30px", "textAlign": "center"}}>
+                    <Typography component="h1" variant="h1">
+                        Please select a valid language.... Go Back!
                     </Typography>
-                    <Typography variant="h5" align="center" color="textSecondary" paragraph>
-                        You can veiw all the course of {langName} language here! Try one now!
-                        </Typography>
-                        <div className={classes.heroButtons}>
-                        <Grid container spacing={2} justify="center">
-                            <Grid item>
-                            <Button variant="outlined" color="primary">
-                                Search
-                            </Button>
+                    <img src="/static/warning.svg" style={{ "maxHeight" : "400px" }} />
+                </div>
+                : 
+                <div>
+                    <div className={moreclasses.heroContent}>
+                        <Container maxWidth="sm">
+                            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                            {langName}
+                            </Typography>
+                            <Typography variant="h5" align="center" color="textSecondary" paragraph>
+                                You can veiw all the course of {langName} language here! Try one now!
+                                </Typography>
+                                <div className={classes.heroButtons}>
+                                <Grid container spacing={2} justify="center">
+                                    <Grid item>
+                                    <Button variant="outlined" color="primary">
+                                        Search
+                                    </Button>
+                                    </Grid>
+                                </Grid>
+                                </div>
+                        </Container>
+                    </div>
+                    <Container>
+                    <Grid container spacing={4}>
+                    {
+                        courses.map(k=>(
+                            <Grid item key={k} xs={12} sm={6} md={4} style={{marginTop:"20px"}}>
+                            <Card className={classes.pap}>
+                            <CardActionArea>
+                                <Link to={`/dashboard/courses/details/${k.id}`} style={{textDecoration : "none", color : "black"}}>
+                                    <CardMedia
+                                    className={classes.media}
+                                    image= {'/static/' + langName + '.svg'}
+                                    />
+                                    <CardContent>
+                                    <Typography gutterBottom variant="h5" component="h2" >
+                                    {k.name}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{float : "right",padding : "2px" }}>
+                                    By - { k.trainer }
+                                    </Typography>
+                                    </CardContent>
+                                </Link>    
+                                </CardActionArea>
+                                </Card>
                             </Grid>
-                        </Grid>
-                        </div>
-                </Container>
-            </div>
-            <Container>
-            <Grid container spacing={4}>
-            {
-                courses.map(k=>(
-                    <Grid item key={k} xs={12} sm={6} md={4} style={{marginTop:"20px"}}>
-                    <Card className={classes.pap}>
-                    <CardActionArea>
-                        <Link to={`/dashboard/courses/details/${k.id}`} style={{textDecoration : "none", color : "black"}}>
-                            <CardMedia
-                            className={classes.media}
-                            image= {'/static/' + langName + '.svg'}
-                            />
-                            <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2" >
-                            {k.name}
-                            </Typography>
-                            <Typography gutterBottom variant="h6" component="h2" style={{float : "right",padding : "2px" }}>
-                            By - { k.trainer }
-                            </Typography>
-                            </CardContent>
-                        </Link>    
-                        </CardActionArea>
-                        </Card>
+                        ))
+                    }
                     </Grid>
-                ))
+                    </Container>         
+                </div> 
             }
-            </Grid>
-            </Container>         
         </div>
     );
   };

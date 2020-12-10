@@ -32,6 +32,7 @@ import ReactPlayer from 'react-player';
       paddingBottom: theme.spacing(8),
     },
     card: {
+      minWidth : '350px',
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
@@ -54,7 +55,7 @@ const VideosCard = (props) => {
 
   const Videos = props.Videos;
   return (
-    <div style={{marginLeft:"30px",flex: "0 0 25%"}}>
+    <div style={{marginLeft:"30px",flex: "0 0 15%"}}>
       <Card className={classes.card}>
           <div style={{minHeight : "200px"}}>
         <ReactPlayer
@@ -66,7 +67,7 @@ const VideosCard = (props) => {
         />
         </div>
         <CardContent className={classes.cardContent}>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom variant="h4" component="h2">
             {Videos['topic']}
             </Typography>
             <Typography>
@@ -75,11 +76,11 @@ const VideosCard = (props) => {
           </CardContent>
           <CardActions>
             <a href={`${basename}${Videos['pdf']}`} target='blank'>
-            <Button size="small" color="primary">
+            <Button size="large" color="primary">
               Download
             </Button>
             </a>
-            <Button size="small" color="primary">
+            <Button size="large" color="primary">
             Date added-{Videos['created_at']}
             </Button>
           </CardActions>
@@ -132,7 +133,7 @@ const Videos = (props) =>{
             </Typography>
             </Container>
           </div>
-            <Container className={classes.cardGrid} maxWidth="md">
+            <Container className={classes.cardGrid} maxWidth="lg">
             <Grid container spacing={4}>
                 {Videos.map((k,index)=>(
                 <VideosCard Videos={k} index={index}/>

@@ -9,6 +9,8 @@ import { Redirect } from 'react-router';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import IconButton from '@material-ui/core/IconButton';
 
 function Alert1(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -123,9 +125,7 @@ const UploadModal = (props) => {
             return null;
         }
     }
-    const styleModal = {
-        height:"300px",
-    };
+    
     console.log(upload);
     return (
         <div>
@@ -134,8 +134,8 @@ const UploadModal = (props) => {
                 {className} is uploaded successfully!
             </Alert1>
         </Snackbar>
-        <div style={{marginTop:"10px"}}>
-            <Button color="danger" onClick={toggle} size="lg" style = {props.buttonStyle}>{buttonLabel}</Button>
+        <div className={classes.root}>
+            <IconButton aria-label="add" > <AddCircleIcon onClick={toggle} style={{ "fontSize" : "40px", "float" : "left" }} /> </IconButton>
             <Modal isOpen={modal} toggle={toggle} className={className} style={{'top': '10%'}}>
                 <ModalHeader toggle={toggle} style={{textAlign:'center'}}><div style={{fontSize:'20px'}}>Upload Form</div> </ModalHeader>
                 <ModalBody>

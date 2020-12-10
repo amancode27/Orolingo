@@ -48,8 +48,15 @@ import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader
 import { Slide } from 'react-awesome-reveal';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import {mainListItems}  from './listItems';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const StudentDashboard = props => {
+  const [openS, setOpenS] = useState(true);
   const [languagesLearnt, setLanguagesLearnt] = useState({});
   const [languagesToLearn, setLanguagesToLearn] = useState({});
   const [liveCourses, setLiveCourses] = useState({});
@@ -60,7 +67,7 @@ const StudentDashboard = props => {
   const [forumData, setForumData] = useState({});
   const [buyCourse,setBuyCourse] = useState({});
   const [studentName,setStudentName] = useState("");
-  const [open, setOpen ] =useState(true);
+  const [open, setOpen ] = useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -79,6 +86,10 @@ const StudentDashboard = props => {
     setOpenDialog(false);
     setSelectedValue(value);
   };
+  const handleCloseSnack = () => {
+    setOpenS(false);
+  }
+
   const [loader, showLoader, hideLoader] = useFullPageLoader();
   // const drawerWidth = [150,240];
 
@@ -380,6 +391,18 @@ const StudentDashboard = props => {
   return (
     <div className={classes.root}>
       <CssBaseline/>
+      <Snackbar
+            anchorOrigin={{ vertical : 'bottom', horizontal: 'center' }}
+            open={openS}
+            autoHideDuration={5000}
+            color="success"
+            onClose={handleCloseSnack}
+            key={'bottom' + 'center'}
+          >
+            <Alert onClose={handleCloseSnack} severity="success">
+              <div style={{"fontSize" : "20px"}}>Hello { studentName }! </div>
+            </Alert>
+          </Snackbar>
       <Drawer
         variant="permanent"
         classes={{
@@ -419,11 +442,7 @@ const StudentDashboard = props => {
           </Grid>
         </Grid>
       </Jumbotron> */}
-      <Container maxWidth="md" className={classes.container}>
-        <Typography className="text-center" variant="h2" gutterBottom>
-          Hello! {studentName} 
-        </Typography>
-        <hr/>
+      <Container maxWidth="lg" className={classes.container}>
         <Grid container spacing = {3}>
             <Grid item xs={12} className="text-center">
               <Slide direction="down" >

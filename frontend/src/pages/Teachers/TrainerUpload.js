@@ -28,6 +28,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ReactPlayer from 'react-player';
+import { Row } from 'reactstrap';
 
 
 
@@ -281,14 +282,16 @@ const Page = (props) => {
                     <Grid container spacing={4} >
                         <Grid item xs={12} sm={6} md={4}>
                             <Card className={classes.card}>
-                                <CardContent>
+                                <CardContent >
                                     <Typography gutterBottom variant="h4" component="h2">
                                         Assignments
+                                        <div style={{float: "right", marginTop : "-10px"}}>
+                                        <UploadModal {...props} {...{'content':'assignments'}} buttonLabel = {"Upload Assignments"} className = {"assignment"} />
+                                        </div>
                                     </Typography>
                                     {/* <Button variant="contained" color="primary">
                                         Upload
                                     </Button> */}
-                                    <UploadModal {...props} {...{'content':'assignments'}} buttonLabel = {"Upload Assignments"} className = {"assignment"} />
                                 </CardContent>
                             </Card>
                             {assignment.map((e) => (
@@ -349,11 +352,13 @@ const Page = (props) => {
                                 <CardContent>
                                     <Typography gutterBottom variant="h4" component="h2">
                                         Videos
+                                        <div style={{float: "right", marginTop : "-10px"}}>
+                                            <UploadModal {...props} {...{'content':'videos'}} buttonLabel = {"Upload Videos"} className = {"Video"} />
+                                        </div>
                                     </Typography>
                                     {/* <Button variant="contained" color="primary">
                                         Upload
                                     </Button> */}
-                                    <UploadModal {...props} {...{'content':'videos'}} buttonLabel = {"Upload Videos"} className = {"Video"} />
                                 </CardContent>
                                 {videos.map((e) => (
                                 <Card className={classes.card}>
@@ -417,11 +422,13 @@ const Page = (props) => {
                                 <CardContent>
                                     <Typography gutterBottom variant="h4" component="h2">
                                         Notes
+                                        <div style={{float: "right", marginTop : "-10px"}}>
+                                            <UploadModal {...props} {...{'content':'note'}} buttonLabel = {"Upload Notes"} className = {"Note"} />
+                                        </div>
                                     </Typography>
                                     {/* <Button variant="contained" color="primary">
                                         Upload
                                     </Button> */}
-                                    <UploadModal {...props} {...{'content':'note'}} buttonLabel = {"Upload Notes"} className = {"Note"} />
                                 </CardContent>
                             </Card>
                             {notes.map((e) => (
