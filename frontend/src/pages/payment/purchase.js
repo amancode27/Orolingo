@@ -6,7 +6,7 @@ import './setup.scss';
 import Screen from './Screen.js';
 
 
-const stripePromise = loadStripe('pk_test_51HPYCmEIFPCEHoD2IMgEmOaX06T2UyqNeciajMsPeWvsIR5vFDa0cdwAtz9uX5Pirpz62Hm6yPEnVK5D96jdUmYn00LWR0LkhW');
+const stripePromise = loadStripe('pk_test_51HxBmeLi8gRXIcunG6J2gcdWHTLLEn8HXr5v3FX7PmFTpVLURjSelDbPdECxuQ4NjbM0ykoHIaOQPERXG3VYYdGA00BkocmmYF');
 
 const Purchase = (props) => (
   
