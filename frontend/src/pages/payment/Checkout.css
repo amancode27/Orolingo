@@ -207,6 +207,7 @@
   }
   
   .ResetButton {
+    background: green !important;;
     border: 0;
     cursor: pointer;
     background: transparent;
