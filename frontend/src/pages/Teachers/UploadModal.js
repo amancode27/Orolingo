@@ -11,7 +11,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import IconButton from '@material-ui/core/IconButton';
-
+import ProgressBar from 'react-bootstrap/ProgressBar'
 function Alert1(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
@@ -36,6 +36,7 @@ const UploadModal = (props) => {
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
+    const [percentage,setPercentage] = useState(0);
   
     const handleClick = () => {
       setOpen(true);
@@ -72,24 +73,32 @@ const UploadModal = (props) => {
             formdata.append('pdf',filedata.files[0],filedata.files[0].name);
             formdata.append('topic',upload['topic']);
             formdata.append('description',upload['description']);
+
+            const options = {
+                onUploadProgress : (progressEvent) => {
+                    const {loaded, total} = progressEvent;
+                    let percent = Math.floor((loaded * 100)/ total );
+                    console.log(`${loaded}bytes of ${total}bytes | ${percent}%`);
+                    if(percent < 100){
+                        setPercentage(percent);
+                    }
+                }
+            }
+
             if(className==="assignments") {
                 formdata.append('deadline',upload['deadline']);
             }
             axios.get(`${basename}/api/course/${course_id}`)
                 .then(res=>{
                     formdata.append('course',res.data['resource_uri']);
-                    axios({
-                        method: 'post',
-                        url: `${basename}/api/${props['content']}/`,
-                        data: formdata,
-                        header: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'multipart/form-data',
-                                },
-                        }).then(()=>{toggle();window.location.reload(false);}
-                        )
+                    axios.post(`${basename}/api/${props['content']}/`,formdata,options)
+                        .then(()=>{
+                            setPercentage(100);
+                            handleClick();
+                            toggle();window.location.reload(false)
+                        });
+                    
                 });
-                handleClick();
         }
         else{
             setError(true);
@@ -103,7 +112,6 @@ const UploadModal = (props) => {
         }
         else return null;
     }
-    console.log(className);
     const Formg = () =>{
         if(className==="assignment"){
             return(
@@ -126,7 +134,6 @@ const UploadModal = (props) => {
         }
     }
     
-    console.log(upload);
     return (
         <div>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
@@ -152,6 +159,7 @@ const UploadModal = (props) => {
                         <FormGroup>
                             <Label for="file">File</Label>
                             <Input type="file" name="pdf" id="file" />
+                            { percentage > 0 && <ProgressBar animated variant="success" now = {percentage} label={`${percentage}%`} style={{"minHeight" : "15px", "fontSize": "12px", "marginTop": "4px"}} /> }
                         </FormGroup>
                         <Formg />
                     </Form>   

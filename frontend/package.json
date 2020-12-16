@@ -29,6 +29,7 @@
     "purecss": "^2.0.3",
     "react": "^16.14.0",
     "react-awesome-reveal": "^3.5.1",
+    "react-bootstrap": "^1.4.0",
     "react-card-flip": "^1.0.11",
     "react-dom": "^16.14.0",
     "react-facebook-login": "^4.1.1",
