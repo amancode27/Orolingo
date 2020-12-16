@@ -3,28 +3,14 @@ import {Link} from 'react-router-dom'
 import basename from "../Home/basename.js";
 import FeedbackModal from './ModalForFeedback'
 import axios from "axios";
-import {
-    CardTitle,
-    CardText,
-    Row,
-    Col,
-    Jumbotron,
-  } from "reactstrap";
+import { CardTitle, Row, Col} from "reactstrap";
 import * as timeago from 'timeago.js';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import {mainListItems}  from './listItems';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -38,8 +24,7 @@ import { mdiAccountVoice, mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
 import TextField from '@material-ui/core/TextField';
 import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
-import { Bounce, Slide, Zoom } from 'react-awesome-reveal';
-import { MDBContainer, MDBMask, MDBView } from "mdbreact";
+import {  Slide, Zoom } from 'react-awesome-reveal';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -49,6 +34,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import Drawer from './Student Dashboard/Drawer';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -57,109 +43,29 @@ function Alert(props) {
 
 const CourseContent = (props,user) =>{
       const [openS, setOpenS] = useState(true);
-      const [videos,setVideos] = useState([]);
       const student_course_id = props.match.params['id'];
-      const [course, setCourse] = useState("");
-      const preventDefault = (event) => event.preventDefault();
       const [language, setLanguage] = useState("");
       const [loader, showLoader, hideLoader] = useFullPageLoader();
       const [courseName, setCourseName] = useState("");
       const [forumData, setForumData] = useState([]);
       const [title, setTitle] = useState("");
       const [description, setDescription] = useState("");
-      const [open, setOpen ] =useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+      const [openDel, setOpenDel] = useState(false);
 
-  const [openDel, setOpenDel] = useState(false);
+      const handleClickOpen = () => {
+        setOpenDel(true);
+      };
 
-  const handleClickOpen = () => {
-    setOpenDel(true);
-  };
-
-  const handleClose = () => {
-    setOpenDel(false);
-  };
-  const handleCloseSnack = () => {
-    setOpenS(false);
-  }
-
-  const drawerWidth = 150;
+      const handleClose = () => {
+        setOpenDel(false);
+      };
+      const handleCloseSnack = () => {
+        setOpenS(false);
+      }
 
       const useStyles = makeStyles((theme) => ({
         root: {
           display: 'flex',
-        },
-        toolbar: {
-          paddingRight: 24, // keep right padding when drawer closed
-        },
-        openIcon : {
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          padding: '0 8px',
-          ...theme.mixins.toolbar,
-        },
-        toolbarIcon: {
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          padding: '0 8px',
-          ...theme.mixins.toolbar,
-        },
-        appBar: {
-          zIndex: theme.zIndex.drawer + 1,
-          transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-          }),
-        },
-        appBarShift: {
-          marginLeft: '150%',
-          width: `calc(100% - 150px)`,
-          transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-        },
-        menuButton: {
-          marginRight: 5,
-        },
-        menuButtonHidden: {
-          display: 'none',
-        },
-        title: {
-          flexGrow: 1,
-        },
-        drawerPaper: {
-          position: 'relative',
-          whiteSpace: 'nowrap',
-          width: '240px',
-          transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-        },
-        drawerPaperClose: {
-          overflowX: 'hidden',
-          transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-          }),
-          width: theme.spacing(7),
-          [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9),
-          },
-        },
-        appBarSpacer: theme.mixins.toolbar,
-        content: {
-          flexGrow: 1,
-          height: '100vh',
-          overflow: 'auto',
         },
         container: {
           paddingTop: theme.spacing(4),
@@ -199,7 +105,6 @@ const CourseContent = (props,user) =>{
       }));
 
       const classes = useStyles();
-      const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
       const changeTitle = (e) => {
           setTitle(e.target.value);
@@ -227,10 +132,8 @@ const CourseContent = (props,user) =>{
                   .then((res) => {
                   setForumData(res.data); 
                 })});
-                console.log(res.data);
                 let cnt = res.data.forum_cnt;
                 cnt=cnt+1;
-                console.log(cnt);
                 axios.patch(`${basename}/api/student_course/${student_course_id}/`,{
                   "forum_cnt":cnt,
                 });
@@ -240,9 +143,7 @@ const CourseContent = (props,user) =>{
       }
 
       const deleteF = (e) => {
-       // e.preventDefault();
        let delId = e.id;
-        console.log(delId);
           axios.delete(`${basename}/auth/api/forum/${delId}/delete`)
           .then((res) => {
             showLoader();
@@ -267,14 +168,12 @@ const CourseContent = (props,user) =>{
                  }) 
       }
 
-      
     useEffect(() => {
       showLoader();       
       axios.
       get(`${basename}/auth/api/forum/?student_course=${student_course_id}`)
       .then((res) => {
         hideLoader();
-        const tmp = res.data.objects;
         setForumData(res.data); 
       });
 
@@ -283,43 +182,15 @@ const CourseContent = (props,user) =>{
         hideLoader();
         setLanguage(res.data.course.language.name);
         setCourseName(res.data.course.name);
-        axios.get(`${basename}/api/videos/?course=${res.data.course.id}`)
-        .then((res1) => {
-        setVideos(res1.data.objects);
-      })
+    
       });
-      //console.log(course);
     },[props] );
 
-    console.log(basename);
     return (
         
         <div className={classes.root}>
-          <Drawer
-            variant="permanent"
-            classes={{
-              paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-            }}
-            open={open}
-          >
-            <div className={classes.toolbarIcon}>
-              <IconButton onClick={handleDrawerClose} className={clsx(classes.menuButton, !open && classes.menuButtonHidden)}>
-                <ChevronLeftIcon />
-              </IconButton>
-              <IconButton
-                edge="start"
-                color="inherit"
-                aria-label="open drawer"
-                onClick={handleDrawerOpen}
-                className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-              >
-                <ChevronRightIcon />
-              </IconButton>
-            </div>
-            <Divider />
-            <List>{mainListItems}</List>
-            <Divider />
-          </Drawer>
+          <CssBaseline />
+          <Drawer />
           <React.Fragment className={classes.content}>
           <Snackbar
             anchorOrigin={{ vertical : 'bottom', horizontal: 'left' }}

@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {Link} from 'react-router-dom';
-import PropTypes from "prop-types";
 import basename from "../Home/basename.js";
-import {
-      Row, Col
-  } from 'reactstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import CssBaseline from '@material-ui/core/CssBaseline'
-
+import CssBaseline from '@material-ui/core/CssBaseline';
+import SettingsBackupRestoreOutlinedIcon from '@material-ui/icons/SettingsBackupRestoreOutlined';
+import IconButton from '@material-ui/core/IconButton';
 import useFullPageLoader from "../../Components/FullPageLoader/useFullPageLoader.js";
 
 const useStyles = makeStyles({
@@ -26,9 +21,7 @@ const useStyles = makeStyles({
     },
     media: {
     height: 200,
-
     },
-    
 });
 
 const useMoreStyles = makeStyles((theme) => ({
@@ -74,7 +67,7 @@ const CourseCard = (props) => {
     },[props]);
 
     const checkEmpty = () => {
-        if(langName == "") 
+        if(langName === "") 
         return true;
         else
         return false;
@@ -90,6 +83,7 @@ const CourseCard = (props) => {
                     <Typography component="h1" variant="h1">
                         Please select a valid language.... Go Back!
                     </Typography>
+                    <Link to='/dashboard' style={{"textDecoration" : "None"}} > <IconButton aria-label="add" > <SettingsBackupRestoreOutlinedIcon style={{ "fontSize" : "40px", "float" : "left" }} /> </IconButton> </Link>
                     <img src="/static/warning.svg" style={{ "maxHeight" : "400px" }} />
                 </div>
                 : 
@@ -150,7 +144,7 @@ const Courses =(props) => {
             hideLoader();
             const tmp = res.data.objects;
             tmp.map(k=>{
-                if(k.name == props.match.params['language']){
+                if(k.name === props.match.params['language']){
                     const url = k.resource_uri;
                     axios.get(`${basename}${url}`)     //use this to fetch courses for a language(contains language name)
                         .then(res=>{

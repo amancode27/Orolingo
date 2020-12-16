@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import basename from "../../Home/basename.js";
 import axios from "axios";
-
-
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -35,7 +32,6 @@ const TrainerDashboard = (props) => {
     const [upcomingCourses, setUpcomingCourses] = useState({});
     const [liveCourses, setLiveCourses] = useState({});
     const [languages, setLanguages] = useState({});
-    const [open, setOpen] = useState(false);
     const [loader, showLoader, hideLoader] = useFullPageLoader();
 
 

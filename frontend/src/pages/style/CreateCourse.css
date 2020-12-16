@@ -1,5 +1,6 @@
 .formcss{
-    width:500px;
+    max-width: 500px; 
+    flex-wrap: nowrap;
     margin-left:auto;
     margin-right:auto;
     margin-top:50px;

@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
 import basename from "./../Home/basename.js";
 import axios from "axios";
-import {
-  CardTitle,
-  CardBody,
-  CardText,
-  Row, 
-  Col,
-  Container,
-  
-} from "reactstrap";
+import { CardTitle, Row, Col} from "reactstrap";
 import { makeStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
 import MailIcon from '@material-ui/icons/Mail';
@@ -19,12 +11,10 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { mdiAccountVoice, mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
 import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
-import { Slide } from "@material-ui/core";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -41,14 +31,6 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   
-const useStyles1 = makeStyles((theme) => ({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-      },
-    },
-}));
-
 const ChatApp = (props) => {
     const [openDel, setOpenDel] = useState(false);
 
@@ -73,7 +55,6 @@ const ChatApp = (props) => {
         setTitle(e.target.value);
         
     }
-    const [msgcnt,setMsgcnt] = useState([])
 
     const changeDescription = (e) => {
         setDescription(e.target.value);

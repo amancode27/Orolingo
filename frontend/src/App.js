@@ -1,12 +1,8 @@
 import React, { Component, useState, useEffect } from "react";
 import axios from "axios";
-import Nav from "./pages/Home/Nav";
-import LoginForm from "./pages/Authentication/LoginForm";
 import basename from "./pages/Home/basename.js";
-import SignupForm from "./pages/Authentication/SignupForm";
 import Router from "./pages/Authentication/Router";
 import "./App.css";
-import { Typography } from "@material-ui/core";
 
 
 const App = (props) => {
@@ -32,11 +28,9 @@ const App = (props) => {
             })
                 .then((res) => res.json())
                 .then((json) => {
-                    console.log(JSON.stringify(json));
                     setUsername(json.username);
                     setUserId(json.id);
                     setUser(json);
-                    console.log(json.id);
                 });
         }
     }, [loggedIn]);
@@ -68,14 +62,12 @@ const App = (props) => {
                 setLoggedIn(true);
                 setUsername(json.user.username);
                 setUserId(json.user.id);
-                console.log(json);
                 setUser(json.user);
 
                 redirect("/dashboard");
             })
             .catch((error) => {
                 setLoading(false);
-                console.log(error);
                 setError("Incorrect Credentials");
                 document.getElementById(
                   "login-form-error"
@@ -97,7 +89,6 @@ const App = (props) => {
             .then((res) => res.json())
             .then((json) => {
                 setLoading(false);
-                console.log(json);
                 if (
                     json.username &&
                     json.email &&
@@ -129,7 +120,6 @@ const App = (props) => {
                 setLoggedIn(true);
                 setUsername(json.username);
                 setUserId(json.id);
-                console.log(json.username);
                 setUser(json); 
                 redirect("/dashboard");
             })
@@ -168,15 +158,12 @@ const App = (props) => {
                     setUsername(json.username);
                     setUserId(json.userId);
                     setUser(json);
-                    console.log(json.userId);
                     redirect("/dashboard");
-                    console.log(json);
                 }
             });
     };
 
     const handleSocialTrainerStudent = (userData, type, redirect) => {
-        console.log(type)
         const data = {
             is_student: type === "Student",
             is_trainer: type === "Trainer",
@@ -228,7 +215,6 @@ const App = (props) => {
                 setUsername(json.username);
                 setUserId(json.id);
                 setUser(json);
-                console.log(json);
                 
                 redirect("/dashboard");
             });
@@ -242,7 +228,6 @@ const App = (props) => {
     };
 
     const getUserDetail = async (userId) => {
-        console.log(userId + " from App");
         try {
             const response = await fetch(
                 `http://localhost:8000/auth/users/${userId}/`,
@@ -254,8 +239,6 @@ const App = (props) => {
             );
             if (response.ok) {
                 const jsonResponse = await response.json();
-                console.log("success");
-                console.log(jsonResponse);
                 return jsonResponse;
             }
             throw new Error("Request Failed!");

@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import basename from "../../Home/basename.js";
+import axios from "axios";
+
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
@@ -8,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import { mainListItems, secondaryListItems } from '../listItems';
+import { mainListItems } from '../listItems';
 
 const drawerWidth =240
 const useStyles = makeStyles((theme) => ({
@@ -153,7 +157,6 @@ const SidebarTop= () => {
                 <Divider />
                 <List>{mainListItems}</List>
                 <Divider />
-                        /* <List>{secondaryListItems}</List>
             </Drawer>
         )
     }

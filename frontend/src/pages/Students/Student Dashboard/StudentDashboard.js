@@ -1,31 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import basename from "./../Home/basename.js";
+import basename from "../../Home/basename.js";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import DropDown from './Dropdown.js';
-import { Form, FormGroup, Label, Input, Jumbotron} from 'reactstrap';
-import {
-  CardTitle,
-  CardBody,
-  CardText,
-  Row,
-  Col,
-} from "reactstrap";
+import DropDown from '../Dropdown.js';
+import { Form, FormGroup} from 'reactstrap';
+import { CardTitle, CardBody, CardText, Row, Col} from "reactstrap";
 import Chip from '@material-ui/core/Chip';
 import { makeStyles, useTheme  } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Paper from '@material-ui/core/Paper';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -40,16 +29,15 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import PersonIcon from '@material-ui/icons/Person';
 import AddIcon from '@material-ui/icons/Add';
 import { mdiTrophyAward, mdiTrophyOutline } from '@mdi/js';
 import Icon from '@mdi/react';
-import useFullPageLoader from '../../Components/FullPageLoader/useFullPageLoader.js';
+import useFullPageLoader from '../../../Components/FullPageLoader/useFullPageLoader.js';
 import { Slide } from 'react-awesome-reveal';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import {mainListItems}  from './listItems';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import Drawer from './Drawer';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -63,18 +51,8 @@ const StudentDashboard = props => {
   const [pastCourses,setPastCourses] = useState({});
   const [upcomingCourses,setUpcomingCourses] = useState({});
   const [availableLanguages , setavailableLanguages] = useState({});
- // const [buyCourse,setBuyCourse] = useState("");
-  const [forumData, setForumData] = useState({});
   const [buyCourse,setBuyCourse] = useState({});
   const [studentName,setStudentName] = useState("");
-  const [open, setOpen ] = useState(true);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedValue, setSelectedValue] = useState("Select a language");
 
@@ -91,80 +69,12 @@ const StudentDashboard = props => {
   }
 
   const [loader, showLoader, hideLoader] = useFullPageLoader();
-  // const drawerWidth = [150,240];
 
       const useStyles = makeStyles((theme) => ({
         root: {
           display: 'flex',
         },
-        toolbar: {
-          paddingRight: 24, // keep right padding when drawer closed
-        },
-        openIcon : {
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          padding: '0 8px',
-          ...theme.mixins.toolbar,
-        },
-        toolbarIcon: {
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          padding: '0 8px',
-          ...theme.mixins.toolbar,
-        },
-        appBar: {
-          zIndex: theme.zIndex.drawer + 1,
-          transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-          }),
-        },
-        appBarShift: {
-          marginLeft: 150,
-          width: `calc(100% - 240px)`,   
-          // ${""}px
-          transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-        },
-        menuButton: {
-          marginRight: 10,
-        },
-        menuButtonHidden: {
-          display: 'none',
-        },
-        title: {
-          flexGrow: 1,
-        },
-        drawerPaper: {
-          position: 'relative',
-          whiteSpace: 'nowrap',
-          width: "140%",
-          transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-        },
-        drawerPaperClose: {
-          overflowX: 'hidden',
-          transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-          }),
-          width: theme.spacing(7),
-          [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9),
-          },
-        },
-        appBarSpacer: theme.mixins.toolbar,
-        content: {
-          flexGrow: 1,
-          height: '100vh',
-          overflow: 'auto',
-        },
+        
         container: {
           paddingTop: theme.spacing(4),
           paddingBottom: theme.spacing(4),
@@ -202,21 +112,14 @@ const StudentDashboard = props => {
           height: 38,
           width: 38,
         },
-        avatar: {
-          backgroundColor: blue[100],
-          color: blue[600],
-        },
+        
       }));
 
     const classes = useStyles();
-
-    const theme = useTheme();
-
-
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const changeCourse = (e) =>{
-    if(e.target.value=="Select a language") setBuyCourse({});
+    if(e.target.value === "Select a language") setBuyCourse({});
     else{
       setBuyCourse({[e.target.value]:availableLanguages[e.target.value]});
     }
@@ -240,7 +143,7 @@ const StudentDashboard = props => {
       let tmp={};
       setLanguagesToLearn((prevState) =>{
         for(let k of Object.keys(prevState)){
-          if(k == key) continue;
+          if(k === key) continue;
           tmp[k]=prevState[k];
         }
         return tmp;
@@ -250,7 +153,7 @@ const StudentDashboard = props => {
       });
       Object.keys(languagesToLearn).map(k=>{
           let route = languagesToLearn[k];
-          if(k!=key) {
+          if(k !== key) {
             axios.get(`${basename}${route}`)
             .then(res=>{
               axios.get(`${basename}/api/student/${props.userId}/`)
@@ -265,7 +168,6 @@ const StudentDashboard = props => {
   }
 
   function SimpleDialog(props) {
-
     const avatars = makeStyles({
     avatar: {
       backgroundColor: blue[100],
@@ -337,12 +239,12 @@ const StudentDashboard = props => {
                 }
                 console.log(k.completed_percent);
                 
-                if(curdate>=startdate&&curdate<=enddate&&k.completed_percent!=100){
+                if(curdate>=startdate && curdate<=enddate && k.completed_percent !== 100){
                   setLiveCourses(prev=>{
                     return {...prev,[k.id]:k};
                   })
                 }
-                else if(curdate>enddate&& k.completed_percent == 100){
+                else if(curdate>enddate&& k.completed_percent === 100){
                   setPastCourses(prev=>{
                     return {...prev,[k.id]:k};
                   })
@@ -350,7 +252,7 @@ const StudentDashboard = props => {
                     return {...prev,[k.course.name]:(k.course.id)};
                   })
                 }
-                else if(curdate<startdate&&k.completed_percent!=100){
+                else if(curdate<startdate&&k.completed_percent!==100){
                   setUpcomingCourses(prev=>{
                     return {...prev,[k.id]:k};
                   })
@@ -371,23 +273,9 @@ const StudentDashboard = props => {
                 })
              });
            });
-      
-      // axios.get(`${basename}/api/student_course/?student=${props.userId}&completed_percent=100`)
-      //      .then(res=>{
-      //        const languageslearnt = res.data.objects;
-      //        languageslearnt.map(k=>{
-      //          setLanguagesLearnt(prev=>{
-      //            return {...prev,[k.course.name]:(k.course.id)};
-      //          })
-      //        })
-      //      })
   }, [props]);
-  //console.log(studentName);
 
   console.log(liveCourses);
-  const setClasses = makeStyles({
-    
-  })
   return (
     <div className={classes.root}>
       <CssBaseline/>
@@ -403,45 +291,8 @@ const StudentDashboard = props => {
               <div style={{"fontSize" : "20px"}}>Hello { studentName }! </div>
             </Alert>
           </Snackbar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}
-            className={clsx(classes.menuButton, (!open) &&classes.menuButtonHidden)}>
-            <ChevronLeftIcon />
-          </IconButton>
-          <IconButton
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <ChevronRightIcon />
-          </IconButton>
-        </div>
-        <Divider />
-          <List>{mainListItems}</List>
-        <Divider />
-        <mainListItems/>
-      </Drawer>
+      <Drawer />
       <React.Fragment className={classes.content}>
-      {/* <Jumbotron>
-        <Grid>
-          
-          <Grid item xs={12}>
-          <h1 className="display-2">
-            Hello! {studentName} 
-          </h1>
-          </Grid>
-          <hr className="my-2" />
-          <Grid item xs={12}>
-          <img src="https://source.unsplash.com/200x200/?student" height = "200"/> 
-          </Grid>
-        </Grid>
-      </Jumbotron> */}
       <Container maxWidth="lg" className={classes.container}>
         <Grid container spacing = {3}>
             <Grid item xs={12} className="text-center">
@@ -525,7 +376,6 @@ const StudentDashboard = props => {
               </Paper>
               </Slide>
             </Grid>
-
         </Grid>
 
         <Grid container spacing={3}>
@@ -676,23 +526,15 @@ const StudentDashboard = props => {
                     ))}
                   </CardBody>
                   </AccordionDetails>
-                </Accordion>
-                
+                </Accordion> 
                 </Paper>
                 </Slide>
           </Grid>
         </Grid>
-        
         </Container>
-
         </React.Fragment>
-          {/* {loader} */}
+          {loader}
       </div>
   )
 }
-
-StudentDashboard.propTypes = {
-
-}
-
 export default StudentDashboard

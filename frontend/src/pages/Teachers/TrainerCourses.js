@@ -97,7 +97,7 @@ const TrainerCourses = (props) => {
               hideLoader();
                 const tmp = res.data.objects;
                 tmp.map(k => {
-                    if (k.name == props.match.params['language']) {
+                    if (k.name === props.match.params['language']) {
                         language = k.name;
                         const url = k.resource_uri;
                         axios.get(`${basename}${url}`)     //use this to fetch courses for a language(contains language name)

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import StudentDashboard from "./StudentDashboard";
+import React from "react";
+import StudentDashboard from "./Student Dashboard/StudentDashboard";
 import TrainerDashboard from "../Teachers/Trainer Dashboard/TrainerDashboard.jsx";
 import NotFound from "../NotFound/NotFound";
 

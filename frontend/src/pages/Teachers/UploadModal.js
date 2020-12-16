@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
-import ReactStars from "react-rating-stars-component";
 import './../style/ModalForFeedback.css';
 import axios from 'axios';
 import basename from "../Home/basename.js";
-import { Alert } from 'reactstrap';
-import { Redirect } from 'react-router';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 
 const UploadModal = (props) => {
     const className = props.className;
-    const buttonLabel = props.buttonLabel;
     const [modal, setModal] = useState(false);
     const toggle = () => {setModal(!modal);}
     const [upload,setUpload] = useState({});

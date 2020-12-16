@@ -5,7 +5,6 @@ import CheckoutForm from "./Checkout";
 import './setup.scss';
 import Screen from './Screen.js';
 
-
 const stripePromise = loadStripe('pk_test_51HxBmeLi8gRXIcunG6J2gcdWHTLLEn8HXr5v3FX7PmFTpVLURjSelDbPdECxuQ4NjbM0ykoHIaOQPERXG3VYYdGA00BkocmmYF');
 
 const Purchase = (props) => (
@@ -16,10 +15,3 @@ const Purchase = (props) => (
   </Elements>
 );
 export default Purchase;
-
-
-// function Purchase() {
-//     return <Screen />;
-// }
-
-// export default Purchase;
